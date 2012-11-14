@@ -94,7 +94,7 @@
 						<th><nobr>Security ID</nobr></th>
 						<th><nobr>Jrnl No.</nobr></th>
 					</tr>
-				</thead>
+				</thead> 
 				<tbody>
 					<tr><td colspan="22"></td></tr>
 				</tbody>
