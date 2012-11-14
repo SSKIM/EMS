@@ -1,0 +1,15 @@
+;inf file for RexViewer25u.ocx
+;DestDir can be 10 for Windows directory, 11 for Windows\System(32) directory, or left blank for the Occache or the Downloaded Program Files directory.
+
+[version]
+signature=$CHICAGO$
+AdvancedINF=2.0
+
+[Add.Code]
+RexViewer25U.ocx=RexViewer25U.ocx
+
+[RexViewer25U.ocx]
+file-win32-x86=thiscab
+clsid={24D698E2-AB0A-4a20-8499-99764668997A}
+FileVersion=2,5,1,161
+RegisterServer=yes

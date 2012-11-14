@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="popup">
+	<works id="default">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/main.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## SCREEN ############################################################################ -->
+	<works id="CP020">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/popup/CP020.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP020Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_CP020_SELECT</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>SCREEN_ID,SCREEN_NAME</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## MENU ############################################################################## -->
+	<works id="CP030">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/popup/CP030.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP030Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_CP030_SELECT</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>MENU_ID,MENU_NAME,MENU_REF</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## BUTTON ############################################################################ -->
+	<works id="CP040">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/popup/CP040.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP040Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_CP040_SELECT</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>BUTTON_ID,BUTTON_NAME</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP040Save">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.das.fms.bean.popup.CP040SaveBean</workClass>
+			<workParam>UP_CP040_INSERT</workParam>
+			<dataName>dataPK</dataName>
+			<parameter>DATATABLE=DATATABLE</parameter>
+			<parameterRequest>SCREEN_ID,SESSION_USER_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## CP050 ############################################################################ -->
+	<works id="CP050">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/popup/CP050.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP050Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_CP050S</workParam>
+			<dataName>DATA_LIST,TOTAL</dataName>
+			<parameter>BLTN_ID=B001,ITEM_SIZE=100,PAGE_SIZE=10</parameter>
+			<parameterRequest>ACCT_CODE,ACCT_NAME,LOOKUP,PAGE_NO,ITEM_SIZE,PAGE_SIZE</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP050Retrieve2">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_CP050S_2</workParam>
+			<dataName>DATA_LIST,TOTAL</dataName>
+			<parameter>BLTN_ID=B001,ITEM_SIZE=100,PAGE_SIZE=10</parameter>
+			<parameterRequest>ACCT_CODE,ACCT_NAME,LOOKUP,PAGE_NO,ITEM_SIZE,PAGE_SIZE,ORDER_BY,A_DCES</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## CP060 ############################################################################ -->
+	<works id="CP060">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/popup/CP060.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP060Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_CP100S</workParam>
+			<dataName>DATA_LIST,TOTAL</dataName>
+			<parameter>BLTN_ID=B001,ITEM_SIZE=50,PAGE_SIZE=10</parameter>
+			<parameterRequest>VENDOR_CODE,VENDOR_NAME,ANL_CODE2,PAGE_NO,ITEM_SIZE,PAGE_SIZE</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+		<works id="CP060Retrieve2">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_CP100S_2</workParam>
+			<dataName>DATA_LIST,TOTAL</dataName>
+			<parameter>BLTN_ID=B001,ITEM_SIZE=50,PAGE_SIZE=10</parameter>
+			<parameterRequest>VENDOR_CODE,VENDOR_NAME,ANL_CODE2,PAGE_NO,ITEM_SIZE,PAGE_SIZE,ORDER_BY,A_DCES</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## CP100 ############################################################################ -->
+	<works id="CP100">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/popup/CP100.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP100Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_CP100S</workParam>
+			<dataName>DATA_LIST,TOTAL</dataName>
+			<parameter>BLTN_ID=B001,ITEM_SIZE=50,PAGE_SIZE=10</parameter>
+			<parameterRequest>VENDOR_CODE,VENDOR_NAME,ANL_CODE2,PAGE_NO,ITEM_SIZE,PAGE_SIZE</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## CP110 ############################################################################ -->
+	<works id="CP110">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/popup/CP110.jsp</workPage>
+		</work>
+	</works>
+	<works id="CP110Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_SC011S</workParam>
+			<dataName>DATA_LIST,ATTACH_LIST</dataName>
+			<parameter>BLTN_ID=B001</parameter>
+			<parameterRequest>BLTN_ID,BLTN_NO</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+</workflow>

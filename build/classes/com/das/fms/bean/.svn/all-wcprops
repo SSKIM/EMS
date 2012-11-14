@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean
+END
+AttachAddBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/AttachAddBean.java
+END
+BatchSendEmailBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/BatchSendEmailBean.java
+END
+logBA030Bean.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/logBA030Bean.java
+END
+AttachRemoveBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/AttachRemoveBean.java
+END
+dasUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/dasUtil.java
+END
+logBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/logBean.java
+END
+indexBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/indexBean.java
+END

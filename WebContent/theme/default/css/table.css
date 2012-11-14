@@ -1,0 +1,457 @@
+/**************************************************************************************************
+ * TABLE COMMON
+ *************************************************************************************************/
+
+table {
+}
+table tr.highlight {
+	background-color: #e1e1e1;
+}
+table tr th {
+	border-collapse: collapse;
+	text-align: center;
+}
+table tr th.required {
+	/*
+	background-position-x: right;
+	background-position-y: top;
+	background-image: url('../icon/required.gif');
+	background-repeat: no-repeat;
+	*/
+}
+table tr td {
+	padding: 0px 2px 0px 2px; /* T L B R */
+}
+table tr td.button {
+	text-align: right;
+}
+
+/**************************************************************************************************
+ * TABLE LOGIN
+ *************************************************************************************************/
+
+table.loginTable {
+	width: 300px;
+}
+table.loginTable th {
+	background-color: #f1f1f1;
+}
+table.loginTable td {
+	
+}
+
+/**************************************************************************************************
+ * TABLE TITLE / STATUS
+ *************************************************************************************************/
+
+table.titleTable {
+	width: 100%;
+}
+
+table.statusTable {
+	position: absolute;
+	width: 100%;	
+	border: 1px solid #c8c8c8;
+	border-collapse: collapse;
+}
+table.statusTable tr td {
+	background-color: #ffffff;
+	padding-left: 15px;
+	height: 22px;
+}
+
+/**************************************************************************************************
+ * TABLE SEARCH
+ *************************************************************************************************/
+ 
+table.searchTable {
+	width: 100%;
+	border: 1px solid #c8c8c8;
+	border-collapse: collapse;
+}
+table.searchTable tr th {
+	border: 1px solid #c8c8c8;
+	background-color: #f4f4f4;
+	text-align: center;
+	font-weight: bold;
+	color: #757575;
+	height: 22px;
+	width: 15%;
+}
+table.searchTable tr td {
+	border: 1px solid #c8c8c8;
+	background-color: #ffffff;
+	padding-left: 5px;
+}
+
+/**************************************************************************************************
+ * TABLE DATA
+ *************************************************************************************************/
+
+table.dataTable {
+	width: 100%;
+	border: 1px solid #c8c8c8;
+	border-collapse: collapse;
+	margin-right: -17px;
+}
+table.dataTable thead tr th {
+	border: 1px solid #c8c8c8;
+	background-color: #f4f4f4;
+	text-align: center;
+	font-weight: bold;
+	color: #757575;
+	height: 21px;
+	border-left-style: none;
+}
+table.dataTable thead tr .header {
+	background-image: url('../icon/bg.gif');
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+	padding-right: 10px;
+}
+table.dataTable thead tr .headerSortUp {
+	background-color: #dce2f0;
+	background-image: url('../icon/asc.gif');
+	background-repeat: no-repeat;
+	padding-right: 10px;
+}
+table.dataTable thead tr .headerSortDown {
+	background-color: #dce2f0;
+	background-image: url('../icon/desc.gif');
+	background-repeat: no-repeat;
+	padding-right: 10px;
+}
+table.dataTable tbody td {
+	border: 1px solid #c8c8c8;
+	background-color: #ffffff;
+	border-top-style: none;
+	border-left-style: none;
+	height: 21px;
+}
+table.dataTable tbody tr.odd td {
+	background-color: #e7f0fa;
+}
+table.dataTable tfoot tr th {
+	background-color: #e6eeee;
+	border: 1px solid;
+	border-color: #96a7ce;
+}
+
+/**************************************************************************************************
+ * TABLE FORM 
+ **************************************************************************************************/
+
+table.formTable {
+	width: 100%;
+	border: 1px solid #c8c8c8;
+	border-collapse: collapse;
+	padding-bottom:5px;
+}
+table.formTable tr th {
+	border: 1px solid #c8c8c8;
+	background-color: #f4f4f4;
+	text-align: center;
+	font-weight: bold;
+	color: #757575;
+	height: 22px;
+}
+table.formTable tr td {
+	border: 1px solid #c8c8c8;
+	background-color: #ffffff;
+	text-align:left;
+	padding: 1px 5px 0px 5px; /* T R B L */
+}
+
+/**************************************************************************************************
+ * TABLE HISTORY 
+ **************************************************************************************************/
+
+table.historyTable {
+	border: 1px solid;
+	border-color: #f1f1f1;
+	width: 100%;
+}
+table.historyTable tr th {
+	background-color: #f1f1f1;
+	width: 7%;
+}
+table.historyTable tr td {
+	background-color: #ffffff;
+	width: 18%;
+}
+
+/**************************************************************************************************
+ * TABLE MESSAGE 
+ **************************************************************************************************/
+
+table.messageTable {
+	width:400px;
+	height:300px;
+	border:1px solid;
+	border-color:#cccccc;
+	margin-top:100px;
+	margin-bottom:10px;
+}
+table.messageTable thead tr {
+	background-color: #cccccc;
+	height:16px;
+}
+
+table.messageTable tbody tr {
+	
+}
+
+/**************************************************************************************************
+ *  
+ **************************************************************************************************/
+
+table.tabTable {
+	width: 100%;
+	height: 35px;	
+}
+
+table.findTable {
+	width:300px;
+	background-color:#fff;
+	border:1px solid;
+	border-color:#ccc;
+}
+table.findTable tbody tr {
+	background-color:#fff;
+}
+
+table.findTable tbody td {
+	background-color:#003b77;
+	height:2px;
+}
+
+table.findTable tbody th {
+	background-color:#456db2;
+	height:32px;
+}
+
+table.attachTable {
+	width: 100%;
+	border: 0px;
+}
+
+table.attachTable tbody tr td {
+	border: 0px;	
+}
+
+/**************************************************************************************************
+ * tree table  
+ **************************************************************************************************/
+
+table.treeTable {
+	border:1px solid #c9c9c9;
+	border-collapse: collapse;
+}
+table.treeTable tr {
+	height: 18px;
+}
+table.treeTable thead tr th {
+	color: #151B54;
+	background-color: #f1f1f1;
+	border: 1px solid #c9c9c9;
+	border-collapse: collapse;
+	text-align: center;
+}
+table.treeTable thead tr td {
+	height: 20px;
+	background-color: #ffffff;
+	border: 1px solid #96a7ce;
+	border-collapse: collapse;
+}
+table.treeTable tbody tr.child {
+	display: none;
+}
+table.treeTable tbody td {
+	color: #3d3d3d;
+	padding-right: 2px;
+	vertical-align: middle;
+	border: 1px solid #c9c9c9;
+	border-collapse: collapse;
+}
+table.treeTable span {
+	padding-left: 15px;
+}
+table.treeTable span.open {
+	background: url(../icon/minus.gif) left no-repeat;
+	cursor: pointer;
+}
+table.treeTable span.close {
+	background: url(../icon/plus.gif) left no-repeat;
+	cursor: pointer;
+}
+table.treeTable span.sub {
+	background: url(../icon/sub.gif) left no-repeat;
+}
+
+/**************************************************************************************************
+ * FRONT TABLE  
+ *************************************************************************************************/
+ 
+table.frontTable {
+	padding:0px; border:0px;
+}
+table.frontTable th {
+	background-image: url(../image/bar_bg.gif);
+	background-repeat: no-repeat;
+	padding: 0px;
+	border: 0px;
+}
+table.frontTable thead td {
+	background-image: url(../image/bar_bg.gif);
+	background-repeat: no-repeat;
+	padding: 0px;
+	border:0px;
+}
+table.frontTable tbody tr td {
+	border:0px;
+}
+table.frontTable .table_line {
+	height: 1px;
+	background-color: #e1e1e1;
+}
+table.frontTable .table_bottom_line {
+	height: 2px;
+	background-color: #cddae2;
+}
+table.frontTable tbody tr {
+	height: 26px;	
+}
+table.frontTable tbody tr.line {
+	height: 1px;	
+}
+table.frontTable tbody tr.line td {
+	background-color: #e1e1e1;
+}
+table.frontTable tbody tr.bottom {
+	height: 2px;	
+}
+table.frontTable tbody tr.bottom td {
+	background-color: #cddae2;
+}
+
+
+table.bbsTable {
+	padding:0px; border:0px;
+}
+table.bbsTable th {
+	background-color: #e1e1e1;
+	padding: 0px;
+	border: 0px;
+	height: 21px;
+}
+table.bbsTable thead td {
+	padding: 0px;
+	border:0px;
+}
+table.bbsTable tbody tr td {
+	border:0px;
+}
+table.bbsTable .table_line {
+	height: 1px;
+	background-color: #e1e1e1;
+}
+table.bbsTable .table_bottom_line {
+	height: 2px;
+	background-color: #cddae2;
+}
+table.bbsTable tbody tr {
+	height: 26px;	
+}
+table.bbsTable tbody tr.line {
+	height: 1px;	
+}
+table.bbsTable tbody tr.line td {
+	background-color: #e1e1e1;
+}
+table.bbsTable tfoot tr {
+	height: 2px;	
+}
+table.bbsTable tfoot tr td {
+	background-color: #cddae2;
+}
+/**************************************************************************************************
+ * image table  
+ *************************************************************************************************/
+
+table.img {
+	padding: 10px 0px 3px 0px; border:0px;
+}
+
+table.img tr td {
+	padding:0px; border:0px;
+}
+/**************************************************************************************************
+ * NOTICE TABLE
+ **************************************************************************************************/
+
+table.noticeTable {
+	width: 100%;
+	padding:0px; border:0px;
+}
+table.noticeTable tr th {
+	background-image: url(../image/bar_bg.gif);
+	text-align: center;
+	height: 33px;
+	background-repeat:repeat-x;
+}
+table.noticeTable td {
+	border: 1px solid #e1e1e1;
+	border-left-style:none;
+	border-right-style:none;
+	border-top-style:none;
+	background-color: #ffffff;
+	text-align:left;
+	padding: 0px 10px 0px 10px;
+}
+
+/**************************************************************************************************
+ * APPROVAL LINE TABLE
+ **************************************************************************************************/
+
+table.appvLineTable {
+
+}
+table.appvLineTable thead th {
+	background-color: #e1e1e1;
+	text-align: center;
+}
+table.appvLineTable tbody th {
+	text-align: center;
+	border: 1px solid #e1e1e1; 
+}
+table.appvLineTable tbody td {
+	text-align: left;
+	border: 1px solid #e1e1e1;
+}
+
+/**************************************************************************************************
+ * LEFT MENU TABLE
+ **************************************************************************************************/
+
+table.leftMenu {
+	width: 100%;
+}
+table.leftMenu tr.line td {
+	height: 1px;
+	padding: 0px;
+	background-color: #e8e8e8;
+}
+table.leftMenu tr th {
+	text-align: center;
+	font: bold;
+	font-size: 14px;
+	color: #406F8C;
+}
+table.leftMenu tr td {
+	height: 21px;
+	padding: 2px;
+	padding-left: 20px;
+	font-weight: bold;
+	color: #456db2; /*406F8C*/
+}

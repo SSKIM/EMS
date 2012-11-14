@@ -1,0 +1,1075 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="system">
+	<works id="default">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/main.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## CODE ############################################################################## -->
+	<works id="EA010">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EA010.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA010Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EA010S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>CODE_GRP,CODE_ID,CODE_NAME</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA010Insert">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA010I</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>CODE_GRP,CODE_ID,CODE_NAME,ETC1,ETC2,ETC3,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>CODE_GRP,CODE_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA010Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA010U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>CODE_GRP,CODE_ID,CODE_NAME,ETC1,ETC2,ETC3,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>CODE_GRP,CODE_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA010Delete">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA010D</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>CODE_GRP,CODE_ID</parameterRequest>
+			<parameterEssential>CODE_GRP,CODE_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## SCREEN ############################################################################ -->
+	<works id="EA020">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>bean2</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>SCREEN_TYPE_LIST</dataName>
+			<parameter>codeGrp=E003</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EA020.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA020Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EA020S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>SCREEN_ID,SCREEN_NAME</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA020Insert">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA020I</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>SCREEN_ID,SCREEN_NAME,SCREEN_TYPE,SCREEN_URL,REMARK,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>SCREEN_ID,SCREEN_NAME,SCREEN_TYPE</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA020Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>screen</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="screen">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA020U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>SCREEN_ID,SCREEN_NAME,SCREEN_TYPE,SCREEN_URL,REMARK,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>SCREEN_ID,SCREEN_NAME,SCREEN_TYPE</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA020Delete">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>screen</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="screen">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA020D</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>SCREEN_ID</parameterRequest>
+			<parameterEssential>SCREEN_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## MENU ############################################################################## -->
+	<works id="EA030">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>bean2</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>MENU_GROUP_LIST</dataName>
+			<parameter>codeGrp=X001</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>bean3</workNext>
+		</work>
+		<work id="bean3">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>MENU_TYPE_LIST</dataName>
+			<parameter>codeGrp=E004</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EA030.jsp</workPage>
+			<pageType>static</pageType>
+		</work>
+	</works>
+	<works id="EA030Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EA030S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>MENU_ID,MENU_NAME,MENU_REF</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA030Insert">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA030I</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>MENU_NAME,MENU_REF,MENU_TYPE,MENU_URL,MENU_NAVI,SCREEN_ID,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA030Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA030U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>MENU_ID,MENU_NAME,MENU_REF,MENU_TYPE,MENU_URL,MENU_NAVI,SCREEN_ID,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>MENU_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA030Delete">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA030D</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>MENU_ID</parameterRequest>
+			<parameterEssential>MENU_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## BUTTON ############################################################################ -->
+	<works id="EA040">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EA040.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA040Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EA040S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>BUTTON_ID,BUTTON_NAME</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA040Insert">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA040I</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>BUTTON_ID,BUTTON_NAME,IMG_PATH,IMG_WIDTH,IMG_HEIGHT,CSS,REMARK,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>BUTTON_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA040Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA040U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>BUTTON_ID,BUTTON_NAME,IMG_PATH,IMG_WIDTH,IMG_HEIGHT,CSS,REMARK,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>BUTTON_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA040Delete">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA040D</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>BUTTON_ID</parameterRequest>
+			<parameterEssential>BUTTON_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## BUTTON by Screen ################################################################## -->
+	<works id="EA041">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EA041.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA041Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>switch1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="switch1">
+			<workType>switch</workType>
+			<workParam>viewMode</workParam>
+			<conditionType>EQ</conditionType>
+			<conditionValue>BUTTON</conditionValue>
+			<workNext>bean2</workNext>
+			<workNextElse>bean1</workNextElse>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EA041S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>SCREEN_ID,SCREEN_NAME</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EA041S_BUTTON</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>SCREEN_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA041Insert">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EA041I</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>SCREEN_ID,BUTTON_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA041Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.system.EA041UpdateBean</workClass>
+			<workParam>UP_EA041U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>SCREEN_ID,BUTTON_ID,BUTTON_GRP,BUTTON_SEQ</parameterRequest>
+			<parameterEssential>SCREEN_ID,BUTTON_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EA041Delete">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.system.EA041DeleteBean</workClass>
+			<workParam>UP_EA041D</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>SCREEN_ID,BUTTON_ID</parameterRequest>
+			<parameterEssential>SCREEN_ID,BUTTON_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## USER ############################################################################## -->
+	<works id="EB010">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>bean2</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>USER_TYPE_LIST</dataName>
+			<parameter>codeGrp=E005</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>bean3</workNext>
+		</work>
+		<work id="bean3">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>DEPT_LIST</dataName>
+			<parameter>codeGrp=I001,param1=01</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>bean4</workNext>
+		</work>
+		<work id="bean4">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>BUSI_UNIT_TYPE_LIST</dataName>
+			<parameter>codeGrp=S011,param1=</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>bean5</workNext>
+		</work>
+		<work id="bean5">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>LEDGER_TYPE_LIST</dataName>
+			<parameter>codeGrp=S012,param1=</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>bean6</workNext>
+		</work>
+		<work id="bean6">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>PWD_CHNG_TYPE_LIST</dataName>
+			<parameter>codeGrp=E006,param1=</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EB010.jsp</workPage>
+		</work>
+	</works>
+	<works id="EB010Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EB010S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>USER_ID,USER_NAME</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EB010Insert">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.system.EB010InsertBean</workClass>
+			<workParam>UP_EB010I</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>USER_ID,USER_NAME,PASSWORD,USER_TYPE,EMPL_ID,TEL_NO,HP_NO,EMAIL,DEPT_CODE,BUSI_UNIT_TYPE,LEDGER_TYPE,PWD_CHNG_TYPE,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EB010Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.system.EB010UpdateBean</workClass>
+			<workParam>UP_EB010U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>USER_ID,USER_NAME,USER_TYPE,EMPL_ID,TEL_NO,HP_NO,EMAIL,DEPT_CODE,BUSI_UNIT_TYPE,LEDGER_TYPE,PWD_CHNG_TYPE,LOGIN_FAIL_CNT,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EB010Delete">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EB010D</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>USER_ID</parameterRequest>
+			<parameterEssential>USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EB010Change">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.system.EB010ChangeBean</workClass>
+			<workParam>UP_EB010U_PWD</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>USER_ID,PASSWORD,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## AUTH ############################################################################## -->
+	<works id="EC010">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EC010.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC010Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EC010S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>AUTH_ID,AUTH_NAME</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC010Insert">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EC010I</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>AUTH_ID,AUTH_NAME,REMARK,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC010Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EC010U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>AUTH_ID,AUTH_NAME,REMARK,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>AUTH_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC010Delete">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EC010D</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>AUTH_ID</parameterRequest>
+			<parameterEssential>AUTH_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## AUTH USER ######################################################################### -->
+	<works id="EC020">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EC020.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC020Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_EC020S</workParam>
+			<dataName>DATA_LIST,AUTH_LIST</dataName>
+			<parameterRequest></parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC020Save">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EC020U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>USER_ID,AUTH_ID,VALUE,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>USER_ID,AUTH_ID,VALUE,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## AUTH SCREEN ####################################################################### -->
+	<works id="EC030">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>bean2</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>MENU_GROUP_LIST</dataName>
+			<parameter>codeGrp=X001</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EC030.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC030Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>switch1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="switch1">
+			<workType>switch</workType>
+			<workParam>viewMode</workParam>
+			<conditionType>EQ</conditionType>
+			<conditionValue>SCREEN</conditionValue>
+			<workNext>bean2</workNext>
+			<workNextElse>bean1</workNextElse>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EC030S_AUTH</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest></parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EC030S_SCREEN</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>MENU_ID,AUTH_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC030Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EC030U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>AUTH_ID,MENU_GRP,MENU_ID,VALUE</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## AUTH BUTTON ####################################################################### -->
+	<works id="EC040">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>bean2</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>MENU_GROUP_LIST</dataName>
+			<parameter>codeGrp=X001</parameter>
+			<parameterRequest>codeGrp,param1</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EC040.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC040Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>switch1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="switch1">
+			<workType>switch</workType>
+			<workParam>viewMode</workParam>
+			<conditionType>EQ</conditionType>
+			<conditionValue>AUTH_BUTTON,AUTH_SCREEN</conditionValue>
+			<workNext>bean3,bean2</workNext>
+			<workNextElse>bean1</workNextElse>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EC010S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>AUTH_ID,AUTH_NAME</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EC040S_SCREEN</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>MENU_ID,AUTH_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="bean3">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_EC040S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>AUTH_ID,SCREEN_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EC040Update">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EC040U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>AUTH_ID,SCREEN_ID,BUTTON_ID,CHECKED</parameterRequest>
+			<parameterEssential>AUTH_ID,SCREEN_ID,BUTTON_ID,CHECKED</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+</workflow>

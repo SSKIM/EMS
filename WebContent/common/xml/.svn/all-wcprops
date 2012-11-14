@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/WebContent/common/xml
+END
+journal_ok.xml
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/WebContent/common/xml/journal_ok.xml
+END
+journal_fail.xml
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/WebContent/common/xml/journal_fail.xml
+END

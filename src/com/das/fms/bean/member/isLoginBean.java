@@ -1,0 +1,17 @@
+package com.das.fms.bean.member;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
+import com.mindtree.framework.bean.CommandServlet;
+
+public class isLoginBean extends CommandServlet {
+	private final Logger log = Logger.getLogger(this.getClass());
+
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//보안에 관련된 모든 로직을 넣는다...
+		HttpSession session = request.getSession();
+		request.setAttribute("isLogin", (session != null));
+	}
+}

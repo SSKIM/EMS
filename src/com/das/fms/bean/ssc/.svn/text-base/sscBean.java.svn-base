@@ -1,0 +1,108 @@
+package com.das.fms.bean.ssc;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.log4j.Logger;
+import com.mindtree.framework.bean.CommandServlet;
+import com.systemsunion.ssc.client.SecurityProvider;
+import com.systemsunion.ssc.client.ComponentExecutor;
+
+public class sscBean extends CommandServlet {
+	private final Logger log = Logger.getLogger(this.getClass());
+	private String _securityProvider  = "nklsun";
+
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		try {
+			SecurityProvider sp = new SecurityProvider(_securityProvider, false);
+			String _SSCVoucher = sp.Authenticate("FMS", "sunsys");
+
+			if(_SSCVoucher != "" && _SSCVoucher != null) {	
+				
+			}
+
+			sp = null;
+
+			StringBuffer queryString = new StringBuffer()
+			.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
+	        .append("<SSC>")
+            .append("    <ErrorContext>")
+            .append("        <CompatibilityMode></CompatibilityMode>")
+            .append("        <ErrorOutput></ErrorOutput>")
+            .append("        <ErrorThreshold></ErrorThreshold>")
+            .append("    </ErrorContext>")
+	        .append("    <User>")
+	        .append("        <Name>FMS</Name>")
+	        .append("    </User>")
+	        .append("    <SunSystemsContext>")
+	        .append("        <BusinessUnit>NK2</BusinessUnit>")
+	        .append("    </SunSystemsContext>")
+	        .append("    <Payload>")
+	        .append("        <Filter>")
+//	        .append("        	<Expr operator=\"AND\">")
+	        .append("        		<Item name=\"/Accounts/AccountCode\" operator=\"LIKE\" value=\"102%\"/>")
+//	        .append("        	</Expr>")
+	        .append("        </Filter>")
+	        .append("        <Select>")
+	        .append("            <Accounts>")
+	        .append("                <AccountCode></AccountCode>")
+	        .append("                <AccountType></AccountType>")
+			.append("                <AccountingLinksAllowed></AccountingLinksAllowed>")
+			.append("                <AllocationInProgress></AllocationInProgress>")
+			.append("                <BalanceType></BalanceType>")
+			.append("                <BankCurrencyRequired></BankCurrencyRequired>")
+			.append("                <ConversionCodeControl></ConversionCodeControl>")
+			.append("                <CreditLimit></CreditLimit>")
+			.append("                <DataAccessGroupCode></DataAccessGroupCode>")
+			.append("                <DateTimeLastUpdated></DateTimeLastUpdated>")
+			.append("                <DefaultCurrencyCode></DefaultCurrencyCode>")
+			.append("                <Description></Description>")
+			.append("                <EnterAnalysis1></EnterAnalysis1>")
+			.append("                <EnterAnalysis10></EnterAnalysis10>")
+			.append("                <EnterAnalysis2></EnterAnalysis2>")
+			.append("                <EnterAnalysis3></EnterAnalysis3>")
+			.append("                <EnterAnalysis4></EnterAnalysis4>")
+			.append("                <EnterAnalysis5></EnterAnalysis5>")
+			.append("                <EnterAnalysis6></EnterAnalysis6>")
+			.append("                <EnterAnalysis7></EnterAnalysis7>")
+			.append("                <EnterAnalysis8></EnterAnalysis8>")
+			.append("                <EnterAnalysis9></EnterAnalysis9>")
+			.append("                <LinkAccountCode></LinkAccountCode>")
+			.append("                <LongDescription></LongDescription>")
+			.append("                <LookupCode></LookupCode>")
+			.append("                <OverdueInvoiceLimit></OverdueInvoiceLimit>")
+			.append("                <PayAsPaidAccountType></PayAsPaidAccountType>")
+			.append("                <ReportConversionControl></ReportConversionControl>")
+			.append("                <ShortHeading></ShortHeading>")
+			.append("                <Status></Status>")
+			.append("                <SuppressRevaluation></SuppressRevaluation>")
+			.append("                <UpdateCount></UpdateCount>")
+			.append("                <UserArea></UserArea>")
+			.append("                <UserIdLastUpdated></UserIdLastUpdated>")
+			.append("                <Value4ConversionControl></Value4ConversionControl>")
+			.append("                <Value4DefaultCurrencyCode></Value4DefaultCurrencyCode>")
+			.append("                <Value5ConversionControl></Value5ConversionControl>")
+			.append("                <Value5DefaultCurrencyCode></Value5DefaultCurrencyCode>")
+			.append("                <AccountBankCurrency>")
+			.append("                    <CurrencyCode></CurrencyCode>")
+			.append("                </AccountBankCurrency>")
+	        .append("            </Accounts>")
+	        .append("        </Select>")
+	        .append("    </Payload>")
+	        .append("</SSC>")
+			;
+
+			ComponentExecutor SSC = new ComponentExecutor(_securityProvider, false);
+			try {
+				String result = SSC.Execute(_SSCVoucher, null, "Accounts", "Query", null, queryString.toString());
+				request.setAttribute("SSC_DATA", result);
+			} catch(Exception ex) {
+				returnError(request, "E004", ex.getMessage());
+			}
+			SSC = null;
+		} catch(Exception e) {
+//			log.error(e);
+			returnError(request, "E004", e.toString());
+			throw e;
+		}
+    }
+}

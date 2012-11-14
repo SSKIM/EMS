@@ -1,0 +1,69 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.Map,java.util.List,com.mindtree.framework.util.CommonUtil" %>
+<%
+	List deptList = null, emplList = null;
+	Map resultSet = CommonUtil.getResultSet(request);
+	if(resultSet!=null) {
+		emplList = (List)resultSet.get("EMPL_LIST");
+		deptList = (List)resultSet.get("DEPT_LIST");
+	}
+%>
+<jsp:useBean id="cboEmpl" class="com.mindtree.framework.control.ComboBox" scope="page"/>
+<jsp:setProperty name="cboEmpl" property="dataSource" value="<%=emplList%>"/>
+<jsp:useBean id="cboDept" class="com.mindtree.framework.control.ComboBox" scope="page"/>
+<jsp:setProperty name="cboDept" property="dataSource" value="<%=deptList%>"/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<%@ include file="../include/header.jsp" %>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/view/scn1/AB060.js"></script>
+	</head>
+	<body>
+		<%@ include file="../include/button.jsp" %>
+		<table class="searchTable">
+			<tr>
+				<th>전표번호</th>
+				<td colspan="3">
+					<input type="text" id="S_JRNL_NO" maxlength="9"/>
+				</td>
+			</tr>
+			<tr>
+				<th style="width:15%">전표발행자</th>
+				<td style="width:30%">
+					<jsp:setProperty name="cboEmpl" property="id" value="S_EMPL_ID"/>
+					<jsp:setProperty name="cboEmpl" property="isAll" value="true"/>
+					<jsp:getProperty name="cboEmpl" property="bindData" />
+				</td>
+				<th style="width:15%">전표발행부서</th>
+				<td style="width:30%">
+					<jsp:setProperty name="cboDept" property="id" value="S_DEPT_CODE"/>
+					<jsp:setProperty name="cboDept" property="isAll" value="true"/>
+					<jsp:getProperty name="cboDept" property="bindData" />
+				</td>
+			</tr>
+		</table>
+		<div class="main" id="divMain">
+			<table class="dataTable" id="dataTable1" style="width:1000px">
+				<colgroup>
+					<col width="40"/><col width="80"/><col width="80"/><col width="100"/><col width="120"/><col width="80"/><col width="100"/><col width="400px"/>
+				</colgroup>
+				<thead>
+					<tr>
+						<th>순번</th>
+						<th>전표번호</th>
+						<th>제출일자</th>
+						<th>제출자</th>
+						<th>제출부서</th>
+						<th>반려일자</th>
+						<th>반려자</th>
+						<th>반려사유</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td colspan="8"></td></tr>
+				</tbody>
+			</table>
+		</div>
+		<%@ include file="../include/bottom.jsp" %>
+	</body>
+</html>

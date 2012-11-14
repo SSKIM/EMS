@@ -1,0 +1,125 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		
+
+
+
+		<title>다스법률비용보험(주) 전표관리 시스템</title>
+		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8">
+		<META http-equiv="Cache-Control" content="max-age=0">
+		<META http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="expires"       content="0">
+		<META http-equiv="Expires"       content="Tue, 01 Jan 1980 1:00:00 GMT">
+		<META http-equiv="Pragma"        content="no-cache">
+
+		<link type="text/css" rel="stylesheet" href="/dfs/theme/default/css/default.css"/>
+		<link type="text/css" rel="stylesheet" href="/dfs/theme/default/css/table.css"/>
+		<link type="text/css" rel="stylesheet" href="/dfs/theme/default/css/tree.css"/>
+		<link type="text/css" rel="stylesheet" href="/dfs/theme/default/css/jquery-ui-1.8.1.custom.css"/>
+
+		<script type="text/javascript" src="/dfs/common/js/default.js"></script>
+		<script type="text/javascript" src="/dfs/common/js/validate.js"></script>
+		<script type="text/javascript" src="/dfs/common/js/popup.js"></script>
+		<script type="text/javascript" src="/dfs/common/js/tree.js"></script>
+
+		<script type="text/javascript" src="/dfs/component/jquery/jquery-1.4.2.js"></script>
+		<script type="text/javascript" src="/dfs/component/jquery/jquery.form.js"></script>
+		<script type="text/javascript" src="/dfs/component/jquery/jquery.maskedinput-1.2.2.js"></script>
+		<script type="text/javascript" src="/dfs/component/jquery/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="/dfs/component/jquery/jquery.tablesorter.js"></script>
+		<script type="text/javascript" src="/dfs/component/jquery/jquery.ui.datepicker-ko.js"></script>
+		<script type="text/javascript" src="/dfs/component/jquery/jquery.xslt.js"></script>
+
+	    <script type="text/javascript">
+	    	$(document).ready(function() {
+				$(".loading").bind("ajaxSend", function(){
+					//$(this).show();
+					$("div.status").html("doing...");
+					$("#tree1").empty(); $("#output").hide();
+				}).bind("ajaxComplete", function(){
+					$(this).hide();
+				});
+				$(".loading").hide();
+				$("div.status").bind('click',function(){
+					$("#output").show();
+				});
+				$("#output").bind('dblclick',function(){ $("div#output").hide(); });
+				$("#lblClose").bind('click',function(){ $("div#output").hide(); });
+				$.datepicker.setDefaults($.datepicker.regional['ko']);
+				$.datepicker.setDefaults({dateFormat:'yy-mm-dd'}); 
+				$("#statusTable").css("top",$(window).height()-24).css("left",0);
+			});
+			var W001 = "필수 항목을 입력해주세요!"; //필수 항목을 입력해주세요!
+			var W002 = "정말 삭제하시겠습니까?"; //정말 삭제하시겠습니까?
+			var W003 = "먼저 해당 데이터를 선택해 주세요!"; //먼저 해당 데이터를 선택해 주세요!
+			var I001 = "데이터가 존재하지 않습니다."; //데이터가 존재하지 않습니다.
+			var I002 = "조회 되었습니다."; //조회 되었습니다.
+			var I003 = "처리 되었습니다."; //처리 되었습니다.
+		</script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#btnClose").click(function(){ Close(); });
+			});
+			function Close() {
+				this.close();
+			}
+		</script>
+	</head>
+	<body>
+<table width="800" border="0" cellpadding="0" cellspacing="0" align=center>
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="33"><img src="./theme/default/image/box_left_top.gif" width="33" height="33" /></td>
+          <td background="./theme/default/image/box_top_bg.gif">&nbsp;</td>
+          <td width="33"><img src="./theme/default/image/box_right_top.gif" width="33" height="33" /></td>
+        </tr>
+        <tr>
+          <td background="../../view/theme/default/image/box_left_bg.gif">&nbsp;</td>
+          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="160"><img src="./theme/default/image/error_img.gif" width="138" height="136" /></td>
+                      <td>
+                      	[에러코드] E001 시스템에 오류가 발생하였습니다.<br />
+                        [에러상세]<br />
+                        org.apache.jasper.JasperException: An exception occurred processing JSP page /view/excel/excelAB010.jsp at line 73
+
+70: 			<tbody>
+71: 			<%
+72:     	        for(int i=0; i<10; i++) {
+73:     	        	Map<String,Object> rowData = (Map<String,Object>)bodyList.get(i);
+74: 		     %>
+75:     	        	<tr>
+76: 		              <td align=center><%=rowData.get("JRNL_NO")%></td>
+
+
+Stacktrace: 
+                      </td>
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center"><button class="rounded"> <span>처음으로 돌아가기</span></button></td>
+              </tr>
+            </table></td>
+          <td background="./theme/default/image/box_right_bg.gif">&nbsp;</td>
+        </tr>
+        <tr>
+          <td><img src="./theme/default/image/box_left_bottom.gif" width="33" height="33" /></td>
+          <td background="./theme/default/image/box_bottom_bg.gif">&nbsp;</td>
+          <td><img src="./theme/default/image/box_right_bottom.gif" width="33" height="33" /></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+	</body>
+</html>

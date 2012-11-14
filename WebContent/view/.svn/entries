@@ -1,0 +1,89 @@
+10
+
+dir
+71
+https://kr001net001.das.co.kr:8443/svn/svn_dfs/branches/120307/dfs/WebContent/view
+https://kr001net001.das.co.kr:8443/svn/svn_dfs
+
+
+
+2012-03-21T07:08:10.937500Z
+61
+sungsu.kim
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+incomplete
+e039ee42-d2f4-c147-b7f3-cc4a3561a99f
+
+common
+dir
+
+excel
+dir
+
+include
+dir
+
+index.jsp
+file
+64
+
+
+
+2012-03-07T06:35:28.586000Z
+bbf97bb482e8a0092aea65710500473d
+2012-03-07T02:36:17.531250Z
+3
+kj.park
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+740
+
+member
+dir
+
+popup
+dir
+
+scn1
+dir
+
+scn2
+dir
+
+scn3
+dir
+
+system
+dir
+

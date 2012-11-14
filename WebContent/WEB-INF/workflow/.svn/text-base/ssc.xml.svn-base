@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="ssc">
+	<works id="AnalyissCodes">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.das.fms.bean.ssc.sscAnalysisCodesBean</workClass>
+			<workParam></workParam>
+			<dataName></dataName>
+			<parameterRequest></parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML2.jsp</workPage>
+		</work>
+	</works>
+</workflow>

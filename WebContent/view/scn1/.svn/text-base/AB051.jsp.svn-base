@@ -1,0 +1,113 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.Map,java.util.List,com.mindtree.framework.util.CommonUtil" %>
+<%
+	Map resultSet = CommonUtil.getResultSet(request);
+	List buttonList = null, cardList = null;
+	if(resultSet != null) {
+		buttonList = (List)resultSet.get("BUTTON_LIST");
+		cardList   = (List)resultSet.get("CARD_LIST");
+	}
+%>
+<jsp:useBean id="cboCard" class="com.mindtree.framework.control.ComboBox" scope="page"/>
+<jsp:setProperty name="cboCard" property="dataSource" value="<%=cardList%>"/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<%@ include file="../include/header.jsp" %>
+		<script type="text/javascript" src="<%=request.getContextPath()%>/view/scn1/AB051.js"></script>
+	</head>
+	<body>
+		<%@ include file="../include/button.jsp" %>
+		<table class="searchTable">
+			<tr>
+				<th style="width:10%">카드번호</th>
+				<td>
+					<jsp:setProperty name="cboCard" property="id" value="S_CARD_NO"/>
+					<jsp:setProperty name="cboCard" property="isAll" value="true"/>
+					<jsp:getProperty name="cboCard" property="bindData" />
+				</td>
+				<th style="width:10%">거래일자</th>
+				<td>
+					<input type="text" id="S_TRANS_DATE" class="date" />
+				</td>
+				<th style="width:10%">상태</th>
+				<td>
+					<input type="radio" name="S_STATUS" value=""><span class="radio">전체</span>
+					<input type="radio" name="S_STATUS" value="N"><span class="radio">미연결</span>
+					<input type="radio" name="S_STATUS" value="Y"><span class="radio">연결</span>
+					<input type="radio" name="S_STATUS" value="X"><span class="radio">제외</span>
+				</td>
+			</tr>
+		</table>
+		<table class="" style="width:600px">
+			<tr>
+				<th style="width:100px">전표  합계 : </th>
+				<td style="width:200px">
+					<input type="text" id="JRNL_TOTAL" class="labelLine number" value="0" />
+				</td>
+				<th style="width:100px">카드 합계 : </th>
+				<td style="width:200px">
+					<input type="text" id="CARD_TOTAL" class="labelLine number" value="0" />
+				</td>
+			</tr>
+		</table>
+		<div class="main" id="divMain">
+			<table class="dataTable" id="dataTable1" style="width:1350px">
+				<colgroup>
+					<col width="40"/><col width="60"/><col width="110"/><col width="120"/><col width="80"/><col width="80"/><col width="160"/><col width="100"><col width="80"/><col width="60"/><col width="200"/><col width="250"/>
+				</colgroup>
+				<thead>
+					<tr>
+						<th>선택</th>
+						<th>상태</th>
+						<th>사업자등록번호</th>
+						<th>상호</th>
+						<th>금액</th>
+						<th>거래일자</th>
+						<th>카드번호</th>
+						<th>전표번호</th>
+						<th>Seq</th>
+						<th>RECON</th>
+						<th>비용구분</th>
+						<th>적요</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td colspan="12"></td></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="button">
+			<jsp:setProperty name="button" property="buttonGroup" value="2"/>
+			<jsp:setProperty name="button" property="dataSource" value="<%=buttonList%>"/>
+			<jsp:getProperty name="button" property="dataBind" />
+		</div>
+		<div class="main" style="height:240px">
+			<table class="dataTable" id="dataTable2">
+				<colgroup>
+					<col width="40"/><col width="60"/><col width="110"/><col width="120"/><col width="80"/><col width="80"/><col width="160"/><col width="100"><col width="80"/><col width="60"/><col width="150"/><col/><col/>
+				</colgroup>
+				<thead>
+					<tr>
+						<th>선택</th>
+						<th>상태</th>
+						<th>가맹점번호</th>
+						<th>가맹점명</th>
+						<th>청구금액</th>
+						<th>거래일자</th>
+						<th>카드번호</th>
+						<th>승인번호</th>
+						<th>승인시간</th>
+						<th>RECON</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td colspan="12"></td></tr>
+				</tbody>
+			</table>
+		</div>
+		<%@ include file="../include/bottom.jsp" %>
+	</body>
+</html>

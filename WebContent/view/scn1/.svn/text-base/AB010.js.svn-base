@@ -1,0 +1,272 @@
+//EVENT////////////////////////////////////////////////////////////////////////////////////////////
+
+$(document).ready(function(){
+	// READONLY MODE
+	disabled("#btnExcelExport",true);
+	$("#dataTable3,#status2").css("display","none");
+    // MANDATORY
+	// EVENT
+	$("#btnPrint").click(Print);
+	$("#btnRetrieve").click(Retrieve);
+	$("#btnExcelExport").click(ExcelExport);
+	$("input:radio[name=S_JRNL_TYPE]").change(jrnlType_onChange);
+	// DEFAULT VALUE
+    initEvent();
+	$("#dataTable1,#dataTable2,#dataTable3").tablesorter();
+	date("#S_SUBMIT_DATE_FROM,#S_SUBMIT_DATE_TO");
+	setRadioValue("S_JRNL_TYPE","G");
+	setRadioValue("S_STATUS","S");
+	$("#S_SUBMIT_DATE_FROM").val(dateMonthDiff('yyyyMMdd',-2));
+	$("#S_SUBMIT_DATE_TO").val(currDate());
+	// Validate
+});
+function dataTableRow1_onClick(obj) {
+	if(obj==null) return;
+	tableRowColor('#dataTable1',obj.rowIndex);
+	bindData(obj);
+}
+function dataTableRow2_onClick(obj) {
+	if(obj==null) return;
+	tableRowColor('#dataTable2',obj.rowIndex);
+}
+function dataTableRow3_onClick(obj) {
+	if(obj==null) return;
+	tableRowColor('#dataTable3',obj.rowIndex);
+}
+function dataTableRow2_onDblClick(obj) {
+	if(obj==null) return;
+
+	var jrnlNo     = obj.cells[11].innerHTML;
+	var jrnlSeq    = obj.cells[12].innerHTML;
+	var evidType   = obj.cells[13].innerHTML;
+
+	popupDetail(jrnlNo,jrnlSeq,evidType);
+}
+function jrnlType_onChange(evt) {
+	$("#dataTable1 tbody,#dataTable2 tbody,#dataTable3 tbody").empty();
+	var jrnlType = getRadioValue("S_JRNL_TYPE");
+	if(jrnlType=="P") {
+		setRadioValue("S_STATUS2","U");
+		display("#dataTable2,#divStatus",false);
+		display("#dataTable3",true);
+	} else {
+		setRadioValue("S_STATUS1","S");
+		display("#dataTable2,#divStatus",true);
+		display("#dataTable3",false);
+	}
+}
+
+//METHOD///////////////////////////////////////////////////////////////////////////////////////////
+
+function Retrieve() {
+	$("#JRNL_NO,#STATUS_NAME,#SUBMIT_DATE,#SUBMIT_USER_NAME,#SUBMIT_USER_DEPT_NAME").val("");
+	var tableId = "#dataTable1", tableRowId = "dataTableRow1";
+	$(tableId+" tbody,#dataTable2 tbody").empty();
+
+	var j = 0;
+	var jrnlType = getRadioValue("S_JRNL_TYPE");
+	var status   = (jrnlType=="P") ? "" : getRadioValue("S_STATUS");
+
+	var action = "scn1.do?method=AB010Retrieve";
+	var params = "&JRNL_TYPE="+jrnlType
+			   + "&STATUS="+status
+			   + "&JRNL_NO="+$("#S_JRNL_NO").val()
+               + "&SUBMIT_DATE_FROM="+$("#S_SUBMIT_DATE_FROM").val().replaceAll("-","")
+               + "&SUBMIT_DATE_TO="+$("#S_SUBMIT_DATE_TO").val().replaceAll("-","")
+			   + "&DEPT_CODE="+$("#S_DEPT_CODE").val()
+		       + "&call=xml";
+
+	$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+		success: function(result){
+			if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+				return false;
+			}
+			if($(result).find("DATA_LIST").find("ROW").length==0) { 
+				$(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr th").length+" align=center>"+I001+"</td></tr>");
+			}
+			$(result).find("DATA_LIST").find("ROW").each(function(){
+				$(tableId+" tbody").append("<tr id=\""+tableRowId+"_"+(++j)+"\">"
+				+"<td align=center>"+j+"</td>"
+                +"<td align=center>"+$(this).find("JRNL_NO").text()+"</td>"
+                +"<td align=center>"+$(this).find("JRNL_NAME").text()+"</td>"
+                +"<td align=center>"+$(this).find("TRANS_DATE").text()+"</td>"
+                +"<td align=center>"+$(this).find("SUBMIT_DATE").text()+"</td>"
+                +"<td>"+$(this).find("SUBMIT_USER_NAME").text()+"</td>"
+                +"<td>"+$(this).find("SUBMIT_USER_DEPT_NAME").text()+"</td>"
+                +"<td align=center>"+$(this).find("APPV_DATE").text()+"</td>"
+                +"<td>"+$(this).find("APPV_USER_NAME").text()+"</td>"
+                +"<td>"+$(this).find("AA_REMARK").text()+"</td>"
+                +"<td align=center>"+$(this).find("REJECT_DATE").text()+"</td>"
+                +"<td>"+$(this).find("REMARK").text()+"</td>"
+                +"<td align=center>"+$(this).find("REF_NO").text()+"</td>"
+                +"<td align=center>"+$(this).find("STATUS_NAME").text()+"</td>"
+                +"</tr>");
+			});
+			$(tableId).trigger("update");
+			tableRowEvent(tableId,tableRowId,1);
+
+			var dataCnt = $(result).find("DATA_LIST").find("DATA_LIST_CNT").text();
+			if(dataCnt==null || dataCnt=="") dataCnt = 0;
+			message(dataCnt+" "+I002);
+
+			disabled("#btnExcelExport",!(dataCnt>0));
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
+//			alert(xhr.responseText); //for debuging 
+		}
+	});
+}
+function RetrieveDetail1(jrnlNo) {
+	var tableId = "#dataTable2", tableRowId = "dataTableRow2";
+	$(tableId+" tbody").empty();
+
+	var j = 0;
+	var action = "scn1.do?method=AB010RetrieveDetail";
+	var params = "&JRNL_NO="+jrnlNo
+		       + "&call=xml&viewMode=1";
+
+	$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+		success: function(result){
+			if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+				return false;
+			}
+			if($(result).find("DATA_LIST").find("ROW").length==0) { 
+				$(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr th").length+" align=center>"+I001+"</td></tr>");
+			}
+			$(result).find("DATA_LIST").find("ROW").each(function(){
+				$(tableId+" tbody").append("<tr id=\""+tableRowId+"_"+(++j)+"\">"
+				+"<td align=center>"+j+"</td>"
+                +"<td align=center>"+$(this).find("TRANS_DATE").text()+"</td>"
+                +"<td>"+$(this).find("EVID_NAME").text()+"</td>"
+                +"<td>"+$(this).find("EXPS_TYPE_NAME").text()+"</td>"
+                +"<td align=right>"+$(this).find("TOTAL_AMT").text()+"</td>"
+                +"<td>"+$(this).find("VENDOR_NAME").text()+"</td>"
+                +"<td align=center>"+$(this).find("PAY_DATE").text()+"</td>"
+                +"<td align=center>"+$(this).find("PAY_METHOD_NAME").text()+"</td>"
+                +"<td align=center><a href=\"javascript:popupDetailByRef('"+$(this).find("REF_NO").text()+"','"+$(this).find("REF_EVID_TYPE").text()+"')\">"+$(this).find("REF_NO").text()+"</a></td>"
+                +"<td align=center>"+$(this).find("STATUS_NAME").text()+"</td>"
+                +"<td>"+$(this).find("REMARK").text()+"</td>"
+                +"<td class=hidden>"+$(this).find("JRNL_NO").text()+"</td>"
+                +"<td class=hidden>"+$(this).find("JRNL_SEQ").text()+"</td>"
+                +"<td class=hidden>"+$(this).find("EVID_TYPE").text()+"</td>"
+                +"</tr>");
+			});
+			$(tableId).trigger("update");
+			tableRowEvent(tableId,tableRowId,3);
+
+			var dataCnt = $(result).find("DATA_LIST").find("DATA_LIST_CNT").text();
+			if(dataCnt==null || dataCnt=="") dataCnt = 0;
+			message(dataCnt+" "+I002);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
+//			alert(xhr.responseText); //for debuging 
+		}
+	});
+}
+function RetrieveDetail2(jrnlNo) {
+	var tableId = "#dataTable3", tableRowId = "dataTableRow3";
+	$(tableId+" tbody").empty();
+
+	var j = 0;
+	var action = "scn1.do?method=AB010RetrieveDetail";
+	var params = "&JRNL_NO="+jrnlNo
+               + "&call=xml&viewMode=2";
+
+	$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+		success: function(result){
+			if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+				return false;
+			}
+			if($(result).find("DATA_LIST").find("ROW").length==0) { 
+				$(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr th").length+" align=center>"+I001+"</td></tr>");
+			}
+			$(result).find("DATA_LIST").find("ROW").each(function(){
+				var drAmt = 0, crAmt = 0;
+				if($(this).find("DRCR_TYPE").text()=="D")
+					drAmt = $(this).find("AMT").text();
+				else
+					crAmt = $(this).find("AMT").text();
+				
+				$(tableId+" tbody").append("<tr id=\""+tableRowId+"_"+(++j)+"\">"
+                +"<td align=center>"+$(this).find("ACCT_CODE").text()+"</td>"
+                +"<td>"+$(this).find("ACCT_NAME").text()+"</td>"
+                +"<td align=right>"+drAmt+"</td>"
+                +"<td align=right>"+crAmt+"</td>"
+                +"<td align=center>"+$(this).find("DEPT_CODE").text()+"</td>"
+                +"<td>"+$(this).find("DEPT_NAME").text()+"</td>"
+                +"<td align=center>"+$(this).find("CHNL_CODE").text()+"</td>"
+                +"<td>"+$(this).find("CHNL_NAME").text()+"</td>"
+                +"<td align=center>"+$(this).find("REF_NO").text()+"</td>"
+                +"</tr>");
+			});
+			$(tableId).trigger("update");
+			tableRowEvent(tableId,tableRowId,1);
+
+			var dataCnt = $(result).find("DATA_LIST").find("DATA_LIST_CNT").text();
+			if(dataCnt==null || dataCnt=="") dataCnt = 0;
+			message(dataCnt+" "+I002);
+		},
+		error: function(xhr, ajaxOptions, thrownError){
+			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
+//			alert(xhr.responseText); //for debuging 
+		}
+	});
+}
+function Print() {
+	var jrnlNo = $("#JRNL_NO").val();
+	var statusName = $("#STATUS_NAME").val();
+	var submitDate = $("#SUBMIT_DATE").val();
+	var swriTer = $("#SUBMIT_USER_NAME").val();
+	var sdeptName = $("#SUBMIT_USER_DEPT_NAME").val();
+	if(jrnlNo=="") {
+		alert(W003);
+		return;
+	}
+
+	var action = "scn1.do?method=AA010Print";
+	var params = "&SCREEN_ID=CR040"
+               + "&JRNL_NO="+jrnlNo
+
+               + "&RPT_MAIN=CR040|UP_AA010S_PRINT"
+               + "&RPT_MAIN_PARA="+appvLine+"|"+jrnlNo+"|"+statusName+"|"+submitDate+"|"+swriTer+"|"+sdeptName+"| |"+ssBusiUnitType
+               + "&RPT_MAIN_PAR2="+jrnlNo
+
+               + "&RPT_SUBR=CR041|UP_AA010S_PRINT3"
+               + "&RPT_SUBR_PARA="
+               + "&RPT_SUBR_PAR2="+jrnlNo
+               ;
+
+	openWindowFull(action+params, "전표재출력");
+}
+
+function ExcelExport() {
+	var action = "scn1.do?method=AB010ExcelExport";
+	var params = "&JRNL_TYPE="+getRadioValue("S_JRNL_TYPE")
+	           + "&STATUS="+getRadioValue("S_STATUS")
+	           + "&JRNL_NO="+$("#S_JRNL_NO").val()
+	           + "&WRITE_DATE_FROM="+$("#S_WRITE_DATE_FROM").val()
+	           + "&WRITE_DATE_TO="+$("#S_WRITE_DATE_TO").val()
+               + "&call=";
+
+	backgroundp.location.href = action+params;
+//	document.location.href = action+params;
+}
+function bindData(obj) {
+	var jrnlNo   = obj.cells[1].innerText;
+	$("#JRNL_NO").val(jrnlNo);
+	$("#STATUS_NAME").val(obj.cells[13].innerText);
+	$("#SUBMIT_DATE").val(obj.cells[4].innerText);
+	$("#SUBMIT_USER_NAME").val(obj.cells[5].innerText);
+	$("#SUBMIT_USER_DEPT_NAME").val(obj.cells[6].innerText);
+	var jrnlType = getRadioValue("S_JRNL_TYPE");
+	if(jrnlType=="P")
+		RetrieveDetail2(jrnlNo);
+	else
+		RetrieveDetail1(jrnlNo);
+}
+
+function initEvent() {
+	$("#divMain").css("height",$(window).height()-422);
+}

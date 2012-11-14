@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/member
+END
+chngPwdBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/member/chngPwdBean.java
+END
+isLoginBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/member/isLoginBean.java
+END
+userEditUpdateBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/member/userEditUpdateBean.java
+END
+logoutBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/member/logoutBean.java
+END
+loginBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/member/loginBean.java
+END
+changePostingOptionBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/member/changePostingOptionBean.java
+END
+userEditChangeBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/svn_dfs/!svn/ver/33/branches/120307/dfs/src/com/das/fms/bean/member/userEditChangeBean.java
+END

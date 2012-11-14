@@ -1,0 +1,69 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.Map,java.util.List,java.util.ListIterator,java.math.BigDecimal,java.util.Locale"%>
+<%@ page import="com.mindtree.framework.util.CommonUtil"%>
+<%@ page import="com.das.fms.vo.UserVO"%>
+<%
+	UserVO _userSession = (UserVO)CommonUtil.getUserSession(request);
+	String theme2       = getServletContext().getInitParameter("theme");
+	Map resultSet = CommonUtil.getResultSet(request);
+	List menu = null, busiUnitType = null, ledgerType = null;
+	if(resultSet!=null) {
+		menu         = (List)resultSet.get("MENU_TOP");
+		busiUnitType = (List)resultSet.get("BUSI_UNIT_TYPE_LIST");
+		ledgerType   = (List)resultSet.get("LEDGER_TYPE_LIST");
+	}
+	String busiUnitDisplay = "none";
+	if("DM2".equals(_userSession.getDeptCode())) busiUnitDisplay = "inline";
+%>
+<jsp:useBean id="cboBusiUnitType" class="com.mindtree.framework.control.ComboBox" scope="page"/>
+<jsp:setProperty name="cboBusiUnitType" property="dataSource" value="<%=busiUnitType%>"/>
+<jsp:useBean id="cboLedgerType" class="com.mindtree.framework.control.ComboBox" scope="page"/>
+<jsp:setProperty name="cboLedgerType" property="dataSource" value="<%=ledgerType%>"/>
+
+<table style="width:100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="200" height="86" align="center" background="./theme/<%=theme2%>/image/menu/top_bg.gif"><a href="javascript:goLink('index.do','','T')"><img src="./theme/<%=theme2%>/image/menu/logo.gif" width="76" height="61"></a></td>
+    <td valign="top" background="./theme/<%=theme2%>/image/menu/top_bg.gif"><table border="0" cellspacing="0" cellpadding="0" style="width:100%">
+        <tr>
+          <td height="35" colspan="4" align="right">
+          	<div style="display:<%=busiUnitDisplay%>">
+				Business Unit / Ledger : 
+				<jsp:setProperty name="cboBusiUnitType" property="id" value="G_BUSI_UNIT_TYPE"/>
+				<jsp:getProperty name="cboBusiUnitType" property="bindData" />
+				<jsp:setProperty name="cboLedgerType"   property="id" value="G_LEDGER_TYPE"/>
+				<jsp:getProperty name="cboLedgerType"   property="bindData" />
+			</div>
+          	<img src="./theme/<%=theme2%>/icon/name.gif" width="14" height="14" align="absmiddle">
+        	<%if(CommonUtil.isLogin(request)) {%>
+          	<b><%=_userSession.getUserName()+" ("+_userSession.getUserId()+")"%></b>&nbsp;<%=_userSession.getDeptName()%>&nbsp;
+          	<img src="./theme/<%=theme2%>/icon/logout.gif" width="14" height="15" align="absmiddle">
+          	<a href="javascript:goLink('index.do?method=logout','','T')">로그아웃</a>&nbsp;&nbsp;
+          	<%} else {%>
+          	<a href="javascript:goLink('index.do?method=loginForm','','T')">로그인</a>&nbsp;&nbsp;
+          	<%}%>
+          	<img src="./theme/<%=theme2%>/icon/user_info.gif" width="16" height="15" align="absmiddle">
+          	<a href="javascript:goLink('index.do?method=userEdit','screenId=EB020','L','개인정보변경')">사용자정보변경</a>
+          </td>
+        </tr>
+<%if(menu != null) {%>
+        <tr>
+<%
+	ListIterator m = menu.listIterator();
+	while(m.hasNext()) {
+		Map item = (Map)m.next();
+		String MENU_ID   = (String)item.get("MENU_ID");
+		String MENU_NAME = (String)item.get("MENU_NAME");
+		String MENU_URL  = (String)item.get("MENU_URL");
+		String SCREEN_ID = (String)item.get("SCREEN_ID");
+		if(CommonUtil.nullOrEmpty(MENU_URL.trim())) {
+%>			<td align=center><img name="menu" id="menu<%=MENU_ID%>" src="./theme/<%=theme2%>/image/menu/menu<%=MENU_ID%>.gif" width="200" height="45" id="<%=MENU_ID%>" onMouseOver="MM_swapImage('<%=MENU_ID%>','','./theme/<%=theme2%>/image/menu/menu<%=MENU_ID%>_over.gif',1)" onMouseOut="MM_swapImgRestore()"></td>
+<%		} else {%>
+			<td align=center><img name="menu" src="./theme/<%=theme2%>/image/menu/menu<%=MENU_ID%>.gif" width="200" height="45" id="<%=MENU_ID%>" onMouseOver="imgFlip(this,'over')" onMouseOut="imgFlip(this,'out')" onClick="imgFlip(this,'on','menu'); goLink('<%=MENU_URL%>','menuId=<%=MENU_ID%>&screenId=<%=SCREEN_ID%>','L');" style="cursor:pointer"></td>
+<%		}
+	}
+%>
+        </tr>
+<%}%>
+      </table></td>
+  </tr>
+</table>

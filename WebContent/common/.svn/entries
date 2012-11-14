@@ -1,0 +1,43 @@
+10
+
+dir
+64
+https://kr001net001.das.co.kr:8443/svn/svn_dfs/branches/120307/dfs/WebContent/common
+https://kr001net001.das.co.kr:8443/svn/svn_dfs
+
+
+
+2012-03-13T07:30:14.250000Z
+49
+kj.park
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+e039ee42-d2f4-c147-b7f3-cc4a3561a99f
+
+file
+dir
+
+flash
+dir
+
+html
+dir
+
+js
+dir
+
+xml
+dir
+

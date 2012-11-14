@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow id="scn2">
+	<works id="default">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/main.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## BA010 ############################################################################# -->
+	<works id="BA010">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/scn2/BA010.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA010Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_BA010S_GRP</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>TRANS_DATE_FROM,TRANS_DATE_TO</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA010RetrieveDetail">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_BA010S</workParam>
+			<dataName>DATA_LIST,TOTAL</dataName>
+			<parameter>ITEM_SIZE=50,PAGE_SIZE=10</parameter>
+			<parameterRequest>HIST_GRP,PAGE_NO,ITEM_SIZE,PAGE_SIZE</parameterRequest>
+			<parameterEssential>HIST_GRP</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## BA011 ############################################################################# -->
+	<works id="BA011">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/scn2/BA011.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## BA020 ############################################################################# -->
+	<works id="BA020">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/scn2/BA020.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA020Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_BA020S_GRP</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>TRANS_DATE_FROM,TRANS_DATE_TO</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA020RetrieveDetail">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_BA020S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>HIST_GRP</parameterRequest>
+			<parameterEssential>HIST_GRP</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## BA030 ############################################################################# -->
+	<works id="BA030">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/scn2/BA030.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA030Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_BA030S</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameter></parameter>
+			<parameterRequest></parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA030RetrieveDetail">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_BA030S_DETAIL</workParam>
+			<dataName>DATA_LIST,TOTAL</dataName>
+			<parameter>ITEM_SIZE=50,PAGE_SIZE=10</parameter>
+			<parameterRequest>HIST_GRP,PAGE_NO,ITEM_SIZE,PAGE_SIZE</parameterRequest>
+			<parameterEssential>HIST_GRP</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA030Execute">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>logBean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="logBean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.logBA030Bean</workClass>
+			<workParam>UP_BATCH_LOG</workParam>
+			<dataName>logData</dataName>
+			<parameter>TRANS_TYPE=R,TRANS_FLAG=S,ERR_MSG=재작업 시작</parameter>
+			<parameterRequest>HIST_GRP,TRANS_FLAG,SESSION_USER_ID</parameterRequest>
+			<workNext>bean2</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_BATCH_JI</workParam>
+			<dataName>AUTH_INFO,PARAM_LIST,LPP_LIST</dataName>
+			<workNext>bean3</workNext>
+		</work>
+		<work id="bean3">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.ssc.sscJournalImportDMSBean</workClass>
+			<workParam>UP_BATCH_JI_LINE_RE</workParam>
+			<dataName>LINE_LIST</dataName>
+			<parameterRequest>JRNL_NO,HIST_GRP</parameterRequest>
+			<parameterEssential>JRNL_NO,HIST_GRP</parameterEssential>
+			<workNext>bean4</workNext>
+		</work>
+		<work id="bean4">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.ssc.sscJIBatchLogBean</workClass>
+			<workParam>UP_BATCH_RESULT_RE</workParam>
+			<dataName>dataPK2</dataName>
+			<parameter>TRANS_TYPE=R</parameter>
+			<parameterRequest>HIST_GRP,SS_JRNL_NO,SS_STATUS,TRANS_TYPE,SESSION_USER_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>logBean2</workNext>
+		</work>
+		<work id="logBean2">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.logBA030Bean</workClass>
+			<workParam>UP_BATCH_LOG</workParam>
+			<dataName>logData</dataName>
+			<parameter>TRANS_TYPE=R,TRANS_FLAG=E,ERR_MSG=재작업 종료,USER_ID=SYSTEM</parameter>
+			<parameterRequest>HIST_GRP,TRANS_FLAG,USER_ID</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="bean5">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.ssc.sscJIBatchLogBean</workClass>
+			<workParam>UP_BATCH_RESULT_RE</workParam>
+			<dataName>dataPK2</dataName>
+			<parameter>TRANS_TYPE=R</parameter>
+			<parameterRequest>HIST_GRP,SS_JRNL_NO,SS_STATUS,TRANS_TYPE,SESSION_USER_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>logBean3</workNext>
+		</work>
+		<work id="logBean3">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.logBA030Bean</workClass>
+			<workParam>UP_BATCH_LOG</workParam>
+			<dataName>logData</dataName>
+			<parameter>TRANS_TYPE=R,TRANS_FLAG=E,ERR_MSG=재작업 에러 종료,USER_ID=SYSTEM</parameter>
+			<parameterRequest>HIST_GRP,TRANS_FLAG,USER_ID</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA030ExcelExport">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_BA030S_EXPORT</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>HIST_GRP</parameterRequest>
+			<parameterEssential>HIST_GRP</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/excel/excelBA030.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## BA040 ############################################################################# -->
+	<works id="BA040">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/scn2/BA040.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA040Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_BA040S</workParam>
+			<dataName>DATA_LIST,TOTAL</dataName>
+			<parameter>ITEM_SIZE=100,PAGE_SIZE=10</parameter>
+			<parameterRequest>SLIP_DATE_FROM,SLIP_DATE_TO,PAGE_NO,ITEM_SIZE,PAGE_SIZE</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="BA040Execute">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean11</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean11">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_SX010U</workParam>
+			<dataName>dataPK</dataName>
+			<parameter>GET_ID=HIST_GRP</parameter>
+			<parameterRequest>GET_ID,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>GET_ID,SESSION_USER_ID</parameterEssential>
+			<workNext>logBean1</workNext>
+		</work>
+		<work id="logBean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.logBean</workClass>
+			<workParam>UP_BATCH_LOG</workParam>
+			<dataName>logData</dataName>
+			<parameter>TRANS_TYPE=M,TRANS_FLAG=S,ERR_MSG=수작업 시작</parameter>
+			<parameterRequest>HIST_GRP,TRANS_FLAG,SESSION_USER_ID</parameterRequest>
+			<workNext>bean1</workNext>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_BATCH_MANUAL</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>HIST_GRP,SLIP_DATE_FROM,SLIP_DATE_TO,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>HIST_GRP,SESSION_USER_ID</parameterEssential>
+			<workNext>bean2</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonHashBean</workClass>
+			<workParam>UP_BATCH_JI</workParam>
+			<dataName>AUTH_INFO,PARAM_LIST,LPP_LIST</dataName>
+			<workNext>bean3</workNext>
+		</work>
+		<work id="bean3">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.ssc.sscJournalImportDMSBean</workClass>
+			<workParam>UP_BATCH_JI_LINE</workParam>
+			<dataName>LINE_LIST</dataName>
+			<parameterRequest>JRNL_NO,HIST_GRP</parameterRequest>
+			<parameterEssential>JRNL_NO,HIST_GRP</parameterEssential>
+			<workNext>bean4</workNext>
+		</work>
+		<work id="bean4">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.ssc.sscJIBatchLogBean</workClass>
+			<workParam>UP_BATCH_RESULT</workParam>
+			<dataName>dataPK2</dataName>
+			<parameter>TRANS_TYPE=M</parameter>
+			<parameterRequest>HIST_GRP,SS_JRNL_NO,SS_STATUS,TRANS_TYPE,SESSION_USER_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>logBean2</workNext>
+		</work>
+		<work id="logBean2">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.logBean</workClass>
+			<workParam>UP_BATCH_LOG</workParam>
+			<dataName>logData</dataName>
+			<parameter>TRANS_TYPE=M,TRANS_FLAG=E,ERR_MSG=수작업  종료</parameter>
+			<parameterRequest>HIST_GRP,TRANS_FLAG,SESSION_USER_ID</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="bean5">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.ssc.sscJIBatchLogBean</workClass>
+			<workParam>UP_BATCH_RESULT</workParam>
+			<dataName>dataPK2</dataName>
+			<parameter>TRANS_TYPE=M</parameter>
+			<parameterRequest>HIST_GRP,SS_JRNL_NO,SS_STATUS,TRANS_TYPE,SESSION_USER_ID</parameterRequest>
+			<parameterEssential></parameterEssential>
+			<workNext>logBean3</workNext>
+		</work>
+		<work id="logBean3">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.logBean</workClass>
+			<workParam>UP_BATCH_LOG</workParam>
+			<dataName>logData</dataName>
+			<parameter>TRANS_TYPE=M,TRANS_FLAG=E,ERR_MSG=수작업 에러 종료</parameter>
+			<parameterRequest>HIST_GRP,TRANS_FLAG,SESSION_USER_ID</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+</workflow>
