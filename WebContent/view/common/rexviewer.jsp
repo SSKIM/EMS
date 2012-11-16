@@ -10,7 +10,7 @@
 %>
 <HTML>
 	<HEAD>
-		<title>다스법률비용보험(주) 전표관리 시스템</title>
+		<title>EMS SYSTEM</title>
 		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<script language="javaScript">
 			var server = "<%=request.getLocalAddr()%>:8091";
