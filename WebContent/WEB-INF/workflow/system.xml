@@ -173,7 +173,7 @@
 			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
 			<workParam>UP_EA020I</workParam>
 			<dataName>dataPK</dataName>
-			<parameterRequest>SCREEN_ID,SCREEN_NAME,SCREEN_TYPE,SCREEN_URL,REMARK,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterRequest>SCREEN_ID,SCREEN_NAME,SCREEN_NAME3,SCREEN_TYPE,SCREEN_URL,REMARK,STATUS,SESSION_USER_ID</parameterRequest>
 			<parameterEssential>SCREEN_ID,SCREEN_NAME,SCREEN_TYPE</parameterEssential>
 			<workNext>resultPage</workNext>
 		</work>
@@ -193,7 +193,7 @@
 			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
 			<workParam>UP_EA020U</workParam>
 			<dataName>dataPK</dataName>
-			<parameterRequest>SCREEN_ID,SCREEN_NAME,SCREEN_TYPE,SCREEN_URL,REMARK,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterRequest>SCREEN_ID,SCREEN_NAME,SCREEN_NAME3,SCREEN_TYPE,SCREEN_URL,REMARK,STATUS,SESSION_USER_ID</parameterRequest>
 			<parameterEssential>SCREEN_ID,SCREEN_NAME,SCREEN_TYPE</parameterEssential>
 			<workNext>resultPage</workNext>
 		</work>
@@ -304,8 +304,8 @@
 	</works>
 	<works id="EA030Update">
 		<work id="start">
-			
-			<workNext>bean1<workType>start</workType></workNext>
+			<workType>start</workType>
+			<workNext>bean1</workNext>
 			<securityEnabled>true</securityEnabled>
 		</work>
 		<work id="bean1">
@@ -394,7 +394,7 @@
 			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
 			<workParam>UP_EA040I</workParam>
 			<dataName>dataPK</dataName>
-			<parameterRequest>BUTTON_ID,BUTTON_NAME,IMG_PATH,IMG_WIDTH,IMG_HEIGHT,CSS,REMARK,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterRequest>BUTTON_ID,BUTTON_NAME,BUTTON_NAME3,IMG_PATH,IMG_WIDTH,IMG_HEIGHT,CSS,REMARK,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
 			<parameterEssential>BUTTON_ID</parameterEssential>
 			<workNext>resultPage</workNext>
 		</work>
@@ -414,7 +414,7 @@
 			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
 			<workParam>UP_EA040U</workParam>
 			<dataName>dataPK</dataName>
-			<parameterRequest>BUTTON_ID,BUTTON_NAME,IMG_PATH,IMG_WIDTH,IMG_HEIGHT,CSS,REMARK,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterRequest>BUTTON_ID,BUTTON_NAME,BUTTON_NAME3,IMG_PATH,IMG_WIDTH,IMG_HEIGHT,CSS,REMARK,SORT_SEQ,STATUS,SESSION_USER_ID</parameterRequest>
 			<parameterEssential>BUTTON_ID</parameterEssential>
 			<workNext>resultPage</workNext>
 		</work>
@@ -692,7 +692,7 @@
 			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
 			<workParam>UP_INDEX_COMBO_VALUE</workParam>
 			<dataName>DEPT_LIST</dataName>
-			<parameter>codeGrp=I001,param1=01</parameter>
+			<parameter>codeGrp=I001,param1=07</parameter>
 			<parameterRequest>codeGrp,param1</parameterRequest>
 			<workNext>bean4</workNext>
 		</work>
@@ -737,6 +737,25 @@
 			<workPage>/view/system/EB010.jsp</workPage>
 		</work>
 	</works>
+	<works id="EB010PwSecurity">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.system.EB020Bean</workClass>
+			<workParam>UP_EB020S</workParam>
+			<dataName>DATA_SET</dataName>
+			<parameterRequest></parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
 	<works id="EB010Retrieve">
 		<work id="start">
 			<workType>start</workType>
@@ -768,7 +787,7 @@
 			<workClass>com.das.fms.bean.system.EB010InsertBean</workClass>
 			<workParam>UP_EB010I</workParam>
 			<dataName>dataPK</dataName>
-			<parameterRequest>USER_ID,USER_NAME,PASSWORD,USER_TYPE,EMPL_ID,TEL_NO,HP_NO,EMAIL,DEPT_CODE,BUSI_UNIT_TYPE,LEDGER_TYPE,PWD_CHNG_TYPE,LAN_TYPE,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterRequest>USER_ID,USER_NAME,PASSWORD,USER_TYPE,EMPL_ID,TEL_NO,HP_NO,EMAIL,DEPT_CODE,BUSI_UNIT_TYPE,LEDGER_TYPE,PWD_CHNG_TYPE,LAN_TYPE,DOMAINUSER,DOMAINNAME,STATUS,L_STATUS,LAST_LOG_DT,LAST_PWC_DT,SESSION_USER_ID</parameterRequest>
 			<parameterEssential></parameterEssential>
 			<workNext>resultPage</workNext>
 		</work>
@@ -788,7 +807,7 @@
 			<workClass>com.das.fms.bean.system.EB010UpdateBean</workClass>
 			<workParam>UP_EB010U</workParam>
 			<dataName>dataPK</dataName>
-			<parameterRequest>USER_ID,USER_NAME,USER_TYPE,EMPL_ID,TEL_NO,HP_NO,EMAIL,DEPT_CODE,BUSI_UNIT_TYPE,LEDGER_TYPE,PWD_CHNG_TYPE,LOGIN_FAIL_CNT,LAN_TYPE,STATUS,SESSION_USER_ID</parameterRequest>
+			<parameterRequest>USER_ID,USER_NAME,USER_TYPE,EMPL_ID,TEL_NO,HP_NO,EMAIL,DEPT_CODE,BUSI_UNIT_TYPE,LEDGER_TYPE,PWD_CHNG_TYPE,LOGIN_FAIL_CNT,LAN_TYPE,DOMAINUSER,DOMAINNAME,STATUS,L_STATUS,LAST_LOG_DT,LAST_PWC_DT,SESSION_USER_ID</parameterRequest>
 			<parameterEssential>USER_ID</parameterEssential>
 			<workNext>resultPage</workNext>
 		</work>
@@ -830,6 +849,46 @@
 			<dataName>dataPK</dataName>
 			<parameterRequest>USER_ID,PASSWORD,SESSION_USER_ID</parameterRequest>
 			<parameterEssential>USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<!-- ## EB011 ############################################################################# -->
+	<works id="EB011">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EB011.jsp</workPage>
+		</work>
+	</works>
+	<works id="EB011Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.system.EB011DomainBean</workClass>
+			<workParam>UP_EB011T</workParam>
+			<dataName>DATA_LIST</dataName>
+			<parameterRequest>DOMAIN_USER,DISPLAYNAME,DESCRIPTION,DEPARTMENT,DOMAIN_NAME</parameterRequest>
 			<workNext>resultPage</workNext>
 		</work>
 		<work id="resultPage">
@@ -1271,6 +1330,73 @@
 			<dataName>dataPK</dataName>
 			<parameterRequest>AUTH_ID,SCREEN_ID,TAB_ID,CHECKED</parameterRequest>
 			<parameterEssential>AUTH_ID,SCREEN_ID,TAB_ID,CHECKED</parameterEssential>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+<!-- ## SECURITY POLICY EB020 ####################################################################### -->
+	<works id="EB020">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_BUTTON</workParam>
+			<dataName>BUTTON_LIST</dataName>
+			<parameterRequest>screenId,SESSION_USER_ID</parameterRequest>
+			<parameterEssential>screenId,SESSION_USER_ID</parameterEssential>
+			<workNext>bean2</workNext>
+		</work>
+		<work id="bean2">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonListBean</workClass>
+			<workParam>UP_INDEX_COMBO_VALUE</workParam>
+			<dataName>PWD_COMPLEX_USE</dataName>
+			<parameter>codeGrp=X005</parameter>
+			<parameterRequest>codeGrp,SESSION_USER_ID</parameterRequest>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/system/EB020.jsp</workPage>
+		</work>
+	</works>
+	<works id="EB020Retrieve">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.system.EB020Bean</workClass>
+			<workParam>UP_EB020S</workParam>
+			<dataName>DATA_SET</dataName>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+		</work>
+	</works>
+	<works id="EB020Save">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>bean1</workNext>
+			<securityEnabled>true</securityEnabled>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.mindtree.framework.bean.CommonExecuteBean</workClass>
+			<workParam>UP_EB020U</workParam>
+			<dataName>dataPK</dataName>
+			<parameterRequest>MAX_PW_AGE,ENF_PW_HI,MIN_PW_LEN,LOCK_FAIL_LOG,PWD_COMPLEX_USE,LOCK_USER_ACCESS</parameterRequest>
 			<workNext>resultPage</workNext>
 		</work>
 		<work id="resultPage">

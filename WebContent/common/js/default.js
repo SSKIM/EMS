@@ -273,8 +273,8 @@ function requiredValidate(tableId) {
 		});
 	});
 	if(!isValid) {
-		alert(W001+"\n["+labelName+"]");
-		$("#"+labelName2).focus();
+		$.msgBox({ title:"Warring", content:W001+" \n["+labelName+"]"});
+		//$("#"+labelName2).focus();
 	}
 	return isValid;
 }
@@ -552,7 +552,6 @@ function getComboText(id) {
 /**********************************************************
  * checkbox
  *********************************************************/
-//alert ( $("input").is(':checked') );
 function checkAll(obj) {
     $("#"+obj).click(function() {
         if ($("#"+obj+":checked").length > 0) {

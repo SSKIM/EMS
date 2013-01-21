@@ -52,6 +52,7 @@ function Retrieve(key1) {
 				+"<td align=center>"+j+"</td>"
                 +"<td>"+$(this).find("BUTTON_ID").text()+"</td>"
                 +"<td>"+$(this).find("BUTTON_NAME").text()+"</td>"
+                +"<td>"+$(this).find("BUTTON_NAME2").text()+"</td>"
                 +"<td>"+$(this).find("IMG_PATH").text()+"</td>"
                 +"<td align=right>"+$(this).find("IMG_WIDTH").text()+"</td>"
                 +"<td align=right>"+$(this).find("IMG_HEIGHT").text()+"</td>"
@@ -187,17 +188,18 @@ function bindData(obj) {
 		$("#BUTTON_ID").val(obj.cells[1].innerHTML);
 	}
 	$("#BUTTON_NAME").val(obj.cells[2].innerHTML);
-	$("#IMG_PATH").val(obj.cells[3].innerHTML);
-	$("#IMG_WIDTH").val(obj.cells[4].innerHTML);
-	$("#IMG_HEIGHT").val(obj.cells[5].innerHTML);
-	$("#CSS").val(obj.cells[6].innerHTML);
-	$("#REMARK").val(obj.cells[7].innerHTML);
-	$("#SORT_SEQ").val(obj.cells[8].innerHTML);
-	setRadioValue("STATUS",obj.cells[9].innerHTML);
-	$("#INS_DATE").html(obj.cells[10].innerHTML);
-	$("#INS_USER").html(obj.cells[11].innerHTML);
-	$("#UPD_DATE").html(obj.cells[12].innerHTML);
-	$("#UPD_USER").html(obj.cells[13].innerHTML);
+	$("#BUTTON_NAME3").val(obj.cells[3].innerHTML);
+	$("#IMG_PATH").val(obj.cells[4].innerHTML);
+	$("#IMG_WIDTH").val(obj.cells[5].innerHTML);
+	$("#IMG_HEIGHT").val(obj.cells[6].innerHTML);
+	$("#CSS").val(obj.cells[7].innerHTML);
+	$("#REMARK").val(obj.cells[8].innerHTML);
+	$("#SORT_SEQ").val(obj.cells[9].innerHTML);
+	setRadioValue("STATUS",obj.cells[10].innerHTML);
+	$("#INS_DATE").html(obj.cells[11].innerHTML);
+	$("#INS_USER").html(obj.cells[12].innerHTML);
+	$("#UPD_DATE").html(obj.cells[13].innerHTML);
+	$("#UPD_USER").html(obj.cells[14].innerHTML);
 }
 function Clear() {
 	$('#formData').clearForm();
@@ -206,5 +208,5 @@ function Clear() {
 	requiredClear();
 }
 function initEvent() {
-	$("#divMain").css("height",$(window).height()-232);
+	$("#divMain").css("height",$(window).height()-252);
 }

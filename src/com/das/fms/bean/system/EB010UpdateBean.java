@@ -31,7 +31,12 @@ public class EB010UpdateBean extends CommandServlet {
 			String pwdChngType   = (String)CommonUtil.getParameter(request, "PWD_CHNG_TYPE");
 			String loginFailCnt  = (String)CommonUtil.getParameter(request, "LOGIN_FAIL_CNT");
 			String lan_type 	 = (String)CommonUtil.getParameter(request, "LAN_TYPE");
+			String domain_user 	 = (String)CommonUtil.getParameter(request, "DOMAIN_USER");
+			String domain_name 	 = (String)CommonUtil.getParameter(request, "DOMAIN_NAME");
 			String status        = (String)CommonUtil.getParameter(request, "STATUS");
+			String l_status      = (String)CommonUtil.getParameter(request, "L_STATUS");
+			String last_log_dt   = (String)CommonUtil.getParameter(request, "LAST_LOG_DT");
+			String last_pwc_dt   = (String)CommonUtil.getParameter(request, "LAST_PWC_DT");
 			// 2.
 			if(CommonUtil.nullOrEmpty(userId)) {
 				returnError(request, "W001", "USER_ID");
@@ -56,7 +61,12 @@ public class EB010UpdateBean extends CommandServlet {
 			param.add(pwdChngType);
 			param.add(loginFailCnt);
 			param.add(lan_type);
+			param.add(domain_user);
+			param.add(domain_name);
 			param.add(status);
+			param.add(l_status);
+			param.add(last_log_dt);
+			param.add(last_pwc_dt);
 			param.add(sessionUserId);
 			// 4. execute
 			Map result = execute(param);

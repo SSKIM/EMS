@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map,java.util.List,com.mindtree.framework.util.CommonUtil"%>
 <jsp:useBean id="button" class="com.mindtree.framework.control.Button" scope="page"/>
+
 <%
 	List buttonListB = null;
 	Map resultSetB = CommonUtil.getResultSet(request);
@@ -29,7 +30,7 @@
 		<div class="loading"></div><img class="loading" src="<%=request.getContextPath()%>/theme/default/image/main/loading.gif"/>
 		<table class="titleTable" id="titleTable">
 			<tr>
-				<td><span style="width:20px;hieght:10px;" id="div1">&nbsp;&nbsp;&nbsp;&nbsp;</span><font color=#ffffff></font><b>&nbsp;<%=menuNameB%></b> - [<%=screenIdB%>]</td>
+				<td><span style="width:20px;hieght:10px;" id="div1">&nbsp;&nbsp;&nbsp;&nbsp;</span><font color=#ffffff></font><b>&nbsp;[<%=screenIdB%>]</b></td>
 				<td class="button">
 					<jsp:setProperty name="button" property="buttonGroup" value="1"/>
 					<jsp:setProperty name="button" property="dataSource" value="<%=buttonListB%>"/>

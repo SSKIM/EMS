@@ -209,6 +209,32 @@
 			<workPage>/view/member/login.jsp</workPage>
 		</work>
 	</works>
+	<works id="login_domain">
+		<work id="start">
+			<workType>start</workType>
+			<workNext>login_domain</workNext>
+		</work>
+		<work id="login_domain">
+			<workType>bean</workType>
+			<workEnabled>true</workEnabled>
+			<workClass>com.das.fms.bean.system.EB020Bean</workClass>
+			<workParam>UP_EB020S</workParam>
+			<dataName>DATA_SET</dataName>
+			<workNext>bean1</workNext>
+		</work>
+		<work id="bean1">
+			<workType>bean</workType>
+			<workClass>com.das.fms.bean.member.loginBean_Domain</workClass>
+			<workParam>UP_INDEX_LOGIN_DOMAIN</workParam>
+			<dataName>LOGIN</dataName>
+			<workNext>resultPage</workNext>
+		</work>
+		<work id="resultPage">
+			<workType>page</workType>
+			<workPage>/view/common/resultToXML.jsp</workPage>
+			<pageType>static</pageType>
+		</work>
+	</works>
 	<works id="login">
 		<work id="start">
 			<workType>start</workType>
@@ -219,7 +245,7 @@
 			<workEnabled>true</workEnabled>
 			<workClass>com.das.fms.bean.member.loginBean</workClass>
 			<workParam>UP_INDEX_LOGIN</workParam>
-			<dataName>LOGIN,FAIL_CNT</dataName>
+			<dataName>LOGIN,FAIL_CNT,LOG_STATE,STATE</dataName>
 			<workNext>resultPage</workNext>
 		</work>
 		<work id="resultPage">
