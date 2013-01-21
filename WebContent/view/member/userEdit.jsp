@@ -162,7 +162,7 @@
 			            <td><table width="100%" border="0" cellpadding="0" cellspacing="0">
 			                <tr>
 			                  <td width="14"><img src="./theme/default/image/bar_left.gif" width="14" height="33"></td>
-			                  <td align="center" background="./theme/default/image/bar_bg.gif"><img src="./theme/default/image/user_title01.gif" width="86" height="33"></td>
+			                  <td align="center" background="./theme/default/image/bar_bg.gif">User Information</td>
 			                  <td width="14"><img src="./theme/default/image/bar_right.gif" width="14" height="33"></td>
 			                </tr>
 			              </table></td>
@@ -185,13 +185,13 @@
 			        <table width="100%" class="img" border="0" cellpadding="0" cellspacing="0">
 			          <tr>
 			            <td width="3"><img src="./theme/default/image/bar_left.gif" width="14" height="33"></td>
-			            <td align="center" background="./theme/default/image/bar_bg.gif"><img src="./theme/default/image/user_title02.gif" width="94" height="33"></td>
+			            <td align="center" background="./theme/default/image/bar_bg.gif">Password Change</td>
 			            <td width="14"><img src="./theme/default/image/bar_right.gif" width="14" height="33"></td>
 			          </tr>
 			        </table>
 			        <table class="formTable" width="100%">
 			          <tr>
-			            <th id="lblPASSWORD_NEW" style="width:120px">PASSWORD(NWE))</th>
+			            <th id="lblPASSWORD_NEW" style="width:120px">PASSWORD(NEW))</th>
 			            <td><input type="password" id="PASSWORD_NEW" name="PASSWORD_NEW" style="width:100px" maxlength="20"/></td>
 			            <th id="lblPASSWORD_REP" style="width:120px">PASSWORD(RE)</th>
 			            <td><input type="password" id="PASSWORD_REP" name="PASSWORD_REP" style="width:100px" maxlength="20"/></td>
@@ -200,7 +200,7 @@
 			        <table width="100%" class="img" border="0" cellpadding="0" cellspacing="0">
 			          <tr>
 			            <td width="3"><img src="./theme/default/image/bar_left.gif" width="14" height="33"></td>
-			            <td align="center" background="./theme/default/image/bar_bg.gif"><img src="./theme/default/image/user_title03.gif" width="97" height="33"></td>
+			            <td align="center" background="./theme/default/image/bar_bg.gif">User Basic Information Change</td>
 			            <td width="14"><img src="./theme/default/image/bar_right.gif" width="14" height="33"></td>
 			          </tr>
 			        </table>
@@ -212,8 +212,8 @@
 							<td><input type="text" id="HP_NO" name="HP_NO" value="<%=hpNo%>" maxlength="14"/></td>
 						</tr>
 					</table><br/>
-			        <input type="button" id="btnChangePwd" name="btnChangePwd" value="비밀번호수정" width="48px" height="24px" class="command">
-			        <input type="button" id="btnUpdate" name="btnUpdate" value="기본정보수정" width="48px" height="24px" class="command">
+			        <input type="button" id="btnChangePwd" name="btnChangePwd" value="Password Edit" width="48px" height="24px" class="command">
+			        <input type="button" id="btnUpdate" name="btnUpdate" value="User Information Edit" width="48px" height="24px" class="command">
 			      </form>
 <table class="appvLineTable" id="dataTable1" align=center style="width:700px">
 	<colgroup>
@@ -221,40 +221,40 @@
 	</colgroup>
 	<thead>
 		<tr>
-			<th>사용여부</th>
-			<th>결재단계</th>
-			<th>결재자</th>
+			<th>Use Check</th>
+			<th>Approval Line</th>
+			<th>Approval User</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<th><input type='checkbox' id='APPV_USE_YN1' <%=appvUseYn1%> /></th>
-			<th>결재1</th>
+			<th>Approval Line1</th>
 			<td><input type='text' id='APPV_USER1' value="<%=appvUser1%>" style="width:99%;margin:1px" maxlength="40"/></td>
 		</tr>
 		<tr>
 			<th><input type='checkbox' id='APPV_USE_YN2' <%=appvUseYn2%> /></th>
-			<th>결재2</th>
+			<th>Approval Line2</th>
 			<td><input type='text' id='APPV_USER2' value="<%=appvUser2%>" style="width:99%;margin:1px" maxlength="40"/></td>
 		</tr>
 		<tr>
 			<th><input type='checkbox' id='APPV_USE_YN3' <%=appvUseYn3%> /></th>
-			<th>결재3</th>
+			<th>Approval Line3</th>
 			<td><input type='text' id='APPV_USER3' value="<%=appvUser3%>" style="width:99%;margin:1px" maxlength="40"/></td>
 		</tr>
 		<tr>
 			<th><input type='checkbox' id='APPV_USE_YN4' <%=appvUseYn4%> /></th>
-			<th>결재4</th>
+			<th>Approval Line4</th>
 			<td><input type='text' id='APPV_USER4' value="<%=appvUser4%>" style="width:99%;margin:1px" maxlength="40"/></td>
 		</tr>
 		<tr>
 			<th><input type='checkbox' id='APPV_USE_YN5' <%=appvUseYn5%> /></th>
-			<th>결재5</th>
+			<th>Approval Line5</th>
 			<td><input type='text' id='APPV_USER5' value="<%=appvUser5%>" style="width:99%;margin:1px" maxlength="40"/></td>
 		</tr>
 	</tbody>
 </table>
-<input type="button" id="btnAppvLine" name="btnAppvLine" value="결재라인저장" width="48px" height="24px" class="command">
+<input type="button" id="btnAppvLine" name="btnAppvLine" value="SAVE" width="48px" height="24px" class="command">
 			      <br/>
 			      <br/>
 			      <div id="message" style="height:30px;color:red;"></div>

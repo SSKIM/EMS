@@ -8,7 +8,7 @@
 	String theme       = getServletContext().getInitParameter("theme");
 	String contextPath = request.getContextPath();
 %>
-		<title>EMS 전표관리 시스템 - 개발</title>
+		<title>EMS SYSTEM</title>
 		<meta http-equiv="Content-Type"  content="text/html; charset=UTF-8">
 		<meta http-equiv="Cache-Control" content="no-cache">
 		<meta http-equiv="Expires"       content="0">
@@ -24,7 +24,7 @@
 		<script type="text/javascript" src="<%=contextPath%>/common/js/validate.js"></script>
 		<script type="text/javascript" src="<%=contextPath%>/common/js/popup.js"></script>
 		<script type="text/javascript" src="<%=contextPath%>/common/js/tree.js"></script>
-
+		
 		<script type="text/javascript" src="<%=contextPath%>/component/jquery/jquery-1.4.2.js"></script>
 		<script type="text/javascript" src="<%=contextPath%>/component/jquery/jquery.form.js"></script>
 		<script type="text/javascript" src="<%=contextPath%>/component/jquery/jquery.maskedinput-1.2.2.js"></script>
@@ -32,7 +32,8 @@
 		<script type="text/javascript" src="<%=contextPath%>/component/jquery/jquery.tablesorter.js"></script>
 		<script type="text/javascript" src="<%=contextPath%>/component/jquery/jquery.ui.datepicker-ko.js"></script>
 		<script type="text/javascript" src="<%=contextPath%>/component/jquery/jquery.xslt.js"></script>
-
+		<script type="text/javascript" src="<%=contextPath%>/component/jquery/jquery.msgbox.min.js"></script>
+		
 	    <script type="text/javascript">
 	    	$(document).ready(function() {
 				$(".loading").bind("ajaxSend", function(){

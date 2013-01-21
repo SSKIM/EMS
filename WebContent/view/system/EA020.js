@@ -56,6 +56,7 @@ function Retrieve(key1) {
 				+"<td align=center>"+j+"</td>"
                 +"<td align=center>"+$(this).find("SCREEN_ID").text()+"</td>"
                 +"<td>"+$(this).find("SCREEN_NAME").text()+"</td>"
+                +"<td>"+$(this).find("SCREEN_NAME2").text()+"</td>"
                 +"<td align=center>"+$(this).find("SCREEN_TYPE").text()+"</td>"
                 +"<td>"+$(this).find("SCREEN_URL").text()+"</td>"
                 +"<td>"+$(this).find("REMARK").text()+"</td>"
@@ -80,8 +81,8 @@ function Retrieve(key1) {
 			message(dataCnt+" "+I002);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
+//			$.alert(xhr.responseText); //for debuging 
 		}
 	});
 }
@@ -103,13 +104,13 @@ function Insert() {
 			message(I003);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
+//			$.alert(xhr.responseText); //for debuging 
 		}
 	});
 }
 function Update() {
-	if($("#rowIndex").val()=="") { alert(W003); return false; }
+	if($("#rowIndex").val()=="") { $.alert(W003); return false; }
 	if(!requiredValidate("#formData")) return;
 	$("#btnRetrieve").focus();
 	//-----------------------------------------------------
@@ -127,34 +128,43 @@ function Update() {
 			message(I003);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
+//			$.alert(xhr.responseText); //for debuging 
 		}
 	});
 }
 function Delete() {
-	if($("#rowIndex").val()=="") { alert(W003); return false; }
-	if(!window.confirm(W002)) { 
-	    return false;
-	}
-	$("#btnRetrieve").focus();
-	//-----------------------------------------------------
-    var action = "system.do?method=EA020Delete&call=xml";
-    var data   = $("#formData").serialize();
-
-	$.ajax({type: "post", url: action, data: data, dataType: "xml", cache: false,
-		success: function(result){
-			if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
-				return false;
+	if($("#rowIndex").val()=="") { $.alert(W003); return false; }
+	
+	$.msgBox({
+	    title: "Notice",
+	    content: W002,
+	    type: "confirm",
+	    buttons: [{ value: "Yes" }, { value: "No" }],
+	    success: function (result) {
+	        if (result == "Yes") {
+				$("#btnRetrieve").focus();
+				//-----------------------------------------------------
+				var action = "system.do?method=EA020Delete&call=xml";
+				var data   = $("#formData").serialize();
+		
+				$.ajax({type: "post", url: action, data: data, dataType: "xml", cache: false,
+				success: function(result){
+					if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+						return false;
+					}
+		
+					Retrieve();
+					message(I003);
+					},
+					error: function(xhr, ajaxOptions, thrownError){
+						$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
+		//				$.alert(xhr.responseText); //for debuging 
+					}
+				});
 			}
-
-			Retrieve();
-			message(I003);
-		},
-		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
-		}
+			else return false;
+	    }
 	});
 }
 function New() {
@@ -189,14 +199,15 @@ function bindData(obj) {
 		$("#SCREEN_ID").val(obj.cells[1].innerHTML);
 	}
 	$("#SCREEN_NAME").val(obj.cells[2].innerHTML);
-	$("#SCREEN_TYPE").val(obj.cells[3].innerHTML);
-	$("#SCREEN_URL").val(obj.cells[4].innerHTML);
-	$("#REMARK").val(obj.cells[5].innerHTML);
-	setRadioValue("STATUS",obj.cells[6].innerHTML);
-	$("#INS_DATE").html(obj.cells[7].innerHTML);
-	$("#INS_USER").html(obj.cells[8].innerHTML);
-	$("#UPD_DATE").html(obj.cells[9].innerHTML);
-	$("#UPD_USER").html(obj.cells[10].innerHTML);
+	$("#SCREEN_NAME3").val(obj.cells[3].innerHTML);
+	$("#SCREEN_TYPE").val(obj.cells[4].innerHTML);
+	$("#SCREEN_URL").val(obj.cells[5].innerHTML);
+	$("#REMARK").val(obj.cells[6].innerHTML);
+	setRadioValue("STATUS",obj.cells[7].innerHTML);
+	$("#INS_DATE").html(obj.cells[8].innerHTML);
+	$("#INS_USER").html(obj.cells[9].innerHTML);
+	$("#UPD_DATE").html(obj.cells[10].innerHTML);
+	$("#UPD_USER").html(obj.cells[11].innerHTML);
 }
 function Clear() {
 	$('#formData').clearForm();
@@ -206,5 +217,5 @@ function Clear() {
 	requiredClear();
 }
 function initEvent() {
-	$("#divMain").css("height",$(window).height()-208);
+	$("#divMain").css("height",$(window).height()-228);
 }

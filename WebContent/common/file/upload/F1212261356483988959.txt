@@ -1,0 +1,97 @@
+(&(objectClass=person)(sAMAccountName=adambristol)(userPrincipalName=adambristol@developerscrappad.com))
+
+ctx.search(searchBase, searchFilter, sCtrl);
+
+String searchBase = "OU=Seattle Office,OU=US,DC=developerscrappad,DC=com";
+
+String searchFilter = \
+    "(&(objectClass=person)(sAMAccountName=adambristol)\
+    (userPrincipalName=adambristol@developerscrappad.com))";
+
+
+
+String searchFilter = "(&(objectClass=person)(userPrincipalName=roymustang@developerscrappad.com)(department=Systems Development))";
+17	
+    SearchControls sCtrl = new SearchControls();
+18	
+    sCtrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
+19	
+    NamingEnumeration answer = ctx.search(searchBase, searchFilter, sCtrl);
+
+
+
+String searchFilter = "(&(objectClass=person)(userPrincipalName=adambristol@developerscrappad.com)(title=Marketing Manager))";
+17	
+    SearchControls sCtrl = new SearchControls();
+18	
+    sCtrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
+19	
+ 
+20	
+    NamingEnumeration answer = ctx.search(searchBase, searchFilter, sCtrl);
+
+
+
+String searchFilter = \
+    "(&(objectClass=person)(userPrincipalName=adambristol@developerscrappad.com)\
+    (title=Marketing Manager))";
+
+
+
+  // Prepare the search criteria for group name matching
+15	
+    String searchBase = "DC=developerscrappad,DC=com";
+16	
+ 
+17	
+    StringBuilder searchFilter = new StringBuilder("(&");
+18	
+    searchFilter.append("(objectClass=person)");
+19	
+    searchFilter.append("(userPrincipalName=lynnzhang@developerscrappad.com)");
+20	
+    searchFilter.append(")");
+21	
+ 
+22	
+    String returnAttrs[] = {"memberOf"};
+23	
+    SearchControls sCtrl = new SearchControls();
+24	
+    sCtrl.setSearchScope(SearchControls.SUBTREE_SCOPE);
+25	
+    sCtrl.setReturningAttributes(returnAttrs);
+26	
+ 
+27	
+    NamingEnumeration<SearchResult> answer = ctx.search(searchBase, searchFilter.toString(), sCtrl);
+28	
+    boolean pass = false;
+29	
+ 
+30	
+    // Define the match string
+31	
+    String match = "Social Media Marketing Taskforce";
+32	
+ 
+33	
+    // Loop through the results and check every single value in attribute "memberOf"
+34	
+    while (answer.hasMoreElements()) {
+35	
+        SearchResult sr = answer.next();
+36	
+        String memberOfAttrValue = sr.getAttributes().get("memberOf").toString();
+37	
+ 
+38	
+        if (memberOfAttrValue.contains(match)) {
+39	
+            pass = true;
+40	
+            break;
+41	
+        }
+42	
+    }

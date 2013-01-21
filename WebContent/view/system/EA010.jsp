@@ -12,6 +12,9 @@
 <html>
 	<head>
 		<%@ include file="../include/header.jsp" %>
+		<script type="text/javascript">
+		
+		</script>	
 		<script type="text/javascript" src="<%=request.getContextPath()%>/view/system/EA010.js"></script>
 	</head>
 	<body>

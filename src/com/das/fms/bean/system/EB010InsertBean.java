@@ -29,9 +29,14 @@ public class EB010InsertBean extends CommandServlet {
 			String deptCode      = (String)CommonUtil.getParameter(request, "DEPT_CODE");
 			String busiUnitType  = (String)CommonUtil.getParameter(request, "BUSI_UNIT_TYPE");
 			String ledgerType    = (String)CommonUtil.getParameter(request, "LEDGER_TYPE");
+			String domain_user 	 = (String)CommonUtil.getParameter(request, "DOMAIN_USER");
+			String domain_name 	 = (String)CommonUtil.getParameter(request, "DOMAIN_NAME");
 			String pwdChngType   = (String)CommonUtil.getParameter(request, "PWD_CHNG_TYPE");
 			String lan_type = (String)CommonUtil.getParameter(request, "LAN_TYPE");
 			String status        = (String)CommonUtil.getParameter(request, "STATUS");
+			String l_status      = (String)CommonUtil.getParameter(request, "L_STATUS");
+			String last_log_dt   = (String)CommonUtil.getParameter(request, "LAST_LOG_DT");
+			String last_pwc_dt   = (String)CommonUtil.getParameter(request, "LAST_PWC_DT");
 			if(CommonUtil.nullOrEmpty(password)) password = "1111"; 
 			// 2.
 			if(CommonUtil.nullOrEmpty(userId)) {
@@ -57,7 +62,12 @@ public class EB010InsertBean extends CommandServlet {
 			param.add(ledgerType);
 			param.add(pwdChngType);
 			param.add(lan_type);
+			param.add(domain_user);
+			param.add(domain_name);
 			param.add(status);
+			param.add(l_status);
+			param.add(last_log_dt);
+			param.add(last_pwc_dt);
 			param.add(sessionUserId);
 			// 4.
 			Map result = execute(param);

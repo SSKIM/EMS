@@ -19,6 +19,9 @@ public class UserVO implements Serializable {
 	private long   loginTime;
 	private String sessinoId;
 	private String lantype;
+	private String l_status;
+	private String last_log_dt;
+	private String last_pwc_dt;
 
 	public String getUserId() {
 		return userId;
@@ -118,14 +121,30 @@ public class UserVO implements Serializable {
 	public String getSessionId() {
 		return sessinoId;
 	}
-	
     public void setLantype(String lantype)
     {
         this.lantype = lantype;
     }
-
     public String getLantype()
     {
         return lantype;
     }
+	public String getl_status() {
+		return l_status;
+	}
+	public void setl_status(String l_status) {
+		this.l_status = l_status;
+	}
+	public String getlast_log_dt() {
+		return last_log_dt;
+	}
+	public void setlast_log_dt(String last_log_dt) {
+		this.last_log_dt = last_log_dt;
+	}
+	public String getlast_pwc_dt() {
+		return last_pwc_dt;
+	}
+	public void setlast_pwc_dt(String last_pwc_dt) {
+		this.last_pwc_dt = last_pwc_dt;
+	}
 }

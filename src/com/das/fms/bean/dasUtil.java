@@ -15,7 +15,7 @@ public class dasUtil {
 	private static final Logger log = Logger.getLogger("dasUtil");
 	public static String downloadPath = "http://10.100.100.226:8091/dfs/common/file/download/";
 	public static String charset      = "EUC-KR";
-	public static String hostname     = "kr001com001.das.co.kr";
+	public static String hostname     = "FMS2008.mytest-dns.com";
 	public static String fromEmail    = "DFS_Admin@das.co.kr";
 	public static String[] toEmail    = {"DFS_Admin@das.co.kr"};
 

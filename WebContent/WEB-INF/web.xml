@@ -20,11 +20,11 @@
 	</context-param>
 	<context-param>
 		<param-name>fileDonwload</param-name>
-		<param-value>D:/project/EMS/EMS/WebContent/common/file/download/</param-value>
+		<param-value>C:/EMS_Project/project/EMS/EMS/WebContent/common/file/download/</param-value>
 	</context-param>
 	<context-param>
 		<param-name>fileUpload</param-name>
-		<param-value>D:/project/EMS/EMS/WebContent/common\file/upload/</param-value>
+		<param-value>C:/EMS_Project/project/EMS/EMS/WebContent/common\file/upload/</param-value>
 	</context-param>
 	<context-param>
 		<param-name>errorPageXML</param-name>
@@ -44,7 +44,7 @@
 		<servlet-class>com.mindtree.framework.web.FrontService</servlet-class>
 		<init-param>
 			<param-name>workflowPath</param-name>
-			<param-value>D:/project/EMS/EMS/WebContent/WEB-INF/workflow/</param-value>
+			<param-value>C:/EMS_Project/project/EMS/EMS/WebContent/WEB-INF/workflow/</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>

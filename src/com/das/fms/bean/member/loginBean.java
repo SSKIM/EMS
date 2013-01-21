@@ -22,6 +22,8 @@ public class loginBean extends CommandServlet {
 			// Parameter 받기
 			String userid  = (String)CommonUtil.getParameter(request,"userid");
 			String passwd  = (String)CommonUtil.getParameter(request,"passwd");
+			String logcnt  = (String)CommonUtil.getParameter(request,"logcnt");
+			System.out.println(logcnt);
 			// Parameter 유효성 검사
 			if(CommonUtil.nullOrEmpty(userid)) {
 				returnError(request, "W001", "사용자ID");
@@ -31,10 +33,15 @@ public class loginBean extends CommandServlet {
 				returnError(request, "W001", "사용자 비밀번호");
 				return;
 			}
+			if(CommonUtil.nullOrEmpty(logcnt)) {
+				returnError(request, "W001", "Data Error");
+				return;
+			}
 			// Parameter 설정
 			List<Object> param = bindParameter(request);
 			param.add(userid);
 			param.add(Endec.encryptData(passwd));
+			param.add(logcnt);
 			// 실행
 			Map<String,Object> result = select(param);
 //			returnValue(request, result);
@@ -46,10 +53,10 @@ public class loginBean extends CommandServlet {
 				Map login = (Map)result.get("LOGIN");
 				String pwdChngType = (String)login.get("PWD_CHNG_TYPE");
 
+				/*
 				if("Y".equals(pwdChngType)) {
 					returnValue(request, result);
-				} else if(login!=null && login.size()>0) {
-					
+				} else*/ if(login!=null && login.size()>0) {
 					UserVO user = new UserVO();
 					user.setUserId(      (String)login.get("USER_ID"));
 					user.setUserName(    (String)login.get("USER_NAME"));
@@ -64,7 +71,10 @@ public class loginBean extends CommandServlet {
 					user.setLedgerType(  (String)login.get("LEDGER_TYPE"));
 					user.setLoginTime(new Long(System.currentTimeMillis()));
 					user.setLantype(	 (String)login.get("LAN_TYPE"));
-	
+					user.setl_status(	 (String)login.get("L_STATUS"));
+					user.setlast_log_dt( (String)login.get("LAST_LOG_DT"));
+					user.setlast_pwc_dt( (String)login.get("LAST_PWC_DT"));
+
 					HttpSession session = request.getSession();
 					user.setSessionId(session.getId());
 					session.setAttribute(GLOBAL.USER_SESSION,           user);

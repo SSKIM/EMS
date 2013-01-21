@@ -5,10 +5,12 @@ var isComplete2 = true;
 var OpenDate_From = "";
 var OpenDate_To = "";
 var temp_ASST = "";
+var tabid= 1;
+
 
 $(document).ready(function(){
-	document.getElementById("I002").innerHTML = I002;
-	
+	Screen_Setup();
+
 	// READONLY MODE
 	disabled("#btnSave,#btnPrint,#btnPrintTrafficEx,#btnSubmit",true);
 	disabled("#btnTemplate,#btnInsert,#btnUpdate,#btnDelete,#btnAdd1,#btnEdit1,#btnRemove1,#btnAdd2,#btnEdit2,#btnRemove2",true);
@@ -22,6 +24,14 @@ $(document).ready(function(){
 	required("#DEPT_AMT1,#DEPT_CODE1",true);
 	required("#TRANS_DATE2,#REMARK6,#DEBIT_TOTAL2,#CREDIT_TOTAL2",true);
 	required("#ACCT_CODE2,#DEPT_AMT2,#DRCR_TYPE2,#DEPT_CODE2",true);
+
+	date("#TRANS_DATE,#PAY_DUE_DATE,#TRANS_DATE2,#PAY_DUE_DATE2");
+	$("#TRANS_DATE").val(currDate());
+	$("#PAY_DUE_DATE").val(currDate());
+	$("#TRANS_DATE2").val(currDate());
+	$("#PAY_DUE_DATE2").val(currDate());
+	number("#TOTAL,#DEPT_AMT1,#DEPT_AMT2,#SUPPLY_AMT,#VAT_AMT,#TOTAL_AMT,#DEBIT_TOTAL2,#CREDIT_TOTAL2,#SUPPLY_AMT,#VAT_AMT,#TOTAL_AMT");
+	
 	// EVENT
 	$("#btnNew").click(New);
 	$("#btnSave").click(Save);
@@ -50,53 +60,71 @@ $(document).ready(function(){
 	$("#EXPS_TYPE_ID").change(function(){
 		RetrieveRemark($(this));
 	});
-//	$("#VENDOR_CODE2").change(function(){
-//		RetrieveInfo($(this).val());
-//	});
+// $("#VENDOR_CODE2").change(function(){
+// RetrieveInfo($(this).val());
+// });
 	
 	getOpenDate();
 	
 	$("input:radio[name=USE_TYPE]").change(function(){
-//		if(getRadioValue("USE_TYPE")=="CC") {
-//			display("#BUSI_NO",true);
-//			readonly("#BUSI_NO",false);
-//			required("#BUSI_NO",true);
-//			$("#lblBUSI_NO").html("개인신용카드번호");
-//			$("#BUSI_NO").unmask();
-//			$("#BUSI_NO").mask("9999-9999-9999-9999");
-//		} else {
-//			display("#BUSI_NO",false);
-//			required("#BUSI_NO",false);
-//			$("#lblBUSI_NO").html("");
-//			$("#BUSI_NO").unmask();
-//			$("#BUSI_NO").mask("999-99-99999");
-//		}
+// if(getRadioValue("USE_TYPE")=="CC") {
+// display("#BUSI_NO",true);
+// readonly("#BUSI_NO",false);
+// required("#BUSI_NO",true);
+// $("#lblBUSI_NO").html("개인신용카드번호");
+// $("#BUSI_NO").unmask();
+// $("#BUSI_NO").mask("9999-9999-9999-9999");
+// } else {
+// display("#BUSI_NO",false);
+// required("#BUSI_NO",false);
+// $("#lblBUSI_NO").html("");
+// $("#BUSI_NO").unmask();
+// $("#BUSI_NO").mask("999-99-99999");
+// }
 	});
-	$("#EXPS_TYPE_ID,#VENDOR_CODE1,#VENDOR_CODE2,#VENDOR_CODE3,#TRANS_DATE,#PAY_DUE_DATE,#PAY_METHOD_TYPE,#COMPANY_NAME,#BUSI_NO,#REMARK,#REMARK1,#REMARK2,#REMARK3,#REMARK4,#TOTAL_AMT,#SUPPLY_AMT,#VAT_AMT").change(function(){
+	$("#TRANS_DATE,#PAY_DUE_DATE,#EXPS_TYPE_ID,#VENDOR_CODE1,#VENDOR_CODE2,#VENDOR_CODE3,#PAY_METHOD_TYPE,#COMPANY_NAME,#BUSI_NO,#REMARK,#REMARK1,#REMARK2,#REMARK3,#REMARK4,#TOTAL_AMT,#SUPPLY_AMT,#VAT_AMT").change(function(){
 		isComplete2 = false;
 		if($("#S_JRNL_NO").html()=="") {
-			alert("전표번호를 먼저 생성해주세요!");
+			 $.msgBox({ title:"Warring", content:I001});
+				isComplete2 = true;
 			return;
 		}
 	});
 	$("#TRANS_DATE2,#PAY_DUE_DATE2,#PAY_METHOD_TYPE2,#REMARK6,#DEBIT_TOTAL2,#CREDIT_TOTAL2").change(function(){
 		isComplete2 = false;
 		if($("#S_JRNL_NO").html()=="") {
-			alert("전표번호를 먼저 생성해주세요!");
+			 $.msgBox({ title:"Warring", content:I001});
+			// $("#TRANS_DATE2,#PAY_DUE_DATE2").unbind("change");
+			// $.msgBox({ title:"Warring", content:"Please create a Journal
+			// Number", type:"info" });
+			isComplete2 = true;
 			return;
 		}
 	});
 	$('#evidTabs').tabs({
 		select: function(event, ui) {
-			if(isComplete2) {
+			if(isComplete2== true) {
 				tabEvent(ui.index+1);
 			} else {
-				if(confirm("변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까??")) {
-					isComplete2 = true;
-					tabEvent(ui.index+1);
-				} else {
-					return false;
-				}
+				$.msgBox({
+				    title: "Notice",
+				    content: '변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까?',
+				    type: "confirm",
+				    buttons: [{ value: "Yes" }, { value: "No" }],
+				    success: function (result) {
+				        if (result == "Yes") {
+							isComplete2 = true;
+							$('#evidTabs').tabs("select", ui.index);
+							tabEvent(ui.index+1);
+				        }
+				    }
+				});
+				return false;
+				/*
+				 * if(confirm("변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까??")) {
+				 * isComplete2 = true; tabEvent(ui.index+1); } else { return
+				 * false; }
+				 */
 			}
 		}
 	});
@@ -143,11 +171,11 @@ $(document).ready(function(){
 		}
 	});
 	$("#REMARK4").blur(function(){
-//		if(fuelExpsType==$("#ACCT_CODE").val()) {
+// if(fuelExpsType==$("#ACCT_CODE").val()) {
 		if(fuelExpsType==$("#EXPS_TYPE_ID").val()) {
 			var km = $("#REMARK4").val().replaceAll(",","");
 			if(isNaN(km*fuelUnitPrice)) {
-				alert("주행거리의 값이 옳바르지 않습니다!\n다시 입력해 주세요!");
+				$.msgBox({ title:"Warring", content:"주행거리의 값이 옳바르지 않습니다!\n다시 입력해 주세요!"});
 				$("#REMARK4").focus();
 			} else {
 				$("#DEPT_AMT1").val(km*fuelUnitPrice).keyup();
@@ -165,21 +193,19 @@ $(document).ready(function(){
 	$("#BUSI_NO").blur(function(){
 		if($("#EVID_TYPE").val()!="EA") {
 			if(!vaildBusiNo($("#BUSI_NO").val())) {
-				alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+				$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			}
 		}
 	});
 
-	//find("VENDOR_CODE","VENDOR_NAME","RetrieveVendor");
-	//find("ASST_CODE","ASST_NAME","RetrieveAsst");
-	//find("DEPT_CODE","DEPT_NAME","RetrieveDept");
-	//find("CHNL_CODE","CHNL_NAME","RetrieveChnl");
+	// find("VENDOR_CODE","VENDOR_NAME","RetrieveVendor");
+	// find("ASST_CODE","ASST_NAME","RetrieveAsst");
+	// find("DEPT_CODE","DEPT_NAME","RetrieveDept");
+	// find("CHNL_CODE","CHNL_NAME","RetrieveChnl");
 	// DEFAULT VALUE
     $("#dataTable").tablesorter();
-//	document.location.href = "#tab-4";
+// document.location.href = "#tab-4";
 	$("#BUSI_NO").mask("999-99-99999");
-	date("#TRANS_DATE,#PAY_DUE_DATE,#TRANS_DATE2,#PAY_DUE_DATE2");
-	number("#TOTAL,#DEPT_AMT1,#DEPT_AMT2,#SUPPLY_AMT,#VAT_AMT,#TOTAL_AMT,#DEBIT_TOTAL2,#CREDIT_TOTAL2,#SUPPLY_AMT,#VAT_AMT,#TOTAL_AMT");
 	$("#DEPT_CODE1,#DEPT_CODE2").val(ssDeptCode);
 	$("#DEPT_NAME1,#DEPT_NAME2").val(ssDeptName);
 	// Validate
@@ -191,6 +217,7 @@ $(document).ready(function(){
 		RetrieveDetail(jrnlNo);
 	}
 });
+
 function getOpenDate()
 {
 	var tableId = "#dataTable", tableRowId = "dataTableRow";
@@ -217,18 +244,10 @@ function tabEvent_INIT()
 	$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
 		success: function(result){
 			j = $(result).find("DATA_INFO2").find("TAB_INDEX").text();
+			$('#evidTabs').tabs("select", j-1);
+			tabEvent(j);
 		}
 	});
-	if(j==6)
-	{
-		tabEvent(1);
-		tabEvent(j);
-	}	
-	else
-	{
-		tabEvent(1);
-		tabEvent(j);
-	}
 }
 
 function getAcctName(acctCode, popupYn) {
@@ -260,13 +279,13 @@ function getAcctName(acctCode, popupYn) {
 				$("#ENTER_ANL_7").val(enterAnl7);
 				$("#ENTER_ANL_8").val(enterAnl8);
 
-				display("#divDEPT_CODE2",(enterAnl1=="1")); //부서
-				display("#divCHNL_CODE2",(enterAnl3=="1")); //채널 
-				display("#divPRD_CODE2", (enterAnl2=="1")); //상품
-				display("#divAFS_TYPE2", (enterAnl5=="1")); //채권구분
-				display("#divSUP_CODE2", (enterAnl6=="1")); //거래처
-				display("#divPAY_TYPE2", (enterAnl7=="1")); //지급방법
-				display("#divVAT_TYPE2", (enterAnl8=="1")); //부가세구분
+				display("#divDEPT_CODE2",(enterAnl1=="1")); // 부서
+				display("#divCHNL_CODE2",(enterAnl3=="1")); // 채널
+				display("#divPRD_CODE2", (enterAnl2=="1")); // 상품
+				display("#divAFS_TYPE2", (enterAnl5=="1")); // 채권구분
+				display("#divSUP_CODE2", (enterAnl6=="1")); // 거래처
+				display("#divPAY_TYPE2", (enterAnl7=="1")); // 지급방법
+				display("#divVAT_TYPE2", (enterAnl8=="1")); // 부가세구분
 
 				required("#DEPT_CODE2",       (enterAnl1=="1"));
 				required("#CHNL_CODE2",       (enterAnl3=="1"));
@@ -323,10 +342,10 @@ function getEmplName(vndrCode, popupYn) {
 				vndrCode  = $(result).find("DATA_INFO").find("VNDR_CODE").text();
 			}
 		});
-		EmplName(vndrCode);
+		EmplName(vndrCode,popupYn);
 	}
 }
-function EmplName(vndrCode){
+function EmplName(vndrCode, popupYn){
 	var action = "scn1.do?method=GETNAME";
 	var params = "&VANDER_CODE="+vndrCode+"&call=xml";
 	
@@ -356,33 +375,57 @@ function checkform() {
 	}
 }
 function dataTableRow_onClick(obj) {
-	if(isComplete) {
+	if(isComplete == true && isComplete2 == true) {
 		isComplete = true;
-	} else {
-		if(confirm("변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까??")) {
-			isComplete = true;
+		tableRowColor('#dataTable',obj.rowIndex);
+
+		var evidType = obj.cells[9].innerText;
+		var index    = getIndexEvid(evidType);
+
+		$("#evidTabs").tabs('select', index-1);
+		tabEvent(index);
+
+		bindData(obj);
+		activeButton($("#S_JRNL_TYPE").html(),$("#S_STATUS").html());
+		
+		if(index==6) {
+			RetrieveSub2(obj.cells[29].innerText,obj.cells[30].innerText);
+			$("#DEPT_AMT2,#ACCT_CODE2,#ACCT_NAME2,#DRCR_TYPE2,#DEPT_AMT2,#CHNL_CODE1").val("");
 		} else {
-			return false;
+			RetrieveSub1(obj.cells[29].innerText,obj.cells[30].innerText);
+			$("#DEPT_AMT1,#CHNL_CODE1,#CHNL_NAME1,#ASST_CODE1").val("");
 		}
-	}
-
-	tableRowColor('#dataTable',obj.rowIndex);
-
-	var evidType = obj.cells[9].innerText;
-	var index    = getIndexEvid(evidType);
-
-	$("#evidTabs").tabs('select', index-1);
-	tabEvent(index);
-
-	bindData(obj);
-	activeButton($("#S_JRNL_TYPE").html(),$("#S_STATUS").html());
-	
-	if(index==6) {
-		RetrieveSub2(obj.cells[29].innerText,obj.cells[30].innerText);
-		$("#DEPT_AMT2,#ACCT_CODE2,#ACCT_NAME2,#DRCR_TYPE2,#DEPT_AMT2,#CHNL_CODE1").val("");
 	} else {
-		RetrieveSub1(obj.cells[29].innerText,obj.cells[30].innerText);
-		$("#DEPT_AMT1,#CHNL_CODE1,#CHNL_NAME1,#ASST_CODE1").val("");
+		$.msgBox({
+		    title: "Notice",
+		    content: '변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까?',
+		    type: "confirm",
+		    buttons: [{ value: "Yes" }, { value: "No" }],
+		    success: function (result) {
+		        if (result == "Yes") {
+					isComplete2 = true;
+					tableRowColor('#dataTable',obj.rowIndex);
+
+					var evidType = obj.cells[9].innerText;
+					var index    = getIndexEvid(evidType);
+
+					$("#evidTabs").tabs('select', index-1);
+					tabEvent(index);
+
+					bindData(obj);
+					activeButton($("#S_JRNL_TYPE").html(),$("#S_STATUS").html());
+					
+					if(index==6) {
+						RetrieveSub2(obj.cells[29].innerText,obj.cells[30].innerText);
+						$("#DEPT_AMT2,#ACCT_CODE2,#ACCT_NAME2,#DRCR_TYPE2,#DEPT_AMT2,#CHNL_CODE1").val("");
+					} else {
+						RetrieveSub1(obj.cells[29].innerText,obj.cells[30].innerText);
+						$("#DEPT_AMT1,#CHNL_CODE1,#CHNL_NAME1,#ASST_CODE1").val("");
+					}
+		        }
+				else return false;
+		    }
+		});
 	}
 }
 function deptTableRow1_onClick(obj) {
@@ -401,7 +444,7 @@ function findTableRow_onClick(obj,code,name) {
 	bindDataFindTable(obj,code,name);
 }
 
-//METHOD///////////////////////////////////////////////////////////////////////////////////////////
+// METHOD///////////////////////////////////////////////////////////////////////////////////////////
 
 function Retrieve(jrnlNo) {
 	var action = "scn1.do?method=AA010Retrieve";
@@ -427,8 +470,7 @@ function Retrieve(jrnlNo) {
 			});
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
@@ -459,7 +501,7 @@ function RetrieveDetail(jrnlNo) {
                 +"<td align=center>"+$(this).find("PAY_METHOD_TYPE_NAME").text()+"</td>"
                 +"<td>"+$(this).find("REMARK").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("EVID_TYPE").text()+"</td>"
-                +"<td class=hidden>"+$(this).find("EXPS_TYPE_ID").text()+"</td>"     //10
+                +"<td class=hidden>"+$(this).find("EXPS_TYPE_ID").text()+"</td>"     // 10
                 +"<td class=hidden>"+$(this).find("TRANS_DATE").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("PAY_METHOD_TYPE").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("REMARK1_LABEL").text()+"</td>"
@@ -469,7 +511,7 @@ function RetrieveDetail(jrnlNo) {
                 +"<td class=hidden>"+$(this).find("REMARK3_LABEL").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("REMARK3").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("REMARK4_LABEL").text()+"</td>"
-                +"<td class=hidden>"+$(this).find("REMARK4").text()+"</td>"          //20
+                +"<td class=hidden>"+$(this).find("REMARK4").text()+"</td>"          // 20
                 +"<td class=hidden>"+$(this).find("VENDOR_CODE").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("COMPANY_NAME").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("BUSI_NO").text()+"</td>"
@@ -479,7 +521,7 @@ function RetrieveDetail(jrnlNo) {
                 +"<td class=hidden>"+$(this).find("SUPPLY_AMT").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("VAT_AMT").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("JRNL_NO").text()+"</td>"
-                +"<td class=hidden>"+$(this).find("JRNL_SEQ").text()+"</td>"         //30
+                +"<td class=hidden>"+$(this).find("JRNL_SEQ").text()+"</td>"         // 30
                 +"<td class=hidden>"+$(this).find("ACCT_CODE").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("ASST_PURCHASE_YN").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("CC_CARD_INPUT_YN").text()+"</td>"
@@ -508,8 +550,7 @@ function RetrieveDetail(jrnlNo) {
 			setNumber("#TOTAL",tableRowSum(tableId,4));
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
@@ -547,8 +588,7 @@ function RetrieveSub1(jrnlNo,jrnlSeq) {
 			if(dataCnt==null || dataCnt=="") dataCnt = 0;
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
@@ -630,53 +670,100 @@ function RetrieveSub2(jrnlNo,jrnlSeq) {
 			totalDeptAmt2(tableId);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
-//-------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 function New() {
 	if(!isComplete) {
-		if(!confirm("변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까??")) {
-			return false;
-		}
+		$.msgBox({
+		    title: "Notice",
+		    content: '변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까?',
+		    type: "confirm",
+		    buttons: [{ value: "Yes" }, { value: "No" }],
+		    success: function (result) {
+		        if (result == "Yes") {
+					isComplete = false;
+
+					Clear();
+					$("#S_JRNL_NO,#S_JRNL_TYPE,#S_JRNL_TYPE_NAME,#S_STATUS,#S_STATUS_NAME,#S_WRITE_DATE,#S_REMARK,#S_BUSI_UNIT_TYPE,#S_LEDGER_TYPE").html("");
+					$("#DEBIT_TOTAL2,#CREDIT_TOTAL2,#TOTAL").val("");
+					$("#dataTable tbody").empty();
+					var action = "scn1.do?method=AA010New";
+					var params = "&GET_ID=JRNL_G"
+						       + "&call=xml";
+
+					$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+						success: function(result){
+							if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+								return false;
+							}
+
+							$("#S_JRNL_NO").html($(result).find("dataPK").find("JRNL_NO").text());
+							$("#S_JRNL_TYPE").html($(result).find("dataPK").find("JRNL_TYPE").text());
+							$("#S_JRNL_TYPE_NAME").html($(result).find("dataPK").find("JRNL_TYPE_NAME").text());
+							$("#S_STATUS").html($(result).find("dataPK").find("STATUS").text());
+							$("#S_STATUS_NAME").html($(result).find("dataPK").find("STATUS_NAME").text());
+							$("#S_WRITE_DATE").html($(result).find("dataPK").find("WRITE_DATE").text());
+							
+							disabled("#btnTemplate,#btnInsert",false);
+							disabled("#btnSave,#btnInsert,#btnAdd1,#btnAdd2",false);
+						},
+						error: function(xhr, ajaxOptions, thrownError){
+							$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
+						}
+					});	
+				}
+				else return false;
+		    }
+		});
 	} else {
-		if(!confirm("전표를 생성하시겠습니까?")) {
-			return false;
-		}
+		$.msgBox({
+		    title: "Notice",
+		    content: '전표를 생성하시겠습니까?',
+		    type: "confirm",
+		    buttons: [{ value: "Yes" }, { value: "No" }],
+		    success: function (result) {
+		        if (result == "Yes") {
+					isComplete = false;
+
+					Clear();
+					$("#S_JRNL_NO,#S_JRNL_TYPE,#S_JRNL_TYPE_NAME,#S_STATUS,#S_STATUS_NAME,#S_WRITE_DATE,#S_REMARK,#S_BUSI_UNIT_TYPE,#S_LEDGER_TYPE").html("");
+					$("#DEBIT_TOTAL2,#CREDIT_TOTAL2,#TOTAL").val("");
+					$("#dataTable tbody").empty();
+					var action = "scn1.do?method=AA010New";
+					var params = "&GET_ID=JRNL_G"
+						       + "&call=xml";
+
+					$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+						success: function(result){
+							if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+								return false;
+							}
+
+							$("#S_JRNL_NO").html($(result).find("dataPK").find("JRNL_NO").text());
+							$("#S_JRNL_TYPE").html($(result).find("dataPK").find("JRNL_TYPE").text());
+							$("#S_JRNL_TYPE_NAME").html($(result).find("dataPK").find("JRNL_TYPE_NAME").text());
+							$("#S_STATUS").html($(result).find("dataPK").find("STATUS").text());
+							$("#S_STATUS_NAME").html($(result).find("dataPK").find("STATUS_NAME").text());
+							$("#S_WRITE_DATE").html($(result).find("dataPK").find("WRITE_DATE").text());
+							
+							disabled("#btnTemplate,#btnInsert",false);
+							disabled("#btnSave,#btnInsert,#btnAdd1,#btnAdd2",false);
+						},
+						error: function(xhr, ajaxOptions, thrownError){
+							$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
+						}
+					});	
+				}
+				else return false;
+		    }
+		});
 	}
-	isComplete = false;
-
-	Clear();
-	$("#S_JRNL_NO,#S_JRNL_TYPE,#S_JRNL_TYPE_NAME,#S_STATUS,#S_STATUS_NAME,#S_WRITE_DATE,#S_REMARK,#S_BUSI_UNIT_TYPE,#S_LEDGER_TYPE").html("");
-	$("#DEBIT_TOTAL2,#CREDIT_TOTAL2,#TOTAL").val("");
-	$("#dataTable tbody").empty();
-	var action = "scn1.do?method=AA010New";
-	var params = "&GET_ID=JRNL_G"
-		       + "&call=xml";
-
-	$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
-		success: function(result){
-			if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
-				return false;
-			}
-
-			$("#S_JRNL_NO").html($(result).find("dataPK").find("JRNL_NO").text());
-			$("#S_JRNL_TYPE").html($(result).find("dataPK").find("JRNL_TYPE").text());
-			$("#S_JRNL_TYPE_NAME").html($(result).find("dataPK").find("JRNL_TYPE_NAME").text());
-			$("#S_STATUS").html($(result).find("dataPK").find("STATUS").text());
-			$("#S_STATUS_NAME").html($(result).find("dataPK").find("STATUS_NAME").text());
-			$("#S_WRITE_DATE").html($(result).find("dataPK").find("WRITE_DATE").text());
-			
-			disabled("#btnTemplate,#btnInsert",false);
-			disabled("#btnSave,#btnInsert,#btnAdd1,#btnAdd2",false);
-		},
-		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
-		}
-	});	
+		/*
+		 * if(!confirm("전표를 생성하시겠습니까?")) { return false; } }
+		 */
 }
 function Save() {
 	
@@ -690,8 +777,7 @@ function Save() {
 			message(I003);
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});	
 }
@@ -704,17 +790,18 @@ function Print() {
 	tableRows.each(function(n){
 		var date = tableRows[n].cells[1].innerHTML.replaceAll("-","");
 		if(date < Open_Date_From ){
-			alert("허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")");
+			$.msgBox({ title:"Warring", content:"허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")"});
 			temp = false;
 		}
 		else if(date > Open_Date_To)
 		{
-			alert("허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")");
+			$.msgBox({ title:"Warring", content:"허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")"});
 			temp = false;
 		}
 	});
 	if(temp == true)
 	{
+		
 		var action = "scn1.do?method=AA010Print";
 		var params = "&SCREEN_ID=CR010"
 			+ "&JRNL_NO="+$("#S_JRNL_NO").html()
@@ -727,8 +814,8 @@ function Print() {
 			+ "&RPT_SUBR_PARA="
 			+ "&RPT_SUBR_PAR2="+$("#S_JRNL_NO").html()
 			;
-
-		openWindowFull(action+params, "전표출력");
+		
+		openWindowFull("http://hpsfk071/ReportServer/Pages/ReportViewer.aspx?/EMS/Journal_test&JRNL_NO="+$("#S_JRNL_NO").html(), "전표출력");
 	}
 }
 
@@ -741,12 +828,12 @@ function PrintTrafficEx() {
 	tableRows.each(function(n){
 		var date = tableRows[n].cells[1].innerHTML.replaceAll("-","");
 		if(date < Open_Date_From ){
-			alert("허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")");
+			$.msgBox({ title:"Warring", content:"허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")"});
 			temp = false;
 		}
 		else if(date > Open_Date_To)
 		{
-			alert("허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")");
+			$.msgBox({ title:"Warring", content:"허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")"});
 			temp = false;
 		}
 	});
@@ -773,55 +860,67 @@ function Submit() {
 	tableRows.each(function(n){
 		var date = tableRows[n].cells[1].innerHTML.replaceAll("-","");
 		if(date < Open_Date_From ){
-			alert("허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")");
+			$.msgBox({ title:"Warring", content:"허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")"});
 			temp = false;
 		}
 		else if(date > Open_Date_To)
 		{
-			alert("허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")");
+			$.msgBox({ title:"Warring", content:"허용되지 않는 거래일자 입니다 . (허용기간 : "+OpenDate_From+" ~ "+OpenDate_To+")"});
 			temp = false;
 		}
 	});
 	if(temp == true)
 	{
 		if($("#dataTable tbody tr").length < 1) {
-			alert("처리할 데이터가 존재하지 않습니다!");
+			$.msgBox({ title:"Warring", content:"처리할 데이터가 존재하지 않습니다!"});
 			return;
 		}
-		if(!confirm("제출하시겠습니까?")) { return false; }
-
-		var action = "scn1.do?method=AA010Submit";
-		var params = "&JRNL_NO="+$("#S_JRNL_NO").html()
-			+ "&STATUS=S&call=xml";
 		
-		$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
-			success: function(result){
-				if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
-					return false;
-				}
-					$(result).find("dataPK").each(function(){
-//					$("#S_JRNL_NO").html($(this).find("JRNL_NO").text());
-					$("#S_STATUS").html($(this).find("STATUS").text());
-					$("#S_STATUS_NAME").html($(this).find("STATUS_NAME").text());
+		$.msgBox({
+		    title: "Notice",
+		    content: '제출하시겠습니까?',
+		    type: "confirm",
+		    buttons: [{ value: "Yes" }, { value: "No" }],
+		    success: function (result) {
+		        if (result == "Yes") {
 
-					activeButton($(this).find("JRNL_TYPE").text(),$(this).find("STATUS").text());
+					var action = "scn1.do?method=AA010Submit";
+					var params = "&JRNL_NO="+$("#S_JRNL_NO").html()
+						+ "&STATUS=S&call=xml";
+					
+					$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+						success: function(result){
+							if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+								return false;
+							}
+								$(result).find("dataPK").each(function(){
+	// $("#S_JRNL_NO").html($(this).find("JRNL_NO").text());
+								$("#S_STATUS").html($(this).find("STATUS").text());
+								$("#S_STATUS_NAME").html($(this).find("STATUS_NAME").text());
+
+								activeButton($(this).find("JRNL_TYPE").text(),$(this).find("STATUS").text());
+								});
+								$.msgBox({ title:"Submit", content:"제출 되었습니다!", type:"infor"});
+								message(I003);
+						
+								Clear();
+								$("#S_JRNL_NO,#S_JRNL_TYPE,#S_JRNL_TYPE_NAME,#S_STATUS,#S_STATUS_NAME,#S_WRITE_DATE,#S_REMARK,#S_BUSI_UNIT_TYPE,#S_LEDGER_TYPE").html("");
+								$("#DEBIT_TOTAL2,#CREDIT_TOTAL2,#TOTAL").val("");
+								$("#dataTable tbody").empty();
+						},
+						error: function(xhr, ajaxOptions, thrownError){
+							$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
+						}
 					});
-					alert("제출 되었습니다!");
-					message(I003);
-			
-					Clear();
-					$("#S_JRNL_NO,#S_JRNL_TYPE,#S_JRNL_TYPE_NAME,#S_STATUS,#S_STATUS_NAME,#S_WRITE_DATE,#S_REMARK,#S_BUSI_UNIT_TYPE,#S_LEDGER_TYPE").html("");
-					$("#DEBIT_TOTAL2,#CREDIT_TOTAL2,#TOTAL").val("");
-					$("#dataTable tbody").empty();
-			},
-			error: function(xhr, ajaxOptions, thrownError){
-				alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//				alert(xhr.responseText); //for debuging 
-			}
+				}
+				else return false;
+		    }
 		});
+		
+		// if(!confirm("제출하시겠습니까?")) { return false; }
 	}
 }
-//-------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 function Template() {
 	var param = new Object();
 
@@ -838,115 +937,319 @@ function Template() {
 }
 function RetrieveTemplate(tpltId,evidType) {
 	if(!isComplete) {
-		if(confirm("변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까??")) {
-			isComplete = true;
-		} else {
-			return false;
-		}
+		
+		$.msgBox({
+		    title: "Notice",
+		    content: '변경내역이 저장되지 않았습니다. 저장하지 않고 이동하시겠습니까?',
+		    type: "confirm",
+		    buttons: [{ value: "Yes" }, { value: "No" }],
+		    success: function (result) {
+		        if (result == "Yes") {
+					isComplete = true;
+					isComplete2 = true;
+					
+					var index = getIndexEvid(evidType);
+					$("#evidTabs").tabs('select', index-1);
+					tabEvent(index);
+
+					var j = 0, dataCnt = 0;
+					var action = "scn1.do?method=AA010RetrieveTemplate";
+					var params = "&TPLT_ID="+tpltId
+					+ "&viewMode="+evidType
+					+ "&call=xml";
+					
+					$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+						success: function(result){
+						if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+							return false;
+						}
+
+						$("#EVID_TYPE").val(evidType);
+
+						$(result).find("DATA_LIST").find("ROW").each(function(){
+							if(evidType == "EO") {
+
+								$("#PAY_METHOD_TYPE2").val($(this).find("PAY_METHOD_TYPE").text());
+								$("#REMARK6").val($(this).find("REMARK").text());
+							} else {
+								$("#EXPS_TYPE_ID").val($(this).find("EXPS_TYPE_ID").text());
+							$("#PAY_METHOD_TYPE").val($(this).find("PAY_METHOD_TYPE").text());
+		
+							$("#REMARK").val($(this).find("REMARK").text());
+							$("#lblREMARK1").html($(this).find("REMARK1_LABEL").text());
+							$("#REMARK1").val($(this).find("REMARK1").text());
+							$("#lblREMARK2").html($(this).find("REMARK2_LABEL").text());
+							$("#REMARK2").val($(this).find("REMARK2").text());
+							$("#lblREMARK3").html($(this).find("REMARK3_LABEL").text());
+							$("#REMARK3").val($(this).find("REMARK3").text());
+							$("#lblREMARK4").html($(this).find("REMARK4_LABEL").text());
+							$("#REMARK4").val($(this).find("REMARK4").text());
+
+							$("#byteREMARK").text(checkByteLen($(this).find("REMARK").text()));
+							$("#byteREMARK1").text(checkByteLen($(this).find("REMARK1").text()));
+							$("#byteREMARK2").text(checkByteLen($(this).find("REMARK2").text()));
+							$("#byteREMARK3").text(checkByteLen($(this).find("REMARK3").text()));
+							$("#byteREMARK4").text(checkByteLen($(this).find("REMARK4").text()));
+						
+							if(evidType=="EA") {
+								$("#VENDOR_CODE3").val($(this).find("VENDOR_CODE").text());
+								$("#VENDOR_NAME3").val($(this).find("VENDOR_NAME").text());
+								setRadioValue("USE_TYPE",$(this).find("USE_TYPE").text());
+							} else {
+								if(evidType=="EC") {
+									$("#VENDOR_CODE1").val($(this).find("VENDOR_CODE").text());
+									required("#COMPANY_NAME",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
+									required("#BUSI_NO",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
+								} else if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
+									$("#VENDOR_CODE2").val($(this).find("VENDOR_CODE").text());
+									$("#VENDOR_NAME2").val($(this).find("VENDOR_NAME").text());
+								}
+								$("#COMPANY_NAME").val($(this).find("COMPANY_NAME").text());
+								$("#BUSI_NO").val($(this).find("BUSI_NO").text());
+							}
+
+							setNumber("#SUPPLY_AMT",$(this).find("SUPPLY_AMT").text());
+							setNumber("#VAT_AMT",$(this).find("VAT_AMT").text());
+							setNumber("#TOTAL_AMT",$(this).find("TOTAL_AMT").text());
+
+							$("#ASST_PURCHASE_YN").val($(this).find("ASST_PURCHASE_YN").text());
+							$("#ENTER_ANL_1").val($(this).find("ENTER_ANL_1").text());
+							$("#ENTER_ANL_3").val($(this).find("ENTER_ANL_3").text());
+							$("#ACCT_CODE").val($(this).find("ACCT_CODE").text());
+
+							display("#divDEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
+							display("#divCHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
+							if($(this).find("ASST_PURCHASE_YN").text()=="Y")
+							{
+								temp_ASST = $(this).find("ASST_PURCHASE_TI").text();
+								ASST_VIEW();
+							}
+							display("#divASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
+						
+							required("#DEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
+							required("#CHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
+							required("#ASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
+							}
+						});
+				
+	// if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
+	// $("#TRANS_DATE,#PAY_DUE_DATE#,#BUSI_NO").blur();
+	// } else if(evidType=="EA") {
+	// $("#TRANS_DATE").blur();
+	// } else if(evidType=="EO") {
+	// $("#TRANS_DATE2,#PAY_DUE_DATE2#").blur();
+	// }
+
+				// /////////////////////////////////////////////////////////////////////////////////////
+
+						var tableId = "", tableRowId = "";
+						if(evidType == "EO") {
+							tableId = "#deptTable2", tableRowId = "deptTableRow2";
+							$(tableId+" tbody").empty();
+
+	// if($(result).find("DETAIL_LIST").find("ROW").length==0) {
+	// $(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr
+	// th").length+" align=center>"+I001+"</td></tr>");
+	// }
+							$(result).find("DETAIL_LIST").find("ROW").each(function() {
+								var drAmt = 0, crAmt = 0;
+								var drcrType = $(this).find("DRCR_TYPE").text();
+								if(drcrType == "D")
+									drAmt = $(this).find("AMT").text();
+								else
+									crAmt = $(this).find("AMT").text();
+
+								$(tableId+" tbody").append("<tr id=\""+tableRowId+"_"+(++j)+"\">"
+										+"<td align=center>"+$(this).find("ACCT_CODE").text()+"</td>"
+										+"<td>"+$(this).find("ACCT_NAME").text()+"</td>"
+										+"<td align=right>"+drAmt+"</td>"
+										+"<td align=right>"+crAmt+"</td>"
+
+										+"<td>"+$(this).find("DEPT_NAME").text()+"</td>"
+										+"<td>"+$(this).find("PRD_NAME").text()+"</td>"
+										+"<td>"+$(this).find("CHNL_NAME").text()+"</td>"
+										+"<td class=hidden></td>"
+										+"<td>"+$(this).find("AFS_NAME").text()+"</td>"
+										+"<td>"+$(this).find("SUP_NAME").text()+"</td>"
+										+"<td class=hidden></td>"
+										+"<td>"+$(this).find("VAT_NAME").text()+"</td>"
+										+"<td class=hidden></td>"
+										+"<td class=hidden></td>"
+
+										+"<td class=hidden>"+$(this).find("DRCR_TYPE").text()+"</td>"
+
+										+"<td class=hidden>"+$(this).find("DEPT_CODE").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("PRD_CODE").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("CHNL_CODE").text()+"</td>"
+										+"<td class=hidden></td>"
+										+"<td class=hidden>"+$(this).find("AFS_TYPE").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("SUP_CODE").text()+"</td>"
+										+"<td class=hidden></td>"
+										+"<td class=hidden>"+$(this).find("VAT_TYPE").text()+"</td>"
+										+"<td class=hidden></td>"
+										+"<td class=hidden></td>"
+		                
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_1").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_2").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_3").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_4").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_5").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_6").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_7").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_8").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_9").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ENTER_ANL_10").text()+"</td>"
+										+"</tr>");
+							});
+							totalDeptAmt2("#deptTable2");
+						} else {
+							tableId = "#deptTable1", tableRowId = "deptTableRow1";
+							$(tableId+" tbody").empty();
+
+	// if($(result).find("DETAIL_LIST").find("ROW").length==0) {
+	// $(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr
+	// th").length+" align=center>"+I001+"</td></tr>");
+	// }
+							$(result).find("DETAIL_LIST").find("ROW").each(function() {
+								$(tableId+" tbody").append("<tr id=\""+tableRowId+"_"+(++j)+"\">"
+										+"<td align=right>"+$(this).find("AMT").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("DEPT_CODE").text()+"</td>"
+										+"<td>"+$(this).find("DEPT_NAME").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("CHNL_CODE").text()+"</td>"
+										+"<td>"+$(this).find("CHNL_NAME").text()+"</td>"
+										+"<td class=hidden>"+$(this).find("ASST_CODE").text()+"</td>"
+										+"<td>"+$(this).find("ASST_NAME").text()+"</td>"
+										+"</tr>");
+							});
+							totalDeptAmt1("#deptTable1");
+						}
+				
+						$(tableId).trigger("update");
+						tableRowEvent(tableId,tableRowId,1);
+
+						dataCnt = $(result).find("DETAIL_LIST").find("DETAIL_LIST_CNT").text();
+						if(dataCnt==null || dataCnt=="") dataCnt = 0;
+
+						message(dataCnt+" "+I002);
+						isComplete = false;
+					},
+					error: function(xhr, ajaxOptions, thrownError){
+						$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
+					}
+					});
+				}
+				else return false;
+		    }
+		});
 	}
+	else
+	{
+		isComplete = true;
+		isComplete2 = true;
+		
+		var index = getIndexEvid(evidType);
+		$("#evidTabs").tabs('select', index-1);
+		tabEvent(index);
 	
-	var index = getIndexEvid(evidType);
-	$("#evidTabs").tabs('select', index-1);
-	tabEvent(index);
-
-	var j = 0, dataCnt = 0;
-	var action = "scn1.do?method=AA010RetrieveTemplate";
-	var params = "&TPLT_ID="+tpltId
-		       + "&viewMode="+evidType
-		       + "&call=xml";
-
-	$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
-		success: function(result){
+		var j = 0, dataCnt = 0;
+		var action = "scn1.do?method=AA010RetrieveTemplate";
+		var params = "&TPLT_ID="+tpltId
+		+ "&viewMode="+evidType
+		+ "&call=xml";
+		
+		$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+			success: function(result){
 			if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
 				return false;
 			}
-
+	
 			$("#EVID_TYPE").val(evidType);
-
+	
 			$(result).find("DATA_LIST").find("ROW").each(function(){
 				if(evidType == "EO") {
-
+	
 					$("#PAY_METHOD_TYPE2").val($(this).find("PAY_METHOD_TYPE").text());
 					$("#REMARK6").val($(this).find("REMARK").text());
 				} else {
 					$("#EXPS_TYPE_ID").val($(this).find("EXPS_TYPE_ID").text());
-					$("#PAY_METHOD_TYPE").val($(this).find("PAY_METHOD_TYPE").text());
+				$("#PAY_METHOD_TYPE").val($(this).find("PAY_METHOD_TYPE").text());
 	
-					$("#REMARK").val($(this).find("REMARK").text());
-					$("#lblREMARK1").html($(this).find("REMARK1_LABEL").text());
-					$("#REMARK1").val($(this).find("REMARK1").text());
-					$("#lblREMARK2").html($(this).find("REMARK2_LABEL").text());
-					$("#REMARK2").val($(this).find("REMARK2").text());
-					$("#lblREMARK3").html($(this).find("REMARK3_LABEL").text());
-					$("#REMARK3").val($(this).find("REMARK3").text());
-					$("#lblREMARK4").html($(this).find("REMARK4_LABEL").text());
-					$("#REMARK4").val($(this).find("REMARK4").text());
-
-					$("#byteREMARK").text(checkByteLen($(this).find("REMARK").text()));
-					$("#byteREMARK1").text(checkByteLen($(this).find("REMARK1").text()));
-					$("#byteREMARK2").text(checkByteLen($(this).find("REMARK2").text()));
-					$("#byteREMARK3").text(checkByteLen($(this).find("REMARK3").text()));
-					$("#byteREMARK4").text(checkByteLen($(this).find("REMARK4").text()));
-					
-					if(evidType=="EA") {
-						$("#VENDOR_CODE3").val($(this).find("VENDOR_CODE").text());
-						$("#VENDOR_NAME3").val($(this).find("VENDOR_NAME").text());
-						setRadioValue("USE_TYPE",$(this).find("USE_TYPE").text());
-					} else {
-						if(evidType=="EC") {
-							$("#VENDOR_CODE1").val($(this).find("VENDOR_CODE").text());
-							required("#COMPANY_NAME",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
-							required("#BUSI_NO",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
-						} else if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
-							$("#VENDOR_CODE2").val($(this).find("VENDOR_CODE").text());
-							$("#VENDOR_NAME2").val($(this).find("VENDOR_NAME").text());
-						}
-						$("#COMPANY_NAME").val($(this).find("COMPANY_NAME").text());
-						$("#BUSI_NO").val($(this).find("BUSI_NO").text());
+				$("#REMARK").val($(this).find("REMARK").text());
+				$("#lblREMARK1").html($(this).find("REMARK1_LABEL").text());
+				$("#REMARK1").val($(this).find("REMARK1").text());
+				$("#lblREMARK2").html($(this).find("REMARK2_LABEL").text());
+				$("#REMARK2").val($(this).find("REMARK2").text());
+				$("#lblREMARK3").html($(this).find("REMARK3_LABEL").text());
+				$("#REMARK3").val($(this).find("REMARK3").text());
+				$("#lblREMARK4").html($(this).find("REMARK4_LABEL").text());
+				$("#REMARK4").val($(this).find("REMARK4").text());
+	
+				$("#byteREMARK").text(checkByteLen($(this).find("REMARK").text()));
+				$("#byteREMARK1").text(checkByteLen($(this).find("REMARK1").text()));
+				$("#byteREMARK2").text(checkByteLen($(this).find("REMARK2").text()));
+				$("#byteREMARK3").text(checkByteLen($(this).find("REMARK3").text()));
+				$("#byteREMARK4").text(checkByteLen($(this).find("REMARK4").text()));
+			
+				if(evidType=="EA") {
+					$("#VENDOR_CODE3").val($(this).find("VENDOR_CODE").text());
+					$("#VENDOR_NAME3").val($(this).find("VENDOR_NAME").text());
+					setRadioValue("USE_TYPE",$(this).find("USE_TYPE").text());
+				} else {
+					if(evidType=="EC") {
+						$("#VENDOR_CODE1").val($(this).find("VENDOR_CODE").text());
+						required("#COMPANY_NAME",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
+						required("#BUSI_NO",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
+					} else if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
+						$("#VENDOR_CODE2").val($(this).find("VENDOR_CODE").text());
+						$("#VENDOR_NAME2").val($(this).find("VENDOR_NAME").text());
 					}
-
-					setNumber("#SUPPLY_AMT",$(this).find("SUPPLY_AMT").text());
-					setNumber("#VAT_AMT",$(this).find("VAT_AMT").text());
-					setNumber("#TOTAL_AMT",$(this).find("TOTAL_AMT").text());
-
-					$("#ASST_PURCHASE_YN").val($(this).find("ASST_PURCHASE_YN").text());
-					$("#ENTER_ANL_1").val($(this).find("ENTER_ANL_1").text());
-					$("#ENTER_ANL_3").val($(this).find("ENTER_ANL_3").text());
-					$("#ACCT_CODE").val($(this).find("ACCT_CODE").text());
-
-					display("#divDEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
-					display("#divCHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
-					if($(this).find("ASST_PURCHASE_YN").text()=="Y")
-					{
-						temp_ASST = $(this).find("ASST_PURCHASE_TI").text();
-						ASST_VIEW();
-					}
-					display("#divASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
-					
-					required("#DEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
-					required("#CHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
-					required("#ASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
+					$("#COMPANY_NAME").val($(this).find("COMPANY_NAME").text());
+					$("#BUSI_NO").val($(this).find("BUSI_NO").text());
+				}
+	
+				setNumber("#SUPPLY_AMT",$(this).find("SUPPLY_AMT").text());
+				setNumber("#VAT_AMT",$(this).find("VAT_AMT").text());
+				setNumber("#TOTAL_AMT",$(this).find("TOTAL_AMT").text());
+	
+				$("#ASST_PURCHASE_YN").val($(this).find("ASST_PURCHASE_YN").text());
+				$("#ENTER_ANL_1").val($(this).find("ENTER_ANL_1").text());
+				$("#ENTER_ANL_3").val($(this).find("ENTER_ANL_3").text());
+				$("#ACCT_CODE").val($(this).find("ACCT_CODE").text());
+	
+				display("#divDEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
+				display("#divCHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
+				if($(this).find("ASST_PURCHASE_YN").text()=="Y")
+				{
+					temp_ASST = $(this).find("ASST_PURCHASE_TI").text();
+					ASST_VIEW();
+				}
+				display("#divASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
+			
+				required("#DEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
+				required("#CHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
+				required("#ASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
 				}
 			});
-			
-//			if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
-//				$("#TRANS_DATE,#PAY_DUE_DATE#,#BUSI_NO").blur();
-//			} else if(evidType=="EA") {
-//				$("#TRANS_DATE").blur();
-//			} else if(evidType=="EO") {
-//				$("#TRANS_DATE2,#PAY_DUE_DATE2#").blur();
-//			}
-
-			///////////////////////////////////////////////////////////////////////////////////////
-
+	
+	// if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
+	// $("#TRANS_DATE,#PAY_DUE_DATE#,#BUSI_NO").blur();
+	// } else if(evidType=="EA") {
+	// $("#TRANS_DATE").blur();
+	// } else if(evidType=="EO") {
+	// $("#TRANS_DATE2,#PAY_DUE_DATE2#").blur();
+	// }
+	
+	// /////////////////////////////////////////////////////////////////////////////////////
+	
 			var tableId = "", tableRowId = "";
 			if(evidType == "EO") {
 				tableId = "#deptTable2", tableRowId = "deptTableRow2";
 				$(tableId+" tbody").empty();
-
-//				if($(result).find("DETAIL_LIST").find("ROW").length==0) { 
-//					$(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr th").length+" align=center>"+I001+"</td></tr>");
-//				}
+	
+	// if($(result).find("DETAIL_LIST").find("ROW").length==0) {
+	// $(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr
+	// th").length+" align=center>"+I001+"</td></tr>");
+	// }
 				$(result).find("DETAIL_LIST").find("ROW").each(function() {
 					var drAmt = 0, crAmt = 0;
 					var drcrType = $(this).find("DRCR_TYPE").text();
@@ -954,90 +1257,91 @@ function RetrieveTemplate(tpltId,evidType) {
 						drAmt = $(this).find("AMT").text();
 					else
 						crAmt = $(this).find("AMT").text();
-
+	
 					$(tableId+" tbody").append("<tr id=\""+tableRowId+"_"+(++j)+"\">"
-			        +"<td align=center>"+$(this).find("ACCT_CODE").text()+"</td>"
-			        +"<td>"+$(this).find("ACCT_NAME").text()+"</td>"
-			        +"<td align=right>"+drAmt+"</td>"
-			        +"<td align=right>"+crAmt+"</td>"
-
-	                +"<td>"+$(this).find("DEPT_NAME").text()+"</td>"
-	                +"<td>"+$(this).find("PRD_NAME").text()+"</td>"
-	                +"<td>"+$(this).find("CHNL_NAME").text()+"</td>"
-	                +"<td class=hidden></td>"
-	                +"<td>"+$(this).find("AFS_NAME").text()+"</td>"
-	                +"<td>"+$(this).find("SUP_NAME").text()+"</td>"
-	                +"<td class=hidden></td>"
-	                +"<td>"+$(this).find("VAT_NAME").text()+"</td>"
-	                +"<td class=hidden></td>"
-	                +"<td class=hidden></td>"
-
-	                +"<td class=hidden>"+$(this).find("DRCR_TYPE").text()+"</td>"
-
-	                +"<td class=hidden>"+$(this).find("DEPT_CODE").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("PRD_CODE").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("CHNL_CODE").text()+"</td>"
-	                +"<td class=hidden></td>"
-	                +"<td class=hidden>"+$(this).find("AFS_TYPE").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("SUP_CODE").text()+"</td>"
-	                +"<td class=hidden></td>"
-	                +"<td class=hidden>"+$(this).find("VAT_TYPE").text()+"</td>"
-	                +"<td class=hidden></td>"
-	                +"<td class=hidden></td>"
-	                
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_1").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_2").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_3").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_4").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_5").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_6").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_7").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_8").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_9").text()+"</td>"
-	                +"<td class=hidden>"+$(this).find("ENTER_ANL_10").text()+"</td>"
-			        +"</tr>");
+							+"<td align=center>"+$(this).find("ACCT_CODE").text()+"</td>"
+							+"<td>"+$(this).find("ACCT_NAME").text()+"</td>"
+							+"<td align=right>"+drAmt+"</td>"
+							+"<td align=right>"+crAmt+"</td>"
+	
+							+"<td>"+$(this).find("DEPT_NAME").text()+"</td>"
+							+"<td>"+$(this).find("PRD_NAME").text()+"</td>"
+							+"<td>"+$(this).find("CHNL_NAME").text()+"</td>"
+							+"<td class=hidden></td>"
+							+"<td>"+$(this).find("AFS_NAME").text()+"</td>"
+							+"<td>"+$(this).find("SUP_NAME").text()+"</td>"
+							+"<td class=hidden></td>"
+							+"<td>"+$(this).find("VAT_NAME").text()+"</td>"
+							+"<td class=hidden></td>"
+							+"<td class=hidden></td>"
+	
+							+"<td class=hidden>"+$(this).find("DRCR_TYPE").text()+"</td>"
+	
+							+"<td class=hidden>"+$(this).find("DEPT_CODE").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("PRD_CODE").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("CHNL_CODE").text()+"</td>"
+							+"<td class=hidden></td>"
+							+"<td class=hidden>"+$(this).find("AFS_TYPE").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("SUP_CODE").text()+"</td>"
+							+"<td class=hidden></td>"
+							+"<td class=hidden>"+$(this).find("VAT_TYPE").text()+"</td>"
+							+"<td class=hidden></td>"
+							+"<td class=hidden></td>"
+	        
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_1").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_2").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_3").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_4").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_5").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_6").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_7").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_8").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_9").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ENTER_ANL_10").text()+"</td>"
+							+"</tr>");
 				});
 				totalDeptAmt2("#deptTable2");
 			} else {
 				tableId = "#deptTable1", tableRowId = "deptTableRow1";
 				$(tableId+" tbody").empty();
-
-//				if($(result).find("DETAIL_LIST").find("ROW").length==0) { 
-//					$(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr th").length+" align=center>"+I001+"</td></tr>");
-//				}
+	
+	// if($(result).find("DETAIL_LIST").find("ROW").length==0) {
+	// $(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr
+	// th").length+" align=center>"+I001+"</td></tr>");
+	// }
 				$(result).find("DETAIL_LIST").find("ROW").each(function() {
 					$(tableId+" tbody").append("<tr id=\""+tableRowId+"_"+(++j)+"\">"
-			        +"<td align=right>"+$(this).find("AMT").text()+"</td>"
-			        +"<td class=hidden>"+$(this).find("DEPT_CODE").text()+"</td>"
-			        +"<td>"+$(this).find("DEPT_NAME").text()+"</td>"
-			        +"<td class=hidden>"+$(this).find("CHNL_CODE").text()+"</td>"
-			        +"<td>"+$(this).find("CHNL_NAME").text()+"</td>"
-			        +"<td class=hidden>"+$(this).find("ASST_CODE").text()+"</td>"
-			        +"<td>"+$(this).find("ASST_NAME").text()+"</td>"
-			        +"</tr>");
+							+"<td align=right>"+$(this).find("AMT").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("DEPT_CODE").text()+"</td>"
+							+"<td>"+$(this).find("DEPT_NAME").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("CHNL_CODE").text()+"</td>"
+							+"<td>"+$(this).find("CHNL_NAME").text()+"</td>"
+							+"<td class=hidden>"+$(this).find("ASST_CODE").text()+"</td>"
+							+"<td>"+$(this).find("ASST_NAME").text()+"</td>"
+							+"</tr>");
 				});
 				totalDeptAmt1("#deptTable1");
 			}
-			
+	
 			$(tableId).trigger("update");
 			tableRowEvent(tableId,tableRowId,1);
-
+	
 			dataCnt = $(result).find("DETAIL_LIST").find("DETAIL_LIST_CNT").text();
 			if(dataCnt==null || dataCnt=="") dataCnt = 0;
-
+	
 			message(dataCnt+" "+I002);
 			isComplete = false;
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
-	});
+		});
+	}
 }
 function Insert() {
 	var jrnlNo   = $("#S_JRNL_NO").html();
 	if(jrnlNo=="") {
-		alert("전표번호가 존재하지 않습니다.");
+		$.msgBox({ title:"Warring", content:"전표번호가 존재하지 않습니다."});
 		return;
 	}
 	var evidType = $("#EVID_TYPE").val();
@@ -1045,38 +1349,33 @@ function Insert() {
 	if(!requiredValidate("#fromTable"+index))
 		return;
 
-	if(index == 2) {//기타
-//		if(!validDate($("#PAY_DUE_DATE2").val())) {
-//			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE2").html());
-//			$("#PAY_DUE_DATE2").focus();
-//			return;
-//		}
+	if(index == 2) {// 기타
 		if(!checkSpecialChar("#REMARK6")) { return; }
-		if($("#byteREMARK6").text()>40)  { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK6").text() +")"); $("#byteREMARK6").focus();  return; }
+		if($("#byteREMARK6").text()>40)  { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK6").text() +")"}); $("#byteREMARK6").focus();  return; }
 		if(!checkDataTable2("#deptTable2")) return;
 	} else {
 		if(!checkSpecialChar("#REMARK,#REMARK1,#REMARK2,#REMARK3,#REMARK4")) { return; }
-		if($("#byteREMARK").text()>40)  { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK").text() +")"); $("#byteREMARK").focus();  return; }
-		if($("#byteREMARK1").text()>40) { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK1").text()+")"); $("#byteREMARK1").focus(); return; }
-		if($("#byteREMARK2").text()>40) { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK2").text()+")"); $("#byteREMARK2").focus(); return; }
-		if($("#byteREMARK3").text()>40) { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK3").text()+")"); $("#byteREMARK3").focus(); return; }
-		if($("#byteREMARK4").text()>40) { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK4").text()+")"); $("#byteREMARK4").focus(); return; }
+		if($("#byteREMARK").text()>40)  { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK").text() +")"}); $("#byteREMARK").focus();  return; }
+		if($("#byteREMARK1").text()>40) { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK1").text() +")"}); $("#byteREMARK1").focus(); return; }
+		if($("#byteREMARK2").text()>40) { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK2").text() +")"}); $("#byteREMARK2").focus(); return; }
+		if($("#byteREMARK3").text()>40) { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK3").text() +")"}); $("#byteREMARK3").focus(); return; }
+		if($("#byteREMARK4").text()>40) { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK4").text() +")"}); $("#byteREMARK4").focus(); return; }
 		
 		if(!validDate($("#TRANS_DATE").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblTRANS_DATE").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblTRANS_DATE").html()});
 			$("#TRANS_DATE").focus();
 			return;
 		}
-//		if($("#ACCT_CODE").val()==fuelExpsType) {
+// if($("#ACCT_CODE").val()==fuelExpsType) {
 		if(fuelExpsType==$("#EXPS_TYPE_ID").val()) {
 			var totalAmt = $("#TOTAL_AMT").val().replaceAll(",","");
 			var km       = $("#REMARK4").val().replaceAll(",","");
 			if(isNaN(km*fuelUnitPrice)) {
-				alert("주행거리의 값이 옳바르지 않습니다!\n다시 입력해 주세요!");
+				$.msgBox({ title:"Warring", content:"주행거리의 값이 옳바르지 않습니다!\n다시 입력해 주세요!"});
 				$("#REMARK4").focus();
 			} else {
 				if((km*fuelUnitPrice)!=totalAmt) {
-					alert("유류비는 측정된 기준 금액과 다르게 입력할 수 없습니다! ");
+					$.msgBox({ title:"Warring", content:"유류비는 측정된 기준 금액과 다르게 입력할 수 없습니다!"});
 					return;
 				}
 			}
@@ -1084,68 +1383,68 @@ function Insert() {
 		if(!checkDataTable1("#deptTable1")) return;
 	}
 
-	if(evidType == 'EC') {//법인카드
+	if(evidType == 'EC') {// 법인카드
 		if(!vaildBusiNo($("#BUSI_NO").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			$("#BUSI_NO").focus();
 			return;
 		}
-	} else if(evidType == 'ET') {//세금계산서
+	} else if(evidType == 'ET') {// 세금계산서
 		if(!validDate($("#PAY_DUE_DATE").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html()});
 			$("#PAY_DUE_DATE").focus();
 			return;
 		}
 		if(!vaildBusiNo($("#BUSI_NO").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			$("#BUSI_NO").focus();
 			return;
 		}
 		if($("#validVENDOR_CODE2").val()!="true") {
-			alert($("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:$("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
-	} else if(evidType == 'EI') {//계산서
+	} else if(evidType == 'EI') {// 계산서
 		if(!validDate($("#PAY_DUE_DATE").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html()});
 			$("#PAY_DUE_DATE").focus();
 			return;
 		}
 		if(!vaildBusiNo($("#BUSI_NO").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			$("#BUSI_NO").focus();
 			return;
 		}
 		if($("#validVENDOR_CODE2").val()!="true") {
-			alert($("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:$("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
-	} else if(evidType == 'ER') {//기타영수증
+	} else if(evidType == 'ER') {// 기타영수증
 		if(!validDate($("#PAY_DUE_DATE").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html()});
 			$("#PAY_DUE_DATE").focus();
 			return;
 		}
 		if(!vaildBusiNo($("#BUSI_NO").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			$("#BUSI_NO").focus();
 			return;
 		}
 		if($("#validVENDOR_CODE2").val()!="true") {
-			alert($("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:$("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
-	} else if(evidType == 'EA') {//개인경비
+	} else if(evidType == 'EA') {// 개인경비
 		if($("#validVENDOR_CODE3").val()!="true") {
-			alert($("#lblVENDOR_CODE3").text()+" 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:$("#lblVENDOR_CODE3").text()+" 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
-	} else if(evidType == 'EO') {//기타
+	} else if(evidType == 'EO') {// 기타
 
 	}
 
 	if($("#deptTable"+index+" tbody tr").length==0) {
-		alert("부서를 입력해 주세요!");
+		$.msgBox({ title:"Warring", content:"부서를 입력해 주세요!"});
 		return;
 	}
 
@@ -1156,23 +1455,23 @@ function Insert1(jrnlNo,dataTable) {
 
 	var vndrCode = "", vndrName = "", useType = "";
 	var evidType = $("#EVID_TYPE").val();
-	if(evidType == 'EC') {//법인카드 
+	if(evidType == 'EC') {// 법인카드
 		vndrCode = $("#VENDOR_CODE1").val();
 		vndrName = getComboText("VENDOR_CODE1");
-	} else if(evidType == 'ET') {//세금계산서
+	} else if(evidType == 'ET') {// 세금계산서
 		vndrCode = $("#VENDOR_CODE2").val();
 		vndrName = $("#VENDOR_NAME2").val();
-	} else if(evidType == 'EI') {//계산서
+	} else if(evidType == 'EI') {// 계산서
 		vndrCode = $("#VENDOR_CODE2").val();
 		vndrName = $("#VENDOR_NAME2").val();
-	} else if(evidType == 'ER') {//기타영수증
+	} else if(evidType == 'ER') {// 기타영수증
 		vndrCode = $("#VENDOR_CODE2").val();
 		vndrName = $("#VENDOR_NAME2").val();
-	} else if(evidType == 'EA') {//개인경비
+	} else if(evidType == 'EA') {// 개인경비
 		vndrCode = $("#VENDOR_CODE3").val();
-		vndrName = $("#VENDOR_NAME3").val(); //getComboText("VENDOR_CODE3");
+		vndrName = $("#VENDOR_NAME3").val(); // getComboText("VENDOR_CODE3");
 		useType  = getRadioValue("USE_TYPE");
-	} else if(evidType == 'EO') {//기타
+	} else if(evidType == 'EO') {// 기타
 		vndrCode = "";
 		vndrName = "";
 	}
@@ -1215,14 +1514,13 @@ function Insert1(jrnlNo,dataTable) {
 			isComplete = true;
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
 function Insert2(jrnlNo,dataTable) {
 	if($("#DEBIT_TOTAL2").val() != $("#CREDIT_TOTAL2").val()) {
-		alert("차변합계와 대변합계가 일치하지 않습니다.");
+		$.msgBox({ title:"Warring", content:"차변합계와 대변합계가 일치하지 않습니다."});
 		return;
 	}
 	var deptData = getDataTable2(dataTable);
@@ -1266,8 +1564,7 @@ function Insert2(jrnlNo,dataTable) {
 
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
@@ -1276,7 +1573,7 @@ function Update() {
 	var jrnlNo  = $("#JRNL_NO").val();
 	var jrnlSeq = $("#JRNL_SEQ").val();
 	if(jrnlNo=="" || jrnlSeq=="") {
-		alert("해당 정보를 먼저 선택해 주세요!");
+		$.msgBox({ title:"Warring", content:"해당 정보를 먼저 선택해 주세요!"});
 		return;
 	}
 
@@ -1285,105 +1582,95 @@ function Update() {
 	if(!requiredValidate("#fromTable"+index))
 		return;
 
-	if(index == 2) {//기타
-//		if(!validDate($("#PAY_DUE_DATE2").val())) {
-//			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE2").html());
-//			$("#PAY_DUE_DATE2").focus();
-//			return;
-//		}
+	if(index == 2) {// 기타
 		if(!checkSpecialChar("#REMARK6")) { return; }
-		if($("#byteREMARK6").text()>40)  { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK6").text() +")"); $("#byteREMARK6").focus();  return; }
+		if($("#byteREMARK6").text()>40)  { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK6").text() +")"}); $("#byteREMARK6").focus();  return; }
 		if(!checkDataTable2("#deptTable2")) return;
 	} else {
-		if($("#byteREMARK").text()>40)  { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK").text() +")"); $("#byteREMARK").focus();  return; }
-		if($("#byteREMARK1").text()>40) { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK1").text()+")"); $("#byteREMARK1").focus(); return; }
-		if($("#byteREMARK2").text()>40) { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK2").text()+")"); $("#byteREMARK2").focus(); return; }
-		if($("#byteREMARK3").text()>40) { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK3").text()+")"); $("#byteREMARK3").focus(); return; }
-		if($("#byteREMARK4").text()>40) { alert("40 Bytes 이상 입력 불가! ("+$("#lblREMARK4").text()+")"); $("#byteREMARK4").focus(); return; }
+		if($("#byteREMARK").text()>40)  { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK").text() +")"}); $("#byteREMARK").focus();  return; }
+		if($("#byteREMARK1").text()>40) { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK1").text() +")"}); $("#byteREMARK1").focus(); return; }
+		if($("#byteREMARK2").text()>40) { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK2").text() +")"}); $("#byteREMARK2").focus(); return; }
+		if($("#byteREMARK3").text()>40) { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK3").text() +")"}); $("#byteREMARK3").focus(); return; }
+		if($("#byteREMARK4").text()>40) { $.msgBox({ title:"Warring", content:"40 Bytes 이상 입력 불가! ("+$("#lblREMARK4").text() +")"}); $("#byteREMARK4").focus(); return; }
 
 		if(!validDate($("#TRANS_DATE").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblTRANS_DATE").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblTRANS_DATE").html()});
 			$("#TRANS_DATE").focus();
 			return;
 		}
-//		if($("#ACCT_CODE").val()==fuelExpsType) {
+// if($("#ACCT_CODE").val()==fuelExpsType) {
 		if(fuelExpsType==$("#EXPS_TYPE_ID").val()) {
 			var totalAmt = $("#TOTAL_AMT").val().replaceAll(",","");
 			var km       = $("#REMARK4").val().replaceAll(",","");
 			if((km*fuelUnitPrice)!=totalAmt) {
-				alert("유류비는 측정된 기준 금액과 다르게 입력할 수 없습니다! ");
+				$.msgBox({ title:"Warring", content:"유류비는 측정된 기준 금액과 다르게 입력할 수 없습니다!"});
 				return;
 			}
 		}
 		if(!checkDataTable1("#deptTable1")) return;
 	}
 
-	if(evidType == 'EC') {//법인카드
+	if(evidType == 'EC') {// 법인카드
 		if(!vaildBusiNo($("#BUSI_NO").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			$("#BUSI_NO").focus();
 			return;
 		}
-	} else if(evidType == 'ET') {//세금계산서
+	} else if(evidType == 'ET') {// 세금계산서
 		if(!validDate($("#PAY_DUE_DATE").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html()});
 			$("#PAY_DUE_DATE").focus();
 			return;
 		}
 		if(!vaildBusiNo($("#BUSI_NO").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			$("#BUSI_NO").focus();
 			return;
 		}
 		if($("#validVENDOR_CODE2").val()!="true") {
-			alert($("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:$("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
-	} else if(evidType == 'EI') {//계산서
+	} else if(evidType == 'EI') {// 계산서
 		if(!validDate($("#PAY_DUE_DATE").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html()});
 			$("#PAY_DUE_DATE").focus();
 			return;
 		}
 		if(!vaildBusiNo($("#BUSI_NO").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			$("#BUSI_NO").focus();
 			return;
 		}
 		if($("#validVENDOR_CODE2").val()!="true") {
-			alert($("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:$("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
-	} else if(evidType == 'ER') {//기타영수증
+	} else if(evidType == 'ER') {// 기타영수증
 		if(!validDate($("#PAY_DUE_DATE").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE").html()});
 			$("#PAY_DUE_DATE").focus();
 			return;
 		}
 		if(!vaildBusiNo($("#BUSI_NO").val())) {
-			alert("입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html());
+			$.msgBox({ title:"Warring", content:"입력값이 옳바르지 않습니다.\n"+$("#lblBUSI_NO").html()});
 			$("#BUSI_NO").focus();
 			return;
 		}
 		if($("#validVENDOR_CODE2").val()!="true") {
-			alert($("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:$("#lblVENDOR_CODE2").text()+" 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
-	} else if(evidType == 'EA') {//개인경비
+	} else if(evidType == 'EA') {// 개인경비
 		if($("#validVENDOR_CODE3").val()!="true") {
-			alert($("#lblVENDOR_CODE3").text()+" 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:$("#lblVENDOR_CODE3").text()+" 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
-	} else if(evidType == 'EO') {//기타
-//		if(!validDate($("#PAY_DUE_DATE2").val())) {
-//			alert("입력값이 옳바르지 않습니다.\n"+$("#lblPAY_DUE_DATE2").html());
-//			$("#PAY_DUE_DATE2").focus();
-//			return;
-//		}
+	} else if(evidType == 'EO') {// 기타
 	}
 
 	if($("#deptTable"+index+" tbody tr").length==0) {
-		alert("부서를 입력해 주세요!");
+		$.msgBox({ title:"Warring", content:"부서를 입력해 주세요!"});
 		return;
 	}
 
@@ -1393,23 +1680,23 @@ function Update1(jrnlNo,jrnlSeq,dataTable) {
 	var deptData = getDataTable1(dataTable);
 	var vndrCode = "", vndrName = "", useType = "";
 	var evidType = $("#EVID_TYPE").val();
-	if(evidType == 'EC') {//법인카드 
+	if(evidType == 'EC') {// 법인카드
 		vndrCode = $("#VENDOR_CODE1").val();
 		vndrName = getComboText("VENDOR_CODE1");
-	} else if(evidType == 'ET') {//세금계산서
+	} else if(evidType == 'ET') {// 세금계산서
 		vndrCode = $("#VENDOR_CODE2").val();
 		vndrName = $("#VENDOR_NAME2").val();
-	} else if(evidType == 'EI') {//계산서
+	} else if(evidType == 'EI') {// 계산서
 		vndrCode = $("#VENDOR_CODE2").val();
 		vndrName = $("#VENDOR_NAME2").val();
-	} else if(evidType == 'ER') {//기타영수증
+	} else if(evidType == 'ER') {// 기타영수증
 		vndrCode = $("#VENDOR_CODE2").val();
 		vndrName = $("#VENDOR_NAME2").val();
-	} else if(evidType == 'EA') {//개인경비
+	} else if(evidType == 'EA') {// 개인경비
 		vndrCode = $("#VENDOR_CODE3").val();
-		vndrName = $("#VENDOR_NAME3").val(); //getComboText("VENDOR_CODE3");
+		vndrName = $("#VENDOR_NAME3").val(); // getComboText("VENDOR_CODE3");
 		useType  = getRadioValue("USE_TYPE");
-	} else if(evidType == 'EO') {//기타
+	} else if(evidType == 'EO') {// 기타
 		vndrCode = "";
 		vndrName = "";
 	}
@@ -1453,18 +1740,17 @@ function Update1(jrnlNo,jrnlSeq,dataTable) {
 			isComplete = true;
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
 function Update2(jrnlNo,jrnlSeq,dataTable) {
 	if($("#DEBIT_TOTAL2").val() != $("#CREDIT_TOTAL2").val()) {
-		alert("차변합계와 대변합계가 일치하지 않습니다.");
+		$.msgBox({ title:"Warring", content:"차변합계와 대변합계가 일치하지 않습니다."});
 		return;
 	}
 	if($("#"+dataTable+" tbody tr").length==0) {
-		alert("부서를 입력해 주세요!");
+		$.msgBox({ title:"Warring", content:"부서를 입력해 주세요!"});
 		return false;
 	}
 	var deptData = getDataTable2(dataTable);
@@ -1508,39 +1794,45 @@ function Update2(jrnlNo,jrnlSeq,dataTable) {
 			isComplete = true;
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
 function Delete() {
-	if(!window.confirm(W002)) { 
-	    return false;
-	}
-	var jrnlNo  = $("#JRNL_NO").val();
-	var jrnlSeq = $("#JRNL_SEQ").val();
+	$.msgBox({
+	    title: "Notice",
+	    content: W002,
+	    type: "confirm",
+	    buttons: [{ value: "Yes" }, { value: "No" }],
+	    success: function (result) {
+	        if (result == "Yes") {
+				var jrnlNo  = $("#JRNL_NO").val();
+				var jrnlSeq = $("#JRNL_SEQ").val();
 
-	var action = "scn1.do?method=AA010DetailDelete";
-	var params = "&JRNL_NO="+jrnlNo
-	           + "&JRNL_SEQ="+jrnlSeq
-	           + "&call=xml";
+				var action = "scn1.do?method=AA010DetailDelete";
+				var params = "&JRNL_NO="+jrnlNo
+				           + "&JRNL_SEQ="+jrnlSeq
+				           + "&call=xml";
 
-	$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
-		success: function(result){
-			if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
-				return false; 
+				$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
+					success: function(result){
+						if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+							return false; 
+						}
+						RetrieveDetail(jrnlNo);
+						message(I003);
+						isComplete = true;
+					},
+					error: function(xhr, ajaxOptions, thrownError){
+						$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
+					}
+				});
 			}
-			RetrieveDetail(jrnlNo);
-			message(I003);
-			isComplete = true;
-		},
-		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
-		}
+			else return false;
+	    }
 	});
 }
-//-------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
 function Add(index) {
 	index += 1;
@@ -1550,7 +1842,7 @@ function Add(index) {
 
 	if(index == 2) {
 		if($("#validACCT_CODE2").val()!="true") {
-			alert("계정과목 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:"계정과목 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
 		
@@ -1611,7 +1903,7 @@ function Add(index) {
 		$("#ACCT_CODE2").focus();
 	} else {
 		if($("#EXPS_TYPE_ID").val()=="") {
-			alert("비용구분을 먼저 선택해 주세요!");
+			$.msgBox({ title:"Warring", content:"비용구분을 먼저 선택해 주세요!"});
 			return;
 		}
 		$(tableId+" tbody").append("<tr id=\""+tableRowId+"_"+(++j)+"\">"
@@ -1633,13 +1925,13 @@ function Add(index) {
 	tableRowEvent(tableId,tableRowId,1);
 	tableRowColor(tableId,j);
 	isComplete = false;
-//	Clear();
+// Clear();
 }
 function Edit(index) {
 	index += 1;
 	var j = $("#rowIndex"+index).val();
 	if(j == null || j == '' || isNaN(j)) {
-		alert("해당 항목을 먼저 선택해주세요!");
+		$.msgBox({ title:"Warring", content:"해당 항목을 먼저 선택해주세요!"});
 		return;
 	}
 
@@ -1648,7 +1940,7 @@ function Edit(index) {
 	var tableId = "#deptTable"+index, tableRowId = "deptTableRow"+index;
 	if(index==2) {
 		if($("#validACCT_CODE2").val()!="true") {
-			alert("계정과목 코드 또는 명이 옯바르지 않습니다!");
+			$.msgBox({ title:"Warring", content:"계정과목 코드 또는 명이 옯바르지 않습니다!"});
 			return;
 		}
 
@@ -1668,26 +1960,26 @@ function Edit(index) {
 			$(this).find("td:eq(4)").text(getComboText("DEPT_CODE2"));
 			$(this).find("td:eq(5)").text(getComboText("PRD_CODE2"));
 			$(this).find("td:eq(6)").text(getComboText("CHNL_CODE2"));
-//			$(this).find("td:eq(7)").text(getComboText(""));
+// $(this).find("td:eq(7)").text(getComboText(""));
 			$(this).find("td:eq(8)").text(getComboText("AFS_TYPE2"));
 			$(this).find("td:eq(9)").text(getComboText("SUP_CODE2"));
-//			$(this).find("td:eq(10)").text(getComboText(""));
+// $(this).find("td:eq(10)").text(getComboText(""));
 			$(this).find("td:eq(11)").text(getComboText("VAT_TYPE2"));
-//			$(this).find("td:eq(12)").text(getComboText(""));
-//			$(this).find("td:eq(13)").text(getComboText(""));
+// $(this).find("td:eq(12)").text(getComboText(""));
+// $(this).find("td:eq(13)").text(getComboText(""));
 
 			$(this).find("td:eq(14)").text($("#DRCR_TYPE2").val());
 
 			$(this).find("td:eq(15)").text($("#DEPT_CODE2").val());
 			$(this).find("td:eq(16)").text($("#PRD_CODE2").val());
 			$(this).find("td:eq(17)").text($("#CHNL_CODE2").val());
-//			$(this).find("td:eq(18)").text($("#").val());
+// $(this).find("td:eq(18)").text($("#").val());
 			$(this).find("td:eq(19)").text($("#AFS_TYPE2").val());
 			$(this).find("td:eq(20)").text($("#SUP_CODE2").val());
-//			$(this).find("td:eq(21)").text($("#").val());
+// $(this).find("td:eq(21)").text($("#").val());
 			$(this).find("td:eq(22)").text($("#VAT_TYPE2").val());
-//			$(this).find("td:eq(23)").text($("#").val());
-//			$(this).find("td:eq(24)").text($("#").val());
+// $(this).find("td:eq(23)").text($("#").val());
+// $(this).find("td:eq(24)").text($("#").val());
 
 			$(this).find("td:eq(25)").text($("#ENTER_ANL_1").val());
 			$(this).find("td:eq(26)").text($("#ENTER_ANL_2").val());
@@ -1721,14 +2013,14 @@ function Edit(index) {
 	tableRowEvent(tableId,tableRowId,1);
 	tableRowColor(tableId,j);
 	isComplete = false;
-//	Clear();
+// Clear();
 }
 function Remove(index) {
 	index += 1;
 
 	var j = $("#rowIndex"+index).val();
 	if(j == null || j == '' || isNaN(j)) {
-		alert("해당 항목을 먼저 선택해주세요!");
+		$.msgBox({ title:"Warring", content:"해당 항목을 먼저 선택해주세요!"});
 		return;
 	}
 
@@ -1751,11 +2043,11 @@ function Remove(index) {
 	}
 	isComplete = false;
 }
-//-------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 function RetrievePaymethod() {
 	var objId = "#PAY_METHOD_TYPE2,#PAY_METHOD_TYPE3,#PAY_METHOD_TYPE4,#PAY_METHOD_TYPE5,#PAY_METHOD_TYPE6";
 	$(objId).empty();
-	$(objId).append("<option value=\"\">선택해주세요!</option>");
+	$(objId).append("<option value=\"\">--Select--</option>");
 
 	var action = "ssc.do?method=AnalyissCodes";
 	var params = "&ANALYISS_TYPE=PAYMENTMETHOD&call=xml";
@@ -1773,8 +2065,7 @@ function RetrievePaymethod() {
 			$(objId).trigger("update");
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
@@ -1897,13 +2188,12 @@ function RetrieveInfo(vndrCode) {
 			});
 		},
 		error: function(xhr, ajaxOptions, thrownError){
-			alert(xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError); 
-//			alert(xhr.responseText); //for debuging 
+			$.msgBox({ title:"Warring", content:xhr.statusText+"\r\n"+ajaxOptions+"\r\n"+thrownError});
 		}
 	});
 }
 
-//비용구분
+// 비용구분
 function RetrieveRemark(obj) {
 	$("#lblREMARK1,#lblREMARK2,#lblREMARK3,#lblREMARK4").html("");
 	$("#REMARK1,#REMARK2,#REMARK3,#REMARK4").val("");
@@ -1956,24 +2246,20 @@ function RetrieveRemark(obj) {
 				display("#divDEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
 				display("#divCHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
 				/*
-				$("#lblREMARK6").css("display","none");
-				$("#lblREMARK7").css("display","none");
-				$("#lblREMARK8").css("display","none");
-				
-				if($(this).find("ENTER_ANL_1").text()=="1")
-				{
-					$("#lblREMARK6").css("display","block");
-				}
-				if($(this).find("ENTER_ANL_3").text()=="1")
-				{
-					$("#lblREMARK7").css("display","block");
-				}
-				*/
+				 * $("#lblREMARK6").css("display","none");
+				 * $("#lblREMARK7").css("display","none");
+				 * $("#lblREMARK8").css("display","none");
+				 * 
+				 * if($(this).find("ENTER_ANL_1").text()=="1") {
+				 * $("#lblREMARK6").css("display","block"); }
+				 * if($(this).find("ENTER_ANL_3").text()=="1") {
+				 * $("#lblREMARK7").css("display","block"); }
+				 */
 				if($(this).find("ASST_PURCHASE_YN").text()=="Y")
 				{
 					temp_ASST = $(this).find("ASST_PURCHASE_TI").text();
 					ASST_VIEW();
-				//	$("#lblREMARK8").css("display","block");
+				// $("#lblREMARK8").css("display","block");
 				}
 				
 				
@@ -2040,27 +2326,27 @@ function PopupAcct() {
 		$("#ENTER_ANL_9").val(retVal.ENTER_ANL_9);
 		$("#ENTER_ANL_10").val(retVal.ENTER_ANL_10);
 
-		display("#divDEPT_CODE2",(retVal.ENTER_ANL_1 =="1")); //부서
-		display("#divPRD_CODE2", (retVal.ENTER_ANL_2 =="1")); //상품
-		display("#divCHNL_CODE2",(retVal.ENTER_ANL_3 =="1")); //채널 
-//		display("#div          ",(retVal.ENTER_ANL_4 =="1")); //
-		display("#divAFS_TYPE2", (retVal.ENTER_ANL_5 =="1")); //채권구분
-		display("#divSUP_CODE2", (retVal.ENTER_ANL_6 =="1")); //거래처
-//		display("#div          ",(retVal.ENTER_ANL_7 =="1")); //지급방법
-		display("#divVAT_TYPE2", (retVal.ENTER_ANL_8 =="1")); //부가세구분
-//		display("#div          ",(retVal.ENTER_ANL_9 =="1")); //
-//		display("#div          ",(retVal.ENTER_ANL_10=="1")); //
+		display("#divDEPT_CODE2",(retVal.ENTER_ANL_1 =="1")); // 부서
+		display("#divPRD_CODE2", (retVal.ENTER_ANL_2 =="1")); // 상품
+		display("#divCHNL_CODE2",(retVal.ENTER_ANL_3 =="1")); // 채널
+// display("#div ",(retVal.ENTER_ANL_4 =="1")); //
+		display("#divAFS_TYPE2", (retVal.ENTER_ANL_5 =="1")); // 채권구분
+		display("#divSUP_CODE2", (retVal.ENTER_ANL_6 =="1")); // 거래처
+// display("#div ",(retVal.ENTER_ANL_7 =="1")); //지급방법
+		display("#divVAT_TYPE2", (retVal.ENTER_ANL_8 =="1")); // 부가세구분
+// display("#div ",(retVal.ENTER_ANL_9 =="1")); //
+// display("#div ",(retVal.ENTER_ANL_10=="1")); //
 
 		required("#DEPT_CODE2",  (retVal.ENTER_ANL_1 =="1"));
 		required("#PRD_CODE2",   (retVal.ENTER_ANL_2 =="1"));
 		required("#CHNL_CODE2",  (retVal.ENTER_ANL_3 =="1"));
-//		required("#          ",  (retVal.ENTER_ANL_4 =="1"));
+// required("# ", (retVal.ENTER_ANL_4 =="1"));
 		required("#AFS_TYPE2",   (retVal.ENTER_ANL_5 =="1"));
 		required("#SUP_CODE2",   (retVal.ENTER_ANL_6 =="1"));
 		required("#PAY_METHOD_TYPE2", (retVal.ENTER_ANL_7=="1"));
 		required("#VAT_TYPE2",   (retVal.ENTER_ANL_8 =="1"));
-//		required("#          ",  (retVal.ENTER_ANL_9 =="1"));
-//		required("#          ",  (retVal.ENTER_ANL_10=="1"));
+// required("# ", (retVal.ENTER_ANL_9 =="1"));
+// required("# ", (retVal.ENTER_ANL_10=="1"));
 
 		$("#DEPT_AMT2").focus();
 	}
@@ -2175,11 +2461,11 @@ function bindData(obj) {
 			$("#validVENDOR_CODE3").val("true");
 			var useType = obj.cells[26].innerText;
 			setRadioValue("USE_TYPE",useType);
-//			if(useType=="CC") {
-//				$("#BUSI_NO").val(obj.cells[23].innerText);
-//				display("#BUSI_NO",true);
-//				readonly("#BUSI_NO",false);
-//			}
+// if(useType=="CC") {
+// $("#BUSI_NO").val(obj.cells[23].innerText);
+// display("#BUSI_NO",true);
+// readonly("#BUSI_NO",false);
+// }
 		}
 
 		$("#COMPANY_NAME").val(    obj.cells[22].innerText);
@@ -2203,8 +2489,8 @@ function bindData(obj) {
 		$("#ASST_PURCHASE_YN").val(obj.cells[32].innerText);
 		$("#CC_CARD_INPUT_YN").val(obj.cells[33].innerText);
 
-		$("#ENTER_ANL_1").val(     obj.cells[34].innerText);  //부서
-		$("#ENTER_ANL_3").val(     obj.cells[36].innerText);  //채널
+		$("#ENTER_ANL_1").val(     obj.cells[34].innerText);  // 부서
+		$("#ENTER_ANL_3").val(     obj.cells[36].innerText);  // 채널
 
 		display("#divASST_CODE1",( obj.cells[32].innerText=="Y"));
 		display("#divDEPT_CODE1",( obj.cells[34].innerText=="1"));
@@ -2219,7 +2505,7 @@ function bindData(obj) {
 function bindDataDeptTable(obj,index) {
 	requiredClear();
 	$("#rowIndex"+index).val(obj.rowIndex);
-	if(index == 2) { //6.기타
+	if(index == 2) { // 6.기타
 		var amt = 0;
 		var drcrType = obj.cells[14].innerText;
 		if(drcrType=="D")
@@ -2236,13 +2522,13 @@ function bindDataDeptTable(obj,index) {
 		$("#DEPT_CODE2").val(obj.cells[15].innerText);
 		$("#PRD_CODE2").val( obj.cells[16].innerText);
 		$("#CHNL_CODE2").val(obj.cells[17].innerText);
-//		$("#          ").val(obj.cells[18].innerText);
+// $("# ").val(obj.cells[18].innerText);
 		$("#AFS_TYPE2").val( obj.cells[19].innerText);
 		$("#SUP_CODE2").val( obj.cells[20].innerText);
-//		$("#PAY_METHOD_TYPE2").val(obj.cells[21].innerText);
+// $("#PAY_METHOD_TYPE2").val(obj.cells[21].innerText);
 		$("#VAT_TYPE2").val( obj.cells[22].innerText);
-//		$("#          ").val(obj.cells[23].innerText);
-//		$("#          ").val(obj.cells[24].innerText);
+// $("# ").val(obj.cells[23].innerText);
+// $("# ").val(obj.cells[24].innerText);
 
 		disabled("#btnEdit2,#btnRemove2",false);
 
@@ -2250,40 +2536,40 @@ function bindDataDeptTable(obj,index) {
 			$("#ENTER_ANL_"+(i+1)).val(obj.cells[25+i].innerText);
 		}
 
-		var enterAnl1  = obj.cells[25].innerText; //부서
-		var enterAnl2  = obj.cells[26].innerText; //상품
-		var enterAnl3  = obj.cells[27].innerText; //채널
+		var enterAnl1  = obj.cells[25].innerText; // 부서
+		var enterAnl2  = obj.cells[26].innerText; // 상품
+		var enterAnl3  = obj.cells[27].innerText; // 채널
 		var enterAnl4  = obj.cells[28].innerText;
-		var enterAnl5  = obj.cells[29].innerText; //채권구분
-		var enterAnl6  = obj.cells[30].innerText; //거래처
-		var enterAnl7  = obj.cells[31].innerText; //지급방법
-		var enterAnl8  = obj.cells[32].innerText; //부가세구분
+		var enterAnl5  = obj.cells[29].innerText; // 채권구분
+		var enterAnl6  = obj.cells[30].innerText; // 거래처
+		var enterAnl7  = obj.cells[31].innerText; // 지급방법
+		var enterAnl8  = obj.cells[32].innerText; // 부가세구분
 		var enterAnl9  = obj.cells[33].innerText;
 		var enterAnl10 = obj.cells[34].innerText;
 
 		display("#divDEPT_CODE2",(enterAnl1 =="1"));
 		display("#divPRD_CODE2", (enterAnl2 =="1"));
 		display("#divCHNL_CODE2",(enterAnl3 =="1"));
-//		display("#div          ",(enterAnl4 =="1"));
+// display("#div ",(enterAnl4 =="1"));
 		display("#divAFS_TYPE2", (enterAnl5 =="1"));
 		display("#divSUP_CODE2", (enterAnl6 =="1"));
-//		display("#div          ",(enterAnl7 =="1"));
+// display("#div ",(enterAnl7 =="1"));
 		display("#divVAT_TYPE2", (enterAnl8 =="1"));
-//		display("#div          ",(enterAnl9 =="1"));
-//		display("#div          ",(enterAnl10=="1"));
+// display("#div ",(enterAnl9 =="1"));
+// display("#div ",(enterAnl10=="1"));
 
 		required("#DEPT_CODE2",  (enterAnl1 =="1"));
 		required("#PRD_CODE2",   (enterAnl2 =="1"));
 		required("#CHNL_CODE2",  (enterAnl3 =="1"));
-//		required("#          ",  (enterAnl4 =="1"));
+// required("# ", (enterAnl4 =="1"));
 		required("#AFS_TYPE2",   (enterAnl5 =="1"));
 		required("#SUP_CODE2",   (enterAnl6 =="1"));
-//		required("#         ",   (enterAnl7 =="1"));
+// required("# ", (enterAnl7 =="1"));
 		required("#VAT_TYPE2",   (enterAnl8 =="1"));
-//		required("#         ",   (enterAnl9 =="1"));
-//		required("#         ",   (enterAnl10=="1"));
+// required("# ", (enterAnl9 =="1"));
+// required("# ", (enterAnl10=="1"));
 
-	} else {        //1.2.3.4.5 
+	} else {        // 1.2.3.4.5
 		setNumber("#DEPT_AMT1",obj.cells[0].innerText);
 		$("#DEPT_CODE1").val(obj.cells[1].innerText);
 		$("#CHNL_CODE1").val(obj.cells[2].innerText);
@@ -2297,6 +2583,16 @@ function bindDataFindTable(obj,code,name) {
 	$("#findTable tbody").empty();
 }
 function tabEvent(index) {
+	isComplete = true;
+	isComplete2 = true;
+	required("#REMARK1,#REMARK2,#REMARK3,#REMARK4",false);
+	if(tabid == 1){
+		tabid = index;
+	}
+	else{
+		tabid = index-1;
+	}
+	
 	if(index == 6) {
 		$('#fromTable2').clearForm();
 		$("#deptTable2 tbody").empty();
@@ -2314,7 +2610,8 @@ function tabEvent(index) {
 		$("#byteREMARK3").text(checkByteLen($("#REMARK3").val()));
 		$("#byteREMARK4").text(checkByteLen($("#REMARK4").val()));
 	}
-
+	$("#DRCR_TYPE2").val("D");
+	Screen_Setup();
 	Clear();
 
 	if(index == 6) {
@@ -2335,51 +2632,44 @@ function tabEvent(index) {
 		}
 	}
 
-	$("#lblTRANS_DATE").html("거래일자");
-	$("#lblPAY_DUE_DATE").html("지급요청일자");
-	$("#lblPAY_METHOD_TYPE").html("지급방법");
-	$("#lblVENDOR_CODE").html("거래처");
-	$("#lblCOMPANY_NAME").html("거래처명");
-	$("#lblBUSI_NO").html("사업자번호");
-	$("#lblSUPPLY_AMT").html("공급가액");
-	$("#lblVAT_AMT").html("세액");
-	$("#DRCR_TYPE2").val("D");
-
 	display("#REMARK1,#REMARK2,#REMARK3,#REMARK4",false);
 
 	if(index == 1) {
-		$("#EVID_TYPE").val("EC"); //법인카드
-		$("#lblTRANS_DATE").html("승인일자");
-		$("#lblVENDOR_CODE").html("카드번호");
+		$("#EVID_TYPE").val("EC"); // 법인카드
+		$("#lblTRANS_DATE").html(S009);
+		$("#lblVENDOR_CODE").html(S008);
 		$("#lblPAY_DUE_DATE,#lblPAY_METHOD_TYPE").html("");
 		
 		display("#PAY_DUE_DATE,#PAY_METHOD_TYPE,#divVENDOR_CODE2,#divVENDOR_CODE3,#divUSE_TYPE",false);
 		display("#divVENDOR_CODE1,#COMPANY_NAME,#BUSI_NO,#SUPPLY_AMT,#VAT_AMT",true);
 		readonly("#COMPANY_NAME,#BUSI_NO",false);
 	} else if(index == 2) {
-		$("#EVID_TYPE").val("ET"); //세금계산서
-		$("#lblTRANS_DATE").html("작성일자");
-		$("#lblTRANS_CODE").html("거래처");
+		$("#EVID_TYPE").val("ET"); // 세금계산서
+		$("#lblVENDOR_CODE").html(S018);
+		$("#lblTRANS_DATE").html(S003);
 
 		display("#divVENDOR_CODE1,#divVENDOR_CODE3,#divUSE_TYPE",false);
 		display("#PAY_DUE_DATE,#PAY_METHOD_TYPE,#divVENDOR_CODE2,#COMPANY_NAME,#BUSI_NO,#SUPPLY_AMT,#VAT_AMT",true);
 		readonly("#COMPANY_NAME,#BUSI_NO",true);
 	} else if(index == 3) {
-		$("#EVID_TYPE").val("EI"); //계산서
-		$("#lblTRANS_DATE").html("작성일자");
+		$("#EVID_TYPE").val("EI"); // 계산서
+		$("#lblVENDOR_CODE").html(S018);
+		$("#lblTRANS_DATE").html(S003);
+		$("#lblSUPPLY_AMT,#lblVAT_AMT").html("");
 
 		display("#divVENDOR_CODE1,#divVENDOR_CODE3,#divUSE_TYPE,#SUPPLY_AMT,#VAT_AMT",false);
 		display("#PAY_DUE_DATE,#PAY_METHOD_TYPE,#divVENDOR_CODE2,#COMPANY_NAME,#BUSI_NO",true);
 		readonly("#COMPANY_NAME,#BUSI_NO",true);
 	} else if(index == 4) {
-		$("#EVID_TYPE").val("ER"); //기타영수증
+		$("#EVID_TYPE").val("ER"); // 기타영수증
+		$("#lblVENDOR_CODE").html(S018);
 		$("#lblSUPPLY_AMT,#lblVAT_AMT").html("");
 
 		display("#divVENDOR_CODE1,#divVENDOR_CODE3,#divUSE_TYPE,#SUPPLY_AMT,#VAT_AMT",false);
 		display("#PAY_DUE_DATE,#PAY_METHOD_TYPE,#divVENDOR_CODE2,#COMPANY_NAME,#BUSI_NO",true);
 		readonly("#COMPANY_NAME,#BUSI_NO",true);
 	} else if(index == 5) {
-		$("#EVID_TYPE").val("EA"); //개인경비
+		$("#EVID_TYPE").val("EA"); // 개인경비
 		$("#lblBUSI_NO,#lblSUPPLY_AMT,#lblVAT_AMT,#lblPAY_DUE_DATE,#lblPAY_METHOD_TYPE").html("");
 		setRadioValue("USE_TYPE","CC");
 		
@@ -2389,10 +2679,10 @@ function tabEvent(index) {
 		display("#divVENDOR_CODE3,#divUSE_TYPE",true);
 		readonly("#COMPANY_NAME,#BUSI_NO",true);
 
-		$("#lblVENDOR_CODE").html("사원");
-		$("#lblCOMPANY_NAME").html("사용구분");
+		$("#lblVENDOR_CODE").html(S019);
+		$("#lblCOMPANY_NAME").html(S020);
 	} else if(index == 6) {
-		$("#EVID_TYPE").val("EO"); //Other
+		$("#EVID_TYPE").val("EO"); // Other
 	}
 }
 
@@ -2403,7 +2693,7 @@ function totalDeptAmt1(tableId) {
 		totalAmt += parseInt(tableRows[n].cells[0].innerHTML.replaceAll(",",""));
 	});
 
-//	supplyAmt = Math.ceil((totalAmt*parseInt(vatRate))/11);
+// supplyAmt = Math.ceil((totalAmt*parseInt(vatRate))/11);
 	supplyAmt = Math.ceil((totalAmt/(1+parseInt(vatRate)/100)));
 	vatAmt    = totalAmt-supplyAmt;
 
@@ -2441,7 +2731,7 @@ function getDataTable1(dataTable) {
 	});
 	return returnData;
 }
-//데이터 테이블 생성2
+// 데이터 테이블 생성2
 function getDataTable2(dataTable) {
 	var returnData = "";
 	var tableRows = $("#"+dataTable+" tbody tr");
@@ -2453,27 +2743,27 @@ function getDataTable2(dataTable) {
 		else
 			amt = tableRows[n].cells[3].innerHTML.replaceAll(",","");
 		
-		//계정코드^계정명^차대구분^금액^부서코드^부서명^상품코드^상품명^채널코드^채널명^^^채권구분^채권구분명^거래처코드^거래처명^부가세구분^부가세구분명^^^^
+		// 계정코드^계정명^차대구분^금액^부서코드^부서명^상품코드^상품명^채널코드^채널명^^^채권구분^채권구분명^거래처코드^거래처명^부가세구분^부가세구분명^^^^
 		if(n > 0) returnData += "|";
-		returnData += tableRows[n].cells[0].innerHTML.trim()+"^"  //계정코드
-        			+ tableRows[n].cells[1].innerHTML+"^"         //계정명
-        			+ tableRows[n].cells[14].innerHTML.trim()+"^" //차대구분
-		            + amt+"^"                                     //금액
-		            + tableRows[n].cells[15].innerHTML.trim()+"^" //부서코드
-		            + tableRows[n].cells[4].innerHTML+"^"         //부서명
-		            + tableRows[n].cells[16].innerHTML.trim()+"^" //상품코드
-		            + tableRows[n].cells[5].innerHTML+"^"         //상품명
-		            + tableRows[n].cells[17].innerHTML.trim()+"^" //채널코드
-		            + tableRows[n].cells[6].innerHTML+" "         //채널명
-		            +"^"                                          //^
-		            + tableRows[n].cells[18].innerHTML.trim()+"^" //채권구분
-		            + tableRows[n].cells[7].innerHTML+"^"         //채권명
-		            + tableRows[n].cells[19].innerHTML.trim()+"^" //거래처코드
-		            + tableRows[n].cells[8].innerHTML+"^"         //거래처명
-		            + tableRows[n].cells[20].innerHTML.trim()+"^" //부가세구분
-		            + tableRows[n].cells[9].innerHTML+"^"         //부가세구분명
-		            + tableRows[n].cells[21].innerHTML.trim()+"^" //^
-		            + tableRows[n].cells[10].innerHTML+"^"        //^
+		returnData += tableRows[n].cells[0].innerHTML.trim()+"^"  // 계정코드
+        			+ tableRows[n].cells[1].innerHTML+"^"         // 계정명
+        			+ tableRows[n].cells[14].innerHTML.trim()+"^" // 차대구분
+		            + amt+"^"                                     // 금액
+		            + tableRows[n].cells[15].innerHTML.trim()+"^" // 부서코드
+		            + tableRows[n].cells[4].innerHTML+"^"         // 부서명
+		            + tableRows[n].cells[16].innerHTML.trim()+"^" // 상품코드
+		            + tableRows[n].cells[5].innerHTML+"^"         // 상품명
+		            + tableRows[n].cells[17].innerHTML.trim()+"^" // 채널코드
+		            + tableRows[n].cells[6].innerHTML+" "         // 채널명
+		            +"^"                                          // ^
+		            + tableRows[n].cells[18].innerHTML.trim()+"^" // 채권구분
+		            + tableRows[n].cells[7].innerHTML+"^"         // 채권명
+		            + tableRows[n].cells[19].innerHTML.trim()+"^" // 거래처코드
+		            + tableRows[n].cells[8].innerHTML+"^"         // 거래처명
+		            + tableRows[n].cells[20].innerHTML.trim()+"^" // 부가세구분
+		            + tableRows[n].cells[9].innerHTML+"^"         // 부가세구분명
+		            + tableRows[n].cells[21].innerHTML.trim()+"^" // ^
+		            + tableRows[n].cells[10].innerHTML+"^"        // ^
                     + tableRows[n].cells[22].innerHTML.trim()+"^"
 		            + tableRows[n].cells[11].innerHTML+"^"
 		            + tableRows[n].cells[23].innerHTML.trim()+"^"
@@ -2493,21 +2783,21 @@ function checkDataTable1(tableId) {
 	var retval = true;
 	$(tableId+" tbody>tr").each(function() {
 		if(enterAnl1=="1" && $(this).find("td:eq(1)").text()=="") {
-			alert("부서를 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"부서를 입력해 주세요!"});
 			retval = false;
 		} else if(enterAnl1!="1") {
 			$(this).find("td:eq(1)").text("");
 			$(this).find("td:eq(2)").text("");
 		}
 		if(enterAnl3=="1" && $(this).find("td:eq(3)").text()=="") {
-			alert("채널을 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"채널을 입력해 주세요!"});
 			retval = false;
 		} else if(enterAnl3!="1") {
 			$(this).find("td:eq(3)").text("");
 			$(this).find("td:eq(4)").text("");
 		}
 		if(asstPurchaseYn=="Y" && $(this).find("td:eq(5)").text()=="") {
-			alert("자산을 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"자산을 입력해 주세요!"});
 			retval = false;
 		} else if(asstPurchaseYn!="Y") {
 			$(this).find("td:eq(5)").text("");
@@ -2520,91 +2810,70 @@ function checkDataTable2(tableId) {
 	var retval = true;
 	$(tableId+" tbody>tr").each(function() {
 		if($(this).find("td:eq(25)").text() == "1" && $(this).find("td:eq(15)").text() == "") {
-			alert("부서를 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"부서를 입력해 주세요!"});
 			retval = false;
 		} else if($(this).find("td:eq(25)").text() != "1") {
 			$(this).find("td:eq(4)").text("");
 			$(this).find("td:eq(15)").text("");
 		}
 		if($(this).find("td:eq(26)").text() == "1" && $(this).find("td:eq(16)").text() == "") {
-			alert("상품를 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"상품를 입력해 주세요!"});
 			retval = false;
 		} else if($(this).find("td:eq(26)").text() != "1") {
 			$(this).find("td:eq(5)").text("");
 			$(this).find("td:eq(16)").text("");
 		}
 		if($(this).find("td:eq(27)").text() == "1" && $(this).find("td:eq(17)").text() == "") {
-			alert("채널을 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"채널을 입력해 주세요!"});
 			retval = false;
 		} else if($(this).find("td:eq(27)").text() != "1") {
 			$(this).find("td:eq(6)").text("");
 			$(this).find("td:eq(17)").text("");
 		}
-//		if($(this).find("td:eq(28)").text() == "1" && $(this).find("td:eq(18)").text() == "") {
-//			alert("    을 입력해 주세요!");
-//			retval = false;
-//		} else if($(this).find("td:eq(28)").text() != "1") {
-//			$(this).find("td:eq(7)").text("");
-//			$(this).find("td:eq(18)").text("");
-//		}
 		if($(this).find("td:eq(29)").text() == "1" && $(this).find("td:eq(19)").text() == "") {
-			alert("채권구분을 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"채권구분을 입력해 주세요!"});
 			retval = false;
 		} else if($(this).find("td:eq(29)").text() != "1") {
 			$(this).find("td:eq(8)").text("");
 			$(this).find("td:eq(19)").text("");
 		}
 		if($(this).find("td:eq(30)").text() == "1" && $(this).find("td:eq(20)").text() == "") {
-			alert("거래처을 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"거래처을 입력해 주세요!"});
 			retval = false;
 		} else if($(this).find("td:eq(30)").text() != "1") {
 			$(this).find("td:eq(9)").text("");
 			$(this).find("td:eq(20)").text("");
 		}
 		if($(this).find("td:eq(31)").text() == "1" && $("#PAY_METHOD_TYPE2").val() == "") {
-			alert("지급방법을 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"지급방법을 입력해 주세요!"});
 			retval = false;
 		} else if($(this).find("td:eq(31)").text() != "1") {
 			$(this).find("td:eq(10)").text("");
 			$(this).find("td:eq(21)").text("");
 		}
 		if($(this).find("td:eq(32)").text() == "1" && $(this).find("td:eq(22)").text() == "") {
-			alert("부가세구분을 입력해 주세요!");
+			$.msgBox({ title:"Warring", content:"부가세구분을 입력해 주세요!"});
 			retval = false;
 		} else if($(this).find("td:eq(32)").text() != "1") {
 			$(this).find("td:eq(11)").text("");
 			$(this).find("td:eq(22)").text("");
 		}
-//		if($(this).find("td:eq(33)").text() == "1" && $(this).find("td:eq(23)").text() == "") {
-//			alert("을 입력해 주세요!");
-//			retval = false;
-//		} else if($(this).find("td:eq(33)").text() != "1") {
-//			$(this).find("td:eq(12)").text("");
-//			$(this).find("td:eq(23)").text("");
-//		}
-//		if($(this).find("td:eq(34)").text() == "1" && $(this).find("td:eq(24)").text() == "") {
-//			alert("을 입력해 주세요!");
-//			retval = false;
-//		} else if($(this).find("td:eq(34)").text() != "1") {
-//			$(this).find("td:eq(13)").text("");
-//			$(this).find("td:eq(24)").text("");
-//		}
 	});
 	return retval;
 }
 function getIndexEvid(evidType) {
 	var index;
-	if(evidType == 'EC')//법인카드
+	if(evidType == 'EC')// 법인카드
 		index = 1;
-	if(evidType == 'ET')//세금계산서
+	if(evidType == 'ET')// 세금계산서
 		index = 2;
-	if(evidType == 'EI')//계산서
+	if(evidType == 'EI')// 계산서
 		index = 3;
-	if(evidType == 'ER')//기타영수증
+	if(evidType == 'ER')// 기타영수증
 		index = 4;
-	if(evidType == 'EA')//개인경비
+	if(evidType == 'EA')// 개인경비
 		index = 5;
-	if(evidType == 'EO')//기타
+	if(evidType == 'EO')// 기타
 		index = 6;
 	return index;
 }
@@ -2639,96 +2908,156 @@ function activeButton(jrnlType,jrnlStatus) {
 	}
 }
 
+function Screen_Setup(){
+	// Screen Message Load
+	document.getElementById("S001").innerHTML = S001;
+	document.getElementById("S002").innerHTML = S002;
+	document.getElementById("S003").innerHTML = S003;
+	document.getElementById("S004").innerHTML = S004;
+	document.getElementById("S005").innerHTML = S005;
+	
+	document.getElementById("T001").innerHTML = T001;
+	document.getElementById("T002").innerHTML = T002;
+	document.getElementById("T003").innerHTML = T003;
+	document.getElementById("T004").innerHTML = T004;
+	document.getElementById("T005").innerHTML = T005;
+	document.getElementById("T006").innerHTML = T006;
+	document.getElementById("T007").innerHTML = T007;
+	document.getElementById("T008").innerHTML = T008;
+	document.getElementById("T009").innerHTML = T009;
+	document.getElementById("T011").innerHTML = T011;
+	document.getElementById("T013").innerHTML = T013;
+	document.getElementById("T014").innerHTML = T014;
+	document.getElementById("T015").innerHTML = T015;
+	document.getElementById("T016").innerHTML = T016;
+	document.getElementById("T017").innerHTML = T017;
+	document.getElementById("T018").innerHTML = T018;
+	document.getElementById("T019").innerHTML = T019;
+	document.getElementById("T020").innerHTML = T020;
+	document.getElementById("T021").innerHTML = T021;
+	
+	document.getElementById("B005").innerHTML = B005;
+	document.getElementById("B006").innerHTML = B006;
+	
+	$("#lblTOTAL").html(S006);
+	$("#lblEXPS_TYPE_ID").html(S007);
+	$("#lblREMARK").html(S010);
+	$("#lblREMARK6").html(S010);
+	$("#lblCOMPANY_NAME").html(S011);
+	$("#lblBUSI_NO").html(S012);
+	$("#lblTOTAL_AMT").html(S013);
+	$("#lblSUPPLY_AMT").html(S014);
+	$("#lblVAT_AMT").html(S015);
+	$("#lblREMARK5").html(S016);
+	$("#lblDEPT_AMT2").html(S016);
+	$("#lblPAY_METHOD_TYPE").html(S017);
+	$("#lblPAY_METHOD_TYPE2").html(S017);
+	$("#lblSUP_CODE2").html(S018);
+	$("#lblDEBIT_TOTAL2").html(S021);
+	$("#lblCREDIT_TOTAL2").html(S022);
+	$("#lblACCT_CODE2").html(S023);
+	$("#lblTRANS_DATE").html(S024);
+	$("#lblTRANS_DATE2").html(S024);
+	$("#lblPAY_DUE_DATE").html(S025);
+	$("#lblPAY_DUE_DATE2").html(S025);
+	$("#lblDEPT_CODE1").html(S026);
+	$("#lblDEPT_CODE2").html(S026);
+	$("#lblCHNL_CODE1").html(S027);
+	$("#lblCHNL_CODE2").html(S027);
+	$("#lblASST_CODE1").html(S028);
+	$("#lblPRD_CODE2").html(S029);
+	$("#lblAFS_TYPE2").html(S030);
+
+	$("#lblREMARK7").html(T010);
+	$("#lblREMARK8").html(T011);
+	$("#lblREMARK9").html(T012);
+	$("#lblVAT_TYPE2").html(T021);
+	
+	$("#btnTemplate").val(B001);
+	$("#btnInsert").val(B002);
+	$("#btnAdd1").val(B002);
+	$("#btnAdd2").val(B002);
+	$("#btnEdit1").val(B003);
+	$("#btnEdit2").val(B003);
+	$("#btnUpdate").val(B003);
+	$("#btnDelete").val(B004);
+	$("#btnRemove1").val(B004);
+	$("#btnRemove2").val(B004);
+}
+
 function initEvent() {
-//	var action = "scn1.do?method=AA010";
+// var action = "scn1.do?method=AA010";
 	$("#divMain").css("height",$(window).height()-426);
 /*
-	$.ajax({type: "post", url: action, data: params, dataType: "xml", cache: false,
-		success: function(result){
-			if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
-				return false;
-			}
-
-			$("#EVID_TYPE").val(evidType);
-
-			$(result).find("DATA_LIST").find("ROW").each(function(){
-				if(evidType == "EO") {
-					$("#TRANS_DATE2").val($(this).find("TRANS_DATE").text());
-					$("#PAY_DUE_DATE2").val($(this).find("PAY_DUE_DATE").text());
-					$("#PAY_METHOD_TYPE2").val($(this).find("PAY_METHOD_TYPE").text());
-					$("#REMARK6").val($(this).find("REMARK").text());
-				} else{
-					$("#EXPS_TYPE_ID").val($(this).find("EXPS_TYPE_ID").text());
-					$("#TRANS_DATE").val($(this).find("TRANS_DATE").text());
-					$("#PAY_DUE_DATE").val($(this).find("PAY_DUE_DATE").text());
-					$("#PAY_METHOD_TYPE").val($(this).find("PAY_METHOD_TYPE").text());
-	
-					$("#REMARK").val($(this).find("REMARK").text());
-					$("#lblREMARK1").html($(this).find("REMARK1_LABEL").text());
-					$("#REMARK1").val($(this).find("REMARK1").text());
-					$("#lblREMARK2").html($(this).find("REMARK2_LABEL").text());
-					$("#REMARK2").val($(this).find("REMARK2").text());
-					$("#lblREMARK3").html($(this).find("REMARK3_LABEL").text());
-					$("#REMARK3").val($(this).find("REMARK3").text());
-					$("#lblREMARK4").html($(this).find("REMARK4_LABEL").text());
-					$("#REMARK4").val($(this).find("REMARK4").text());
-
-					if(evidType=="EA") {
-						$("#VENDOR_CODE3").val($(this).find("VENDOR_CODE").text());
-						$("#VENDOR_NAME3").val($(this).find("VENDOR_NAME").text());
-						setRadioValue("USE_TYPE",$(this).find("USE_TYPE").text());
-					} else {
-						if(evidType=="EC") {
-							$("#VENDOR_CODE1").val($(this).find("VENDOR_CODE").text());
-							required("#COMPANY_NAME",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
-							required("#BUSI_NO",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
-						} else if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
-							$("#VENDOR_CODE2").val($(this).find("VENDOR_CODE").text());
-							$("#VENDOR_NAME2").val($(this).find("VENDOR_NAME").text());
-						}
-						$("#COMPANY_NAME").val($(this).find("COMPANY_NAME").text());
-						$("#BUSI_NO").val($(this).find("BUSI_NO").text());
-					}
-
-					setNumber("#SUPPLY_AMT",$(this).find("SUPPLY_AMT").text());
-					setNumber("#VAT_AMT",$(this).find("VAT_AMT").text());
-					setNumber("#TOTAL_AMT",$(this).find("TOTAL_AMT").text());
-
-					$("#ASST_PURCHASE_YN").val($(this).find("ASST_PURCHASE_YN").text());
-					$("#ENTER_ANL_1").val($(this).find("ENTER_ANL_1").text());
-					$("#ENTER_ANL_3").val($(this).find("ENTER_ANL_3").text());
-					$("#ACCT_CODE").val($(this).find("ACCT_CODE").text());
-
-					display("#divDEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
-					display("#divCHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
-					display("#divASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
-					
-					required("#DEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
-					required("#CHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
-					required("#ASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
-				}
-			});
-			
-//			if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
-//				$("#TRANS_DATE,#PAY_DUE_DATE#,#BUSI_NO").blur();
-//			} else if(evidType=="EA") {
-//				$("#TRANS_DATE").blur();
-//			} else if(evidType=="EO") {
-//				$("#TRANS_DATE2,#PAY_DUE_DATE2#").blur();
-//			}
-
-			///////////////////////////////////////////////////////////////////////////////////////
-
-			var tableId = "", tableRowId = "";
-			if(evidType == "EO") {
-				tableId = "#deptTable2", tableRowId = "deptTableRow2";
-				$(tableId+" tbody").empty();
-
-				if($(result).find("DETAIL_LIST").find("ROW").length==0) { 
-					$(tableId+" tbody").append("<tr><td colspan="+$(tableId+" thead tr th").length+" align=center>"+I001+"</td>");
-				}
-			}
-		}
-	});
-	*/
+ * $.ajax({type: "post", url: action, data: params, dataType: "xml", cache:
+ * false, success: function(result){
+ * if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+ * return false; }
+ * 
+ * $("#EVID_TYPE").val(evidType);
+ * 
+ * $(result).find("DATA_LIST").find("ROW").each(function(){ if(evidType == "EO") {
+ * $("#TRANS_DATE2").val($(this).find("TRANS_DATE").text());
+ * $("#PAY_DUE_DATE2").val($(this).find("PAY_DUE_DATE").text());
+ * $("#PAY_METHOD_TYPE2").val($(this).find("PAY_METHOD_TYPE").text());
+ * $("#REMARK6").val($(this).find("REMARK").text()); } else{
+ * $("#EXPS_TYPE_ID").val($(this).find("EXPS_TYPE_ID").text());
+ * $("#TRANS_DATE").val($(this).find("TRANS_DATE").text());
+ * $("#PAY_DUE_DATE").val($(this).find("PAY_DUE_DATE").text());
+ * $("#PAY_METHOD_TYPE").val($(this).find("PAY_METHOD_TYPE").text());
+ * 
+ * $("#REMARK").val($(this).find("REMARK").text());
+ * $("#lblREMARK1").html($(this).find("REMARK1_LABEL").text());
+ * $("#REMARK1").val($(this).find("REMARK1").text());
+ * $("#lblREMARK2").html($(this).find("REMARK2_LABEL").text());
+ * $("#REMARK2").val($(this).find("REMARK2").text());
+ * $("#lblREMARK3").html($(this).find("REMARK3_LABEL").text());
+ * $("#REMARK3").val($(this).find("REMARK3").text());
+ * $("#lblREMARK4").html($(this).find("REMARK4_LABEL").text());
+ * $("#REMARK4").val($(this).find("REMARK4").text());
+ * 
+ * if(evidType=="EA") {
+ * $("#VENDOR_CODE3").val($(this).find("VENDOR_CODE").text());
+ * $("#VENDOR_NAME3").val($(this).find("VENDOR_NAME").text());
+ * setRadioValue("USE_TYPE",$(this).find("USE_TYPE").text()); } else {
+ * if(evidType=="EC") {
+ * $("#VENDOR_CODE1").val($(this).find("VENDOR_CODE").text());
+ * required("#COMPANY_NAME",($(this).find("CC_CARD_INPUT_YN").text()=="Y"));
+ * required("#BUSI_NO",($(this).find("CC_CARD_INPUT_YN").text()=="Y")); } else
+ * if(evidType=="ET" || evidType=="EI" || evidType=="ER") {
+ * $("#VENDOR_CODE2").val($(this).find("VENDOR_CODE").text());
+ * $("#VENDOR_NAME2").val($(this).find("VENDOR_NAME").text()); }
+ * $("#COMPANY_NAME").val($(this).find("COMPANY_NAME").text());
+ * $("#BUSI_NO").val($(this).find("BUSI_NO").text()); }
+ * 
+ * setNumber("#SUPPLY_AMT",$(this).find("SUPPLY_AMT").text());
+ * setNumber("#VAT_AMT",$(this).find("VAT_AMT").text());
+ * setNumber("#TOTAL_AMT",$(this).find("TOTAL_AMT").text());
+ * 
+ * $("#ASST_PURCHASE_YN").val($(this).find("ASST_PURCHASE_YN").text());
+ * $("#ENTER_ANL_1").val($(this).find("ENTER_ANL_1").text());
+ * $("#ENTER_ANL_3").val($(this).find("ENTER_ANL_3").text());
+ * $("#ACCT_CODE").val($(this).find("ACCT_CODE").text());
+ * 
+ * display("#divDEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
+ * display("#divCHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
+ * display("#divASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y"));
+ * 
+ * required("#DEPT_CODE1",($(this).find("ENTER_ANL_1").text()=="1"));
+ * required("#CHNL_CODE1",($(this).find("ENTER_ANL_3").text()=="1"));
+ * required("#ASST_CODE1",($(this).find("ASST_PURCHASE_YN").text()=="Y")); } });
+ *  // if(evidType=="ET" || evidType=="EI" || evidType=="ER") { //
+ * $("#TRANS_DATE,#PAY_DUE_DATE#,#BUSI_NO").blur(); // } else if(evidType=="EA") { //
+ * $("#TRANS_DATE").blur(); // } else if(evidType=="EO") { //
+ * $("#TRANS_DATE2,#PAY_DUE_DATE2#").blur(); // }
+ * 
+ * ///////////////////////////////////////////////////////////////////////////////////////
+ * 
+ * var tableId = "", tableRowId = ""; if(evidType == "EO") { tableId =
+ * "#deptTable2", tableRowId = "deptTableRow2"; $(tableId+" tbody").empty();
+ * 
+ * if($(result).find("DETAIL_LIST").find("ROW").length==0) { $(tableId+"
+ * tbody").append("<tr><td colspan="+$(tableId+" thead tr th").length+" align=center>"+I001+"</td>"); } } }
+ * });
+ */
 }

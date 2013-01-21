@@ -1,4 +1,6 @@
-﻿A:link {
+﻿@import url(http://api.mobilis.co.kr/webfonts/css/?fontface=NanumGothicWeb);
+
+A:link {
 	COLOR: #406F8C;
 	TEXT-DECORATION: none;
 }
@@ -36,7 +38,6 @@ body, td, th {
 	font-size: 12px;
 	color: #555555;
 	font-family:NanumGothic,sans-serif;
-	src: url("C:\app_home\EMS\theme\default\font\NanumGothic.ttf");
 	advancedAntiAliasing: true;
 	line-height:150%;	
 }
@@ -533,7 +534,6 @@ table.Nnavi td.pgRR {
 table.Nnavi a {
 	font-size:12px;
 	font-family:NanumGothic,sans-serif;
-	src: url("C:\app_home\EMS\theme\default\font\NanumGothic.ttf");
 	advancedAntiAliasing: true;
 	text-decoration:none;
 	display:block;

@@ -34,13 +34,14 @@
 						<th width="40px">순번</th>
 						<th width="80px">버튼ID</th>
 						<th width="100px">버튼명</th>
+						<th width="100px">버튼명-영문</th>
 						<th width="100px">이미지경로</th>
-						<th width="40px">이미지넓이</th>
-						<th width="40px">이미지높이</th>
-						<th width="40px">스타일시트</th>
+						<th width="60px">이미지넓이</th>
+						<th width="60px">이미지높이</th>
+						<th width="60px">스타일시트</th>
 						<th width="200px">비고</th>
 						<th width="60px">정렬순서</th>
-						<th width="60px">상태</th>
+						<th width="40px">상태</th>
 						<th style="display:none">입력일자</th>
 						<th style="display:none">일력자</th>
 						<th style="display:none">수정일자</th>
@@ -67,12 +68,16 @@
 					<td>
 						<input type="text" id="BUTTON_NAME" name="BUTTON_NAME"/>
 					</td>
+					<th id="lblBUTTON_NAME3">버튼명-영문</th>
+					<td>
+						<input type="text" id="BUTTON_NAME3" name="BUTTON_NAME3"/>
+					</td>
+				</tr>
+				<tr>
 					<th id="lblIMG_PATH">이미지경로</th>
 					<td>
 						<input type="text" id="IMG_PATH" name="IMG_PATH"/>
 					</td>
-				</tr>
-				<tr>
 					<th id="lblIMG_WIDTH">이미지넓이</th>
 					<td>
 						<input type="text" id="IMG_WIDTH" name="IMG_WIDTH"/>
@@ -81,12 +86,12 @@
 					<td>
 						<input type="text" id="IMG_HEIGHT" name="IMG_HEIGHT"/>
 					</td>
+				</tr>
+				<tr>
 					<th id="lblCSS">스타일시트</th>
 					<td>
 						<input type="text" id="CSS" name="CSS"/>
 					</td>
-				</tr>
-				<tr>
 					<th id="lblREMARK">비고</th>
 					<td>
 						<input type="text" id="REMARK" name="REMARK"/>
@@ -95,8 +100,10 @@
 					<td>
 						<input type="text" id="SORT_SEQ" name="SORT_SEQ"/>
 					</td>
+				</tr>
+				<tr>
 					<th id="lblSTATUS">상태</th>
-					<td>
+					<td colspan="5">
 						<jsp:setProperty name="radiobox" property="name" value="STATUS"/>
 						<jsp:setProperty name="radiobox" property="dataType" value="YesNo"/>
 						<jsp:getProperty name="radiobox" property="bindData" />

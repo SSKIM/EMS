@@ -42,7 +42,7 @@
 						<th width="40px">순번</th>
 						<th width="80px">메뉴ID</th>
 						<th width="200px">메뉴명</th>
-						<th width="200px">메뉴명2</th>
+						<th width="200px">메뉴명-영문</th>
 						<th width="100px">메뉴참조</th>
 						<th width="60px">메뉴구분</th>
 						<th width="180px">메뉴URL</th>
@@ -77,7 +77,7 @@
 					<td>
 						<input type="text" id="MENU_NAME" name="MENU_NAME" maxlength="100" style="width:99%"/>
 					</td>
-					<th id="lblMENU_NAME2">메뉴명2</th>
+					<th id="lblMENU_NAME2">메뉴명-영문</th>
 					<td>
 						<input type="text" id="MENU_NAME2" name="MENU_NAME2" maxlength="100" style="width:99%"/>
 					</td>
@@ -100,7 +100,7 @@
 						<input type="text" id="MENU_URL" name="MENU_URL" style="width:99%"/>
 					</td>
 					<th id="lblMENU_LEVEL">메뉴 Level</th>
-					<td>
+					<td colspan="3">
 						<input type="text" id="MENU_LEVEL" name="MENU_LEVEL"/>
 					</td>
 				</tr>
@@ -115,7 +115,7 @@
 						<input type="text" id="SORT_SEQ" name="SORT_SEQ" maxlength="4"/>
 					</td>
 					<th id="lblSTATUS">상태</th>
-					<td>
+					<td colspan="3">
 						<jsp:setProperty name="radiobox" property="name" value="STATUS"/>
 						<jsp:setProperty name="radiobox" property="dataType" value="YesNo"/>
 						<jsp:getProperty name="radiobox" property="bindData" />
