@@ -15,7 +15,20 @@
         <script type="text/javascript">
 			$(document).ready(function(){
 				Retrieve(1);
+				get_random_color();
 			});
+			function get_random_color() {
+			       var letters = '0123456789ABCDEF'.split('');
+			       var color = '#';
+			       var color2 = '#';
+			       for (var i = 0; i < 6; i++ ) {
+			           color += letters[Math.round(Math.random() * 15)];
+			           color2 += letters[Math.round(Math.random() * 14)];
+			       }
+			       document.getElementById('div1').style.backgroundColor = color;
+			       document.getElementById('div2').style.backgroundColor = color2;
+			}
+
 			function dataTableRow1_onClick(obj) {
 				//tableRowColor('#dataTable1',obj.rowIndex);
 				//bindData(obj);
@@ -96,10 +109,22 @@
         <tr>
           <td valign="bottom"><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td valign="bottom" style="padding-bottom:10px"><img src="./theme/<%=theme3%>/image/main/notice_title.gif" width="76" height="17"></td>
+                <td valign="bottom" style="padding-bottom:10px"><span style="width:20px;hieght:10px;" id="div1">&nbsp;&nbsp;&nbsp;&nbsp;</span><font color=#ffffff></font><b>&nbsp;공지사항</b></td>
                 <td width="170"><img src="./theme/<%=theme3%>/image/main/notice_img.gif" width="162" height="63"></td>
               </tr>
-            </table></td>
+            </table>
+          </td>
+        </tr>
+        <tr>
+       	 <td valign="bottom"><table width="100%" class="img" border="0" cellpadding="0" cellspacing="0">
+          		<tr>
+           			<td valign="bottom"width="3"><img src="./theme/default/image/bar_left.gif" width="14" height="33"></td>
+            		<td width="700" align="center" background="./theme/default/image/bar_bg.gif">공지내용</td>
+            		<td width="" align="center" background="./theme/default/image/bar_bg.gif">공지일자</td>
+            		<td width="14"><img src="./theme/default/image/bar_right.gif" width="14" height="33"></td>
+          			</tr>
+        		</table>
+        	</td>
         </tr>
         <tr>
 			<td style="height:220px" valign=top>
@@ -109,7 +134,8 @@
 					</colgroup>
 					<thead>
 						<tr>
-							<td colspan="2"><img src="./theme/<%=theme3%>/image/main/notice_bar.gif" width="922" height="33"></td>
+							<td colspan=2>
+							</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -124,16 +150,29 @@
         <tr>
           <td><table border="0" cellspacing="0" cellpadding="0" style="width:922px">
               <tr>
-                <td valign="bottom" style="padding-bottom:10px"><img src="./theme/<%=theme3%>/image/main/statement_title.gif" width="106" height="17"></td>
+                <td valign="bottom" style="padding-bottom:10px"><span style="width:20px;hieght:10px;" id="div2">&nbsp;&nbsp;&nbsp;&nbsp;</span><font color=#ffffff></font><b>&nbsp;전표요약 현황</b></td>
                 <td width="162"><img src="./theme/<%=theme3%>/image/main/statement_img.gif" width="162" height="78"></td>
               </tr>
             </table></td>
         </tr>
         <tr>
           <td><table border="0" cellspacing="0" cellpadding="0" style="width:922px">
-              <tr>
-                <td><img src="./theme/<%=theme3%>/image/main/statement_bar.gif" width="922" height="33"></td>
-              </tr>
+	          <tr>
+		        <table width="100%" class="img" border="0" cellpadding="0" cellspacing="0">
+		          <tr>
+		            <td width="3"><img src="./theme/default/image/bar_left.gif" width="14" height="33"></td>
+		            <td width="89" align="center" background="./theme/default/image/bar_bg.gif">출력</td>
+		            <td width="81" align="center" background="./theme/default/image/bar_bg.gif">제출</td>
+		            <td width="84" align="center" background="./theme/default/image/bar_bg.gif">승인</td>
+		            <td width="86" align="center" background="./theme/default/image/bar_bg.gif">반려</td>
+		            <td width="256" align="center" background="./theme/default/image/bar_bg.gif">반려사유</td>
+		            <td width="100" align="center" background="./theme/default/image/bar_bg.gif">전표번호</td>
+		            <td width="100" align="center" background="./theme/default/image/bar_bg.gif">작성일자</td>
+		            <td width="" align="center" background="./theme/default/image/bar_bg.gif">금액</td>
+		            <td width="14"><img src="./theme/default/image/bar_right.gif" width="14" height="33"></td>
+		          </tr>
+		        </table>
+	          </tr>
               <tr>
                 <td><div id="tableLayer" style="overflow-x:hidden; overflow-y:scroll; height:160px; width:922;">
 					<table id="dataTable2" width="903" cellspacing="0" cellpadding="0">

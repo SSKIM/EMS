@@ -1,4 +1,7 @@
 //EVENT////////////////////////////////////////////////////////////////////////////////////////////
+var pwlength = "";
+var pwcomplx = "";
+
 
 $(document).ready(function(){
 	// READONLY MODE
@@ -17,24 +20,74 @@ $(document).ready(function(){
 	$("#USER_ID2,#USER_NAME2").keyup(function() {
 		if(event.keyCode == 13) Retrieve();
 	});
+	$("#btnPopupAcct").click(PopupDomain);
 	// ETC
-//    $("#dataTable").tablesorter();
+	$("#dataTable1").tablesorter();
 	initEvent();
+	loadsecuritypolicy();
 	// DEFAULT VALUE
 	setRadioValue("STATUS","Y");
+	setRadioValue("L_STATUS","Y");
 	setRadioValue("PWD_CHNG_TYPE","N");
+	date("#LAST_LOG_DT,#LAST_PWC_DT");
 });
-function dataTableRow_onClick(obj) {
+function loadsecuritypolicy() {
+
+	var action = "system.do?method=EB010PwSecurity";
+
+	$.ajax({type: "post", url: action, dataType: "xml", cache: false,
+		success: function(result){
+		if(errorMessage($(result).find("RETURN_CODE").text(),$(result).find("RETURN_MESSAGE").text(),$(result).find("RETURN_DETAIL").text())) {
+			return false;
+		}
+		$(result).find("DATA_SET").find("ROW").each(function(){
+			
+			if($(this).find("CODE_ID").text() == "SEC_3")
+			{
+				pwlength= $(this).find("ETC1").text();
+				
+			}
+			else if($(this).find("CODE_ID").text() == "SEC_5")
+			{
+				pwcomplx = $(this).find("ETC1").text();
+			}
+		});
+		message(I003);
+	},
+	error: function(xhr, ajaxOptions, thrownError){
+		alert(xhr.statusText); 
+//		alert(xhr.responseText); //for debuging 
+	}
+});
+}
+function dataTable1Row_onClick(obj) {
 	if(obj==null) return;
-	tableRowColor('#dataTable',obj.rowIndex);
+	tableRowColor('#dataTable1',obj.rowIndex);
 	bindData(obj);
 }
 
 //METHOD///////////////////////////////////////////////////////////////////////////////////////////
 
+function PopupDomain() {
+	var param = new Object();
+	param.DOMAIN_USER = $("#DOMAIN_USER").val();
+	param.DOMAIN_NAME = $("#DOMAIN_NAME").val();
+
+	var url   = "system.do?method=EB011&screenId=EB011&screenIdRef=EB010&refVal=&isPopup=true&menuName="+getString2("AD User List");
+	var style = "dialogWidth:960px;dialogHeight:600px;status:no;scroll:no";
+
+	var retVal = window.showModalDialog(url, param, style);
+	if(retVal != null) {
+
+		$("#DOMAIN_USER").val(retVal.DOMAIN_USER);
+		$("#DOMAIN_NAME").val(retVal.DOMAIN_NAME);
+	}
+}
+
+
 function Retrieve(key1) {
 	Cancel();
-	var tableId = "#dataTable", dataRow = "dataRow_";
+	var tableId = "#dataTable1", dataRow = "dataRow_";
 	$(tableId+" tbody").empty();
 
 	var j = 0;
@@ -67,6 +120,11 @@ function Retrieve(key1) {
 				+"<td align=center>"+$(this).find("PWD_CHNG_TYPE").text()+"</td>"
 				+"<td align=center>"+$(this).find("LOGIN_FAIL_CNT").text()+"</td>"
 				+"<td align=center>"+$(this).find("LAN_TYPE").text()+"</td>"
+				+"<td align=center>"+$(this).find("DOMAINUSER").text()+"</td>"
+				+"<td align=center>"+$(this).find("DOMAINNAME").text()+"</td>"
+				+"<td align=center>"+$(this).find("LOCK_STATUS").text()+"</td>"
+				+"<td align=center>"+$(this).find("LAST_LOGON_DATE").text()+"</td>"
+				+"<td align=center>"+$(this).find("LAST_PASSWORD_CHANGE_DATE").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("INS_DATE").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("INS_USER").text()+"</td>"
                 +"<td class=hidden>"+$(this).find("UPD_DATE").text()+"</td>"
@@ -74,7 +132,7 @@ function Retrieve(key1) {
                 +"</tr>");
 			});
 			$(tableId).trigger("update");
-			tableRowEvent(tableId,"dataTableRow",1);
+			tableRowEvent(tableId,"dataTable1Row",1);
 
 			var dataCnt = $(result).find("DATA_LIST").find("DATA_LIST_CNT").text();
 			if(dataCnt==null || dataCnt=="") dataCnt = 0;
@@ -171,6 +229,35 @@ function Change() {
 		$("#PASSWORD").focus();
 		return false;
 	}
+	if(password.length < pwlength)
+	{
+		alert("최소 "+pwlength+"자리여야 합니다.");
+		$("#PASSWORD").focus();
+		return false;
+	}
+	if(pwcomplx == "Y")
+	{
+		var symbolSize = "";
+		
+		if ( password.match(/[0-9]/) )
+			 symbolSize +=10;
+		if ( password.match(/[a-z]/) )
+			 symbolSize +=26;
+		if ( password.match(/[A-Z]/) )
+			symbolSize +=26;
+		if ( password.match(/[^a-zA-Z0-9]/) )
+			symbolSize +=31;
+		
+		natLog = Math.log( Math.pow(symbolSize, password.length) );
+		var score = natLog / Math.LN2;
+		
+		if (score < 40 )
+		{
+			alert("비밀번호가 Complexity 요건을 만족하지 않습니다.!");
+			$("#PASSWORD").focus();
+			return false;
+		}
+	}
 	$("#btnRetrieve").focus();
 	//-----------------------------------------------------
     var action = "system.do?method=EB010Change&call=xml";
@@ -207,8 +294,8 @@ function Cancel() {
 	required("#USER_ID,#USER_NAME,#USER_TYPE",true);
 	// RE-BIND DATA
 	var rowIndex = $("#rowIndex").val();
-	if(rowIndex!="" && !isNaN(rowIndex) && $("#dataTable tbody tr").length>0) {
-		bindData(tableRowObj("#dataTable",rowIndex));
+	if(rowIndex!="" && !isNaN(rowIndex) && $("#dataTable1 tbody tr").length>0) {
+		bindData(tableRowObj("#dataTable1",rowIndex));
 	}
 }
 function bindData(obj) {
@@ -229,10 +316,15 @@ function bindData(obj) {
 	setRadioValue("PWD_CHNG_TYPE",obj.cells[13].innerHTML);
 	$("#LOGIN_FAIL_CNT").val(obj.cells[14].innerHTML);
 	$("#LAN_TYPE").val(obj.cells[15].innerHTML);
-	$("#INS_DATE").html(obj.cells[16].innerHTML);
-	$("#INS_USER").html(obj.cells[17].innerHTML);
-	$("#UPD_DATE").html(obj.cells[18].innerHTML);
-	$("#UPD_USER").html(obj.cells[19].innerHTML);
+	$("#DOMAIN_USER").val(obj.cells[16].innerHTML);
+	$("#DOMAIN_NAME").val(obj.cells[17].innerHTML);
+	setRadioValue("L_STATUS",obj.cells[18].innerHTML);
+	$("#LAST_LOG_DT").val(obj.cells[19].innerHTML);
+	$("#LAST_PWC_DT").val(obj.cells[20].innerHTML);
+	$("#INS_DATE").html(obj.cells[21].innerHTML);
+	$("#INS_USER").html(obj.cells[22].innerHTML);
+	$("#UPD_DATE").html(obj.cells[23].innerHTML);
+	$("#UPD_USER").html(obj.cells[24].innerHTML);
 	$("#btnChangePwd").removeAttr("disabled");
 }
 function Clear() {
@@ -244,5 +336,5 @@ function Clear() {
 	requiredClear();
 }
 function initEvent() {
-	$("#divMain").css("height",$(window).height()-255);
+	$("#divMain").css("height",$(window).height()-308);
 }

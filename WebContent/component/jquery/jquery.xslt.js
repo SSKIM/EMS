@@ -349,8 +349,8 @@ Set.prototype.get = function(key) {
   if (this.contains(key)) {
     return this[':' + key];
   } else {
-    var undefined;
-    return undefined;
+    var TEST = undefined;
+    return TEST;
   }
 }
 

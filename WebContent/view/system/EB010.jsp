@@ -14,6 +14,7 @@
 	}
 %>
 <jsp:useBean id="radiobox" class="com.mindtree.framework.control.RadioBox" scope="page"/>
+<jsp:useBean id="raLCdiobox" class="com.mindtree.framework.control.RadioBox" scope="page"/>
 <jsp:useBean id="rdoPwdChngType" class="com.mindtree.framework.control.RadioBox" scope="page"/>
 <jsp:setProperty name="rdoPwdChngType" property="dataSource" value="<%=pwdChngType%>"/>
 <jsp:useBean id="combobox" class="com.mindtree.framework.control.ComboBox" scope="page"/>
@@ -34,7 +35,7 @@
 	</head>
 	<body>
 		<%@ include file="../include/button.jsp" %>
-		<table class="searchTable"><tr>
+		<table id="searchTable1" class="searchTable"><tr>
 			<th>사용자ID</th>
 			<td>
 				<input type="text" id="USER_ID2" />
@@ -44,10 +45,10 @@
 				<input type="text" id="USER_NAME2" />
 			</td>
 		</tr></table>
-		<div class="main" id="divMain">
-			<table class="dataTable" id="dataTable" style="width:1400px">
+		<div id="divMain" class="main" style="height:400px">
+			<table class="dataTable" id="dataTable1" style="width:1900px">
 				<colgroup>
-					<col width="40"/><col width="70"/><col width="70"/><col width="80"/><col width="80"/><col width="80"/><col width="80"/><col width="120"/><col width="60"/><col width="120"/><col width="60"/><col width="60"/><col width="40"/><col width="100"/><col width="100"/><col width="40"/>
+					<col width="40"/><col width="70"/><col width="70"/><col width="80"/><col width="80"/><col width="80"/><col width="80"/><col width="120"/><col width="60"/><col width="120"/><col width="60"/><col width="60"/><col width="40"/><col width="100"/><col width="100"/><col width="40"/><col width="80"/><col width="100"/><col width="80"/><col width="80"/><col width="80"/>
 				</colgroup>
 				<thead>
 					<tr>
@@ -61,23 +62,26 @@
 						<th>이메일</th>
 						<th>부서코드</th>
 						<th>부서명</th>
-						<th>Business
-						UnitType</th>
-						<th>Ledger
-						Type</th>
+						<th>Business UnitType</th>
+						<th>Ledger Type</th>
 						<th>상태</th>
-						<th>비밀번호
-						변경구분</th>
-						<th>로그인
-						실패횟수</th>
+						<th>비밀번호 변경구분</th>
+						<th>로그인 실패횟수</th>
 						<th>언어</th>
+						<th>Domain User</th>
+						<th>Domain Name</th>
+						<th>Lock Status</th>
+						<th>Last Logon Date</th>
+						<th>Last Password Change Date</th>
 						<th class=hidden>입력일자</th>
 						<th class=hidden>일력자</th>
 						<th class=hidden>수정일자</th>
 						<th class=hidden>수정자</th>
 					</tr>
 				</thead>
-				<tbody></tbody>
+				<tbody>
+					<tr><td colspan="21"></td></tr>
+				</tbody>
 			</table>
 		</div>
 		<div class="button">
@@ -87,7 +91,7 @@
 		</div>
 		<form id="formData" name="formData" method="post">
 			<input type="hidden" id="rowIndex" name="rowIndex"/>
-			<table class="formTable">
+			<table class="formTable" id="fromTable1">
 				<tr>
 					<th style="width:10%" id="lblUSER_ID">사용자ID</th>
 					<td>
@@ -169,6 +173,29 @@
 						<jsp:setProperty name="cboLanType"   property="id" value="LAN_TYPE"/>
 						<jsp:setProperty name="cboLanType"   property="isBlank" value="true"/>
 						<jsp:getProperty name="cboLanType"   property="bindData" />
+					</td>
+				</tr>
+				<tr>
+					<th>Windows Auth...</th>
+					<td colspan="5">
+						<input type="text" id="DOMAIN_USER" name="DOMAIN_USER"/>&nbsp;<input type="text" id="DOMAIN_NAME" name="DOMAIN_NAME"/>
+						<img id="btnPopupAcct" src="./theme/default/image/button/search.png" class="popup"/>
+					</td>
+				</tr>
+				<tr>
+					<th>Lock Status</th>
+					<td>
+						<jsp:setProperty name="raLCdiobox" property="name" value="L_STATUS"/>
+						<jsp:setProperty name="raLCdiobox" property="dataType" value="YesNo"/>
+						<jsp:getProperty name="raLCdiobox" property="bindData" />
+					</td>
+					<th>Last Logon Date</th>
+					<td>
+						<input type="text" id="LAST_LOG_DT" name="LAST_LOG_DT"/>
+					</td>
+					<th>Password Change Date</th>
+					<td>
+						<input type="text" id="LAST_PWC_DT" name="LAST_PWC_DT"/>
 					</td>
 				</tr>
 			</table>

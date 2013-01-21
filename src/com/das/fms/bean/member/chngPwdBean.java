@@ -43,6 +43,7 @@ public class chngPwdBean extends CommandServlet {
 			if(result == null || result.size()<1) {
 				request.setAttribute(GLOBAL.RETURN_CODE, "W006");
 			} else {
+				/*
 				Map returnData = (Map)result.get("returnData");
 				UserVO user = new UserVO();
 				user.setUserId(      (String)returnData.get("USER_ID"));
@@ -57,6 +58,7 @@ public class chngPwdBean extends CommandServlet {
 				user.setBusiUnitType((String)returnData.get("BUSI_UNIT_TYPE"));
 				user.setLedgerType(  (String)returnData.get("LEDGER_TYPE"));
 				user.setLoginTime(new Long(System.currentTimeMillis()));
+				user.setLantype(	 (String)returnData.get("LAN_TYPE"));
 
 				HttpSession session = request.getSession();
 				user.setSessionId(session.getId());
@@ -64,6 +66,7 @@ public class chngPwdBean extends CommandServlet {
 				session.setAttribute(GLOBAL.SESSION_USER_ID,        user.getUserId());
 				session.setAttribute(GLOBAL.SESSION_BUSI_UNIT_TYPE, user.getBusiUnitType());
 				session.setAttribute(GLOBAL.SESSION_LEDGER_TYPE,    user.getLedgerType());
+				*/
 			}
 			returnValue2(request, result);
 		} catch(Exception e) {

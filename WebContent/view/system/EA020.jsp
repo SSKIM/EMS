@@ -35,6 +35,7 @@
 						<th width="40px">순번</th>
 						<th width="80px">화면ID</th>
 						<th width="200px">화면명</th>
+						<th width="200px">화면명-영문</th>
 						<th width="60px">화면구분</th>
 						<th>화면URL</th>
 						<th>비고</th>
@@ -65,6 +66,12 @@
 					<td>
 						<input type="text" id="SCREEN_NAME" name="SCREEN_NAME"/>
 					</td>
+					<th id="lblSCREEN_NAME3">화면명-영문</th>
+					<td>
+						<input type="text" id="SCREEN_NAME3" name="SCREEN_NAME3"/>
+					</td>
+				</tr>
+				<tr>
 					<th id="lblSCREEN_TYPE">화면구분</th>
 					<td>
 						<jsp:setProperty name="combobox" property="id" value="SCREEN_TYPE"/>
@@ -72,8 +79,6 @@
 						<jsp:setProperty name="combobox" property="dataSource" value="<%=screenType%>"/>
 						<jsp:getProperty name="combobox" property="bindData" />
 					</td>
-				</tr>
-				<tr>
 					<th>화면 URL</th>
 					<td>
 						<input type="text" id="SCREEN_URL" name="SCREEN_URL"/>
@@ -82,8 +87,10 @@
 					<td>
 						<input type="text" id="REMARK" name="REMARK" style="width:99%"/>
 					</td>
+				</tr>
+				<tr>
 					<th id="lblSTATUS">상태</th>
-					<td>
+					<td colspan="5">
 						<jsp:setProperty name="radiobox" property="name" value="STATUS"/>
 						<jsp:setProperty name="radiobox" property="dataType" value="YesNo"/>
 						<jsp:getProperty name="radiobox" property="bindData" />
